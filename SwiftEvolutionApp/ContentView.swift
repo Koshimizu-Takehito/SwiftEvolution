@@ -23,6 +23,7 @@ final class ProposalList {
 
 struct ContentView: View {
     @State private var model = ProposalList()
+    @State private var proposal: Proposal?
 
     var body: some View {
         NavigationStack {
@@ -30,16 +31,19 @@ struct ContentView: View {
                 ForEach(model.proposals) { proposal in
                     NavigationLink(value: proposal) {
                         ItemView(item: proposal)
-                            .tag(proposal)
                     }
                 }
             }
             .navigationDestination(for: Proposal.self) { proposal in
                 DetailView(model: Markdown(proposal: proposal))
+                    .onChange(of: proposal, initial: true) { _, new in
+                        self.proposal = new
+                    }
                     .tint(proposal.state?.color)
             }
             .navigationTitle("Swift Evolution")
         }
+        .tint(proposal?.state?.color)
         .task {
             try? await model.fetch()
         }

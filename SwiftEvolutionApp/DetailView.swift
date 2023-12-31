@@ -1,5 +1,28 @@
 import SwiftUI
 
+private extension ProposalState? {
+    var accentColor: (dark: String, light: String) {
+        switch self {
+        case .accepted:
+            ("rgba(48,209,88,1)", "rgba(52,199,89,1)")
+        case .activeReview:
+            ("rgba(255,159,10,1)", "rgba(255,149,0,1)")
+        case .implemented:
+            ("rgba(10,132,255,1)", "rgba(0,122,255,1)")
+        case .previewing:
+            ("rgba(99,230,226,1)", "rgba(0,199,190,1)")
+        case .rejected:
+            ("rgba(255,69,58,1)", "rgba(255,59,48,1)")
+        case .returnedForRevision:
+            ("rgba(191,90,242,1)", "rgba(175,82,222,1)")
+        case .withdrawn:
+            ("rgba(255,69,58,1)", "rgba(255,59,48,1)")
+        case nil:
+            ("rgba(10,132,255,1)", "rgba(0,122,255,1)")
+        }
+    }
+}
+
 @Observable
 final class Markdown {
     let proposal: Proposal
@@ -21,7 +44,10 @@ final class Markdown {
     }
 
     private var githubMarkdownCss: String {
-        String(data: NSDataAsset(name: "github-markdown")!.data, encoding: .utf8)!
+        let (dark, light) = proposal.state.accentColor
+        return String(data: NSDataAsset(name: "github-markdown")!.data, encoding: .utf8)!
+            .replacingOccurrences(of: "$color-accent-fg-dark", with: dark)
+            .replacingOccurrences(of: "$color-accent-fg-light", with: light)
     }
 
     private var markedJs: String {
