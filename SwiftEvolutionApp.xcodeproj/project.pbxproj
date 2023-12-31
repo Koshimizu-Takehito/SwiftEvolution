@@ -7,21 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FBCE36962B3EDF2D000763B5 /* SwiftEvolutionAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36952B3EDF2D000763B5 /* SwiftEvolutionAppApp.swift */; };
-		FBCE36982B3EDF2D000763B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36972B3EDF2D000763B5 /* ContentView.swift */; };
-		FBCE369A2B3EDF2D000763B5 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36992B3EDF2D000763B5 /* Item.swift */; };
+		FBB64DE82B40189100D99C2F /* github-markdown.css in Resources */ = {isa = PBXBuildFile; fileRef = FBB64DE72B40189100D99C2F /* github-markdown.css */; };
+		FBB64DEA2B40244800D99C2F /* proposal.template.html in Resources */ = {isa = PBXBuildFile; fileRef = FBB64DE92B40244800D99C2F /* proposal.template.html */; };
+		FBCE36962B3EDF2D000763B5 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36952B3EDF2D000763B5 /* App.swift */; };
 		FBCE369C2B3EDF2F000763B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBCE369B2B3EDF2F000763B5 /* Assets.xcassets */; };
 		FBCE36A02B3EDF2F000763B5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBCE369F2B3EDF2F000763B5 /* Preview Assets.xcassets */; };
+		FBCE36A72B3EE016000763B5 /* Proposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36A62B3EE016000763B5 /* Proposal.swift */; };
+		FBCE36A92B3F684F000763B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36A82B3F684F000763B5 /* ContentView.swift */; };
+		FBCE36AB2B3FC5F4000763B5 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36AA2B3FC5F4000763B5 /* DetailView.swift */; };
+		FBCE36AD2B3FD320000763B5 /* HTMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36AC2B3FD320000763B5 /* HTMLView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FBB64DE72B40189100D99C2F /* github-markdown.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = "github-markdown.css"; path = "Assets.xcassets/github-markdown.dataset/github-markdown.css"; sourceTree = "<group>"; };
+		FBB64DE92B40244800D99C2F /* proposal.template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = proposal.template.html; path = Assets.xcassets/proposal.template.dataset/proposal.template.html; sourceTree = "<group>"; };
 		FBCE36922B3EDF2D000763B5 /* SwiftEvolutionApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftEvolutionApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		FBCE36952B3EDF2D000763B5 /* SwiftEvolutionAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftEvolutionAppApp.swift; sourceTree = "<group>"; };
-		FBCE36972B3EDF2D000763B5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		FBCE36992B3EDF2D000763B5 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		FBCE36952B3EDF2D000763B5 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		FBCE369B2B3EDF2F000763B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FBCE369D2B3EDF2F000763B5 /* SwiftEvolutionApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftEvolutionApp.entitlements; sourceTree = "<group>"; };
 		FBCE369F2B3EDF2F000763B5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		FBCE36A62B3EE016000763B5 /* Proposal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proposal.swift; sourceTree = "<group>"; };
+		FBCE36A82B3F684F000763B5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		FBCE36AA2B3FC5F4000763B5 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		FBCE36AC2B3FD320000763B5 /* HTMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLView.swift; sourceTree = "<group>"; };
+		FBCE36AE2B3FD63C000763B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,9 +63,14 @@
 		FBCE36942B3EDF2D000763B5 /* SwiftEvolutionApp */ = {
 			isa = PBXGroup;
 			children = (
-				FBCE36952B3EDF2D000763B5 /* SwiftEvolutionAppApp.swift */,
-				FBCE36972B3EDF2D000763B5 /* ContentView.swift */,
-				FBCE36992B3EDF2D000763B5 /* Item.swift */,
+				FBCE36AE2B3FD63C000763B5 /* Info.plist */,
+				FBCE36952B3EDF2D000763B5 /* App.swift */,
+				FBCE36A82B3F684F000763B5 /* ContentView.swift */,
+				FBCE36AA2B3FC5F4000763B5 /* DetailView.swift */,
+				FBCE36AC2B3FD320000763B5 /* HTMLView.swift */,
+				FBCE36A62B3EE016000763B5 /* Proposal.swift */,
+				FBB64DE72B40189100D99C2F /* github-markdown.css */,
+				FBB64DE92B40244800D99C2F /* proposal.template.html */,
 				FBCE369B2B3EDF2F000763B5 /* Assets.xcassets */,
 				FBCE369D2B3EDF2F000763B5 /* SwiftEvolutionApp.entitlements */,
 				FBCE369E2B3EDF2F000763B5 /* Preview Content */,
@@ -132,6 +146,8 @@
 			files = (
 				FBCE36A02B3EDF2F000763B5 /* Preview Assets.xcassets in Resources */,
 				FBCE369C2B3EDF2F000763B5 /* Assets.xcassets in Resources */,
+				FBB64DE82B40189100D99C2F /* github-markdown.css in Resources */,
+				FBB64DEA2B40244800D99C2F /* proposal.template.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,9 +158,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FBCE36982B3EDF2D000763B5 /* ContentView.swift in Sources */,
-				FBCE369A2B3EDF2D000763B5 /* Item.swift in Sources */,
-				FBCE36962B3EDF2D000763B5 /* SwiftEvolutionAppApp.swift in Sources */,
+				FBCE36AB2B3FC5F4000763B5 /* DetailView.swift in Sources */,
+				FBCE36A92B3F684F000763B5 /* ContentView.swift in Sources */,
+				FBCE36A72B3EE016000763B5 /* Proposal.swift in Sources */,
+				FBCE36962B3EDF2D000763B5 /* App.swift in Sources */,
+				FBCE36AD2B3FD320000763B5 /* HTMLView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +296,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SwiftEvolutionApp/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -316,6 +335,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SwiftEvolutionApp/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

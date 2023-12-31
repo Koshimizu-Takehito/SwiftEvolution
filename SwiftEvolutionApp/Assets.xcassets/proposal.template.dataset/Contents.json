@@ -1,0 +1,12 @@
+{
+  "data" : [
+    {
+      "filename" : "proposal.template.html",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
