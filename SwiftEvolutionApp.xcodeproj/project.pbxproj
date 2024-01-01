@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		FBB64DE82B40189100D99C2F /* github-markdown.css in Resources */ = {isa = PBXBuildFile; fileRef = FBB64DE72B40189100D99C2F /* github-markdown.css */; };
 		FBB64DEA2B40244800D99C2F /* proposal.template.html in Resources */ = {isa = PBXBuildFile; fileRef = FBB64DE92B40244800D99C2F /* proposal.template.html */; };
+		FBB64DED2B424FBB00D99C2F /* ProposalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB64DEC2B424FBB00D99C2F /* ProposalState.swift */; };
+		FBB64DEF2B42791E00D99C2F /* ProposalList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB64DEE2B42791E00D99C2F /* ProposalList.swift */; };
+		FBB64DF22B42797800D99C2F /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB64DF12B42797800D99C2F /* Markdown.swift */; };
+		FBB64DF52B42907600D99C2F /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB64DF42B42907600D99C2F /* RootView.swift */; };
 		FBCE36962B3EDF2D000763B5 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36952B3EDF2D000763B5 /* App.swift */; };
 		FBCE369C2B3EDF2F000763B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBCE369B2B3EDF2F000763B5 /* Assets.xcassets */; };
 		FBCE36A02B3EDF2F000763B5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBCE369F2B3EDF2F000763B5 /* Preview Assets.xcassets */; };
@@ -21,6 +25,10 @@
 /* Begin PBXFileReference section */
 		FBB64DE72B40189100D99C2F /* github-markdown.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = "github-markdown.css"; path = "Assets.xcassets/github-markdown.dataset/github-markdown.css"; sourceTree = "<group>"; };
 		FBB64DE92B40244800D99C2F /* proposal.template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = proposal.template.html; path = Assets.xcassets/proposal.template.dataset/proposal.template.html; sourceTree = "<group>"; };
+		FBB64DEC2B424FBB00D99C2F /* ProposalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalState.swift; sourceTree = "<group>"; };
+		FBB64DEE2B42791E00D99C2F /* ProposalList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalList.swift; sourceTree = "<group>"; };
+		FBB64DF12B42797800D99C2F /* Markdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Markdown.swift; sourceTree = "<group>"; };
+		FBB64DF42B42907600D99C2F /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		FBCE36922B3EDF2D000763B5 /* SwiftEvolutionApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftEvolutionApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBCE36952B3EDF2D000763B5 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		FBCE369B2B3EDF2F000763B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -44,6 +52,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FBB64DEB2B424F6F00D99C2F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FBB64DF12B42797800D99C2F /* Markdown.swift */,
+				FBB64DEE2B42791E00D99C2F /* ProposalList.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FBB64DF02B42795B00D99C2F /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				FBCE36A62B3EE016000763B5 /* Proposal.swift */,
+				FBB64DEC2B424FBB00D99C2F /* ProposalState.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		FBB64DF32B42903600D99C2F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FBCE36A82B3F684F000763B5 /* ContentView.swift */,
+				FBCE36AA2B3FC5F4000763B5 /* DetailView.swift */,
+				FBCE36AC2B3FD320000763B5 /* HTMLView.swift */,
+				FBB64DF42B42907600D99C2F /* RootView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		FBCE36892B3EDF2D000763B5 = {
 			isa = PBXGroup;
 			children = (
@@ -65,10 +102,9 @@
 			children = (
 				FBCE36AE2B3FD63C000763B5 /* Info.plist */,
 				FBCE36952B3EDF2D000763B5 /* App.swift */,
-				FBCE36A82B3F684F000763B5 /* ContentView.swift */,
-				FBCE36AA2B3FC5F4000763B5 /* DetailView.swift */,
-				FBCE36AC2B3FD320000763B5 /* HTMLView.swift */,
-				FBCE36A62B3EE016000763B5 /* Proposal.swift */,
+				FBB64DF32B42903600D99C2F /* Views */,
+				FBB64DF02B42795B00D99C2F /* Entities */,
+				FBB64DEB2B424F6F00D99C2F /* Models */,
 				FBB64DE72B40189100D99C2F /* github-markdown.css */,
 				FBB64DE92B40244800D99C2F /* proposal.template.html */,
 				FBCE369B2B3EDF2F000763B5 /* Assets.xcassets */,
@@ -159,7 +195,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBCE36AB2B3FC5F4000763B5 /* DetailView.swift in Sources */,
+				FBB64DED2B424FBB00D99C2F /* ProposalState.swift in Sources */,
+				FBB64DEF2B42791E00D99C2F /* ProposalList.swift in Sources */,
 				FBCE36A92B3F684F000763B5 /* ContentView.swift in Sources */,
+				FBB64DF22B42797800D99C2F /* Markdown.swift in Sources */,
+				FBB64DF52B42907600D99C2F /* RootView.swift in Sources */,
 				FBCE36A72B3EE016000763B5 /* Proposal.swift in Sources */,
 				FBCE36962B3EDF2D000763B5 /* App.swift in Sources */,
 				FBCE36AD2B3FD320000763B5 /* HTMLView.swift in Sources */,

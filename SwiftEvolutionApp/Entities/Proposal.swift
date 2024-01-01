@@ -1,3 +1,5 @@
+import SwiftUI
+
 // MARK: - Proposal
 struct Proposal: Codable, Hashable, Identifiable {
     var authors: [ReviewManager]
@@ -52,36 +54,6 @@ struct Warning: Codable, Hashable {
     var kind: String
     var message: String
     var stage: String
-}
-
-// MARK: - State
-enum ProposalState: String, Codable, Hashable, CaseIterable, CustomStringConvertible {
-    case accepted = ".accepted"
-    case activeReview = ".activeReview"
-    case implemented = ".implemented"
-    case previewing = ".previewing"
-    case rejected = ".rejected"
-    case returnedForRevision = ".returnedForRevision"
-    case withdrawn = ".withdrawn"
-
-    var description: String {
-        switch self {
-        case .accepted:
-            "Accepted"
-        case .activeReview:
-            "Active Review"
-        case .implemented:
-            "Implemented"
-        case .previewing:
-            "Previewing"
-        case .rejected:
-            "Rejected"
-        case .returnedForRevision:
-            "Returned"
-        case .withdrawn:
-            "Withdrawn"
-        }
-    }
 }
 
 extension Proposal {

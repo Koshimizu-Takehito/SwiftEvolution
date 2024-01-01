@@ -4,11 +4,11 @@ import SwiftUI
 struct App: SwiftUI.App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
     }
 }
 
 #Preview {
-    ContentView()
+    RootView()
 }
