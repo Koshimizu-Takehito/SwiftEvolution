@@ -10,6 +10,7 @@ struct DetailView: View {
     var body: some View {
         HTMLView(
             html: model.html,
+            codeHighlight: model.codeHighlight,
             isLoaded: $isLoaded.animation(.default.delay(0.1))
         ) { linkID in
             if let proposal = list.proposal(id: linkID) {
@@ -20,8 +21,10 @@ struct DetailView: View {
             ToolbarItemGroup(placement: .bottomBar) {
                 Spacer()
                 Menu {
-                    ForEach(CodeHighlight.allCases.reversed()) {
-                        CodeHighlightItem(action: update, value: $0)
+                    ForEach(CodeHighlight.allCases.reversed()) { item in
+                        Button(item.displayName) {
+                            model.codeHighlight = item
+                        }
                     }
                 } label: {
                     Image(systemName: "gearshape")
@@ -35,19 +38,15 @@ struct DetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .ignoresSafeArea(edges: .bottom)
     }
-
-    func update(_ highlight: CodeHighlight) {
-        print(highlight)
-    }
 }
 
 private struct CodeHighlightItem: View {
-    let action: (CodeHighlight) -> Void
     let value: CodeHighlight
+    let selected: (CodeHighlight) -> Void
 
     var body: some View {
         Button(value.rawValue) {
-            action(value)
+            selected(value)
         }
     }
 }

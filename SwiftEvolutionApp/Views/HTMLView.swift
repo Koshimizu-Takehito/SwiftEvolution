@@ -5,6 +5,7 @@ import SafariServices
 @MainActor
 struct HTMLView: UIViewRepresentable {
     let html: String?
+    let codeHighlight: CodeHighlight
     @Binding var isLoaded: Bool
     var linkID: (Proposal.ID) -> Void = { _ in }
 
@@ -14,14 +15,19 @@ struct HTMLView: UIViewRepresentable {
         view.backgroundColor = UIColor.systemBackground
         if let html {
             DispatchQueue.main.async { view.loadHTMLString(html, baseURL: nil) }
-
         }
         return view
     }
 
     public func updateUIView(_ view: WKWebView, context: Context) {
         guard let html else { return }
-        DispatchQueue.main.async { view.loadHTMLString(html, baseURL: nil) }
+        DispatchQueue.main.async {
+            if !isLoaded {
+                view.loadHTMLString(html, baseURL: nil)
+            } else {
+                view.evaluateJavaScript(codeHighlight.javascript)
+            }
+        }
     }
 
     func makeCoordinator() -> Coordinator {
