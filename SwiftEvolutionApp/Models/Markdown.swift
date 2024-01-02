@@ -4,8 +4,11 @@ import Observation
 @Observable
 final class Markdown {
     let proposal: Proposal
-    var codeHighlight: CodeHighlight = .atomOneDark {
-        didSet { buildHTML() }
+    var codeHighlight = CodeHighlight.current {
+        didSet {
+            CodeHighlight.current = codeHighlight
+            buildHTML()
+        }
     }
     private(set) var markdown = "" {
         didSet { buildHTML() }
