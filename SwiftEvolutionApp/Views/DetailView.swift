@@ -20,7 +20,7 @@ struct DetailView: View {
             ToolbarItemGroup(placement: .bottomBar) {
                 Spacer()
                 Menu {
-                    ForEach(CodeHighlight.allCases) {
+                    ForEach(CodeHighlight.allCases.reversed()) {
                         CodeHighlightItem(action: update, value: $0)
                     }
                 } label: {
