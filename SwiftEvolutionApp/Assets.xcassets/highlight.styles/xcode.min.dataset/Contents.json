@@ -1,0 +1,12 @@
+{
+  "data" : [
+    {
+      "filename" : "xcode.min.css",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

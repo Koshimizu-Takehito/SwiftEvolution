@@ -13,6 +13,7 @@ final class Markdown {
     }
 
     func fetch() async throws {
+        // TODO: Host を切り替える
         let url = URL(string: "https://raw.githubusercontent.com/apple/swift-evolution/main/proposals/\(proposal.link)")!
         let (data, _) = try await URLSession.shared.data(from: url)
         self.markdown = (String(data: data, encoding: .utf8) ?? "")
