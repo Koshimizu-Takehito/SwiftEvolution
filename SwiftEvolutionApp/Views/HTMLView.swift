@@ -30,7 +30,7 @@ struct HTMLView: UIViewRepresentable {
         }
     }
 
-    func makeCoordinator() -> Coordinator {
+    func makeCoordinator() -> HTMLViewCoordinator {
         Coordinator(
             isLoaded: { isLoaded = $0 },
             linkID: linkID
@@ -38,23 +38,21 @@ struct HTMLView: UIViewRepresentable {
     }
 }
 
-extension HTMLView {
-    @MainActor
-    final class Coordinator: NSObject {
-        var isLoaded: (Bool) -> Void
-        var linkID: (Proposal.ID) -> Void
+@MainActor
+final class HTMLViewCoordinator: NSObject {
+    var isLoaded: (Bool) -> Void
+    var linkID: (Proposal.ID) -> Void
 
-        init(
-            isLoaded: @escaping (Bool) -> Void = { _ in },
-            linkID: @escaping (Proposal.ID) -> Void = { _ in }
-        ) {
-            self.isLoaded = isLoaded
-            self.linkID = linkID
-        }
+    init(
+        isLoaded: @escaping (Bool) -> Void = { _ in },
+        linkID: @escaping (Proposal.ID) -> Void = { _ in }
+    ) {
+        self.isLoaded = isLoaded
+        self.linkID = linkID
     }
 }
 
-extension HTMLView.Coordinator: WKNavigationDelegate {
+extension HTMLViewCoordinator: WKNavigationDelegate {
     func webView(
         _ webView: WKWebView,
         decidePolicyFor navigationAction: WKNavigationAction
