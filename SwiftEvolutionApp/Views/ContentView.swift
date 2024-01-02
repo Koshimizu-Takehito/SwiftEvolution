@@ -10,13 +10,14 @@ struct ContentView: View {
         NavigationStack(path: $navigationPath) {
             List {
                 ForEach(model.proposals) { proposal in
-                    NavigationLink(value: proposal) {
+                    NavigationLink(value: ProposalURL(proposal)) {
                         ItemView(item: proposal)
                     }
                 }
             }
-            .navigationDestination(for: Proposal.self) { proposal in
-                DetailView(model: Markdown(proposal: proposal), path: $navigationPath)
+            .navigationDestination(for: ProposalURL.self) { pair in
+                let proposal = pair.proposal
+                DetailView(model: Markdown(proposal: proposal, url: pair.url), path: $navigationPath)
                     .onChange(of: proposal, initial: true) { _, new in
                         self.proposal = new
                     }

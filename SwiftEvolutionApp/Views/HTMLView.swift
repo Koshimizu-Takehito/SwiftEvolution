@@ -7,7 +7,7 @@ struct HTMLView: UIViewRepresentable {
     let html: String?
     let codeHighlight: CodeHighlight
     @Binding var isLoaded: Bool
-    var linkID: (Proposal.ID) -> Void = { _ in }
+    var link: (Proposal.ID, MarkdownURL?) -> Void = { _, _ in }
 
     public func makeUIView(context: Context) -> WKWebView {
         let view = WKWebView()
@@ -33,7 +33,7 @@ struct HTMLView: UIViewRepresentable {
     func makeCoordinator() -> HTMLViewCoordinator {
         Coordinator(
             isLoaded: { isLoaded = $0 },
-            linkID: linkID
+            link: link
         )
     }
 }
@@ -41,14 +41,14 @@ struct HTMLView: UIViewRepresentable {
 @MainActor
 final class HTMLViewCoordinator: NSObject {
     var isLoaded: (Bool) -> Void
-    var linkID: (Proposal.ID) -> Void
+    var link: (Proposal.ID, MarkdownURL?) -> Void
 
     init(
         isLoaded: @escaping (Bool) -> Void = { _ in },
-        linkID: @escaping (Proposal.ID) -> Void = { _ in }
+        link: @escaping (Proposal.ID, MarkdownURL?) -> Void = { _, _ in }
     ) {
         self.isLoaded = isLoaded
-        self.linkID = linkID
+        self.link = link
     }
 }
 
@@ -76,12 +76,12 @@ extension HTMLViewCoordinator: WKNavigationDelegate {
         case (_, "github.com", let path):
             guard let match = path.firstMatch(of: /^.+\/swift-evolution\/.*\/(\d+)-.*\.md/) else { break }
             // 別プロポーザルへのリンクとして判定
-            linkID("SE-\(String(match.1))")
+            link("SE-\(String(match.1))", MarkdownURL(rawValue: url))
             return .cancel
         case (nil, nil, let path):
             guard let match = path.firstMatch(of: /^(\d+)-.*\.md/) else { break }
             // 別プロポーザルへのリンクとして判定
-            linkID("SE-\(String(match.1))")
+            link("SE-\(String(match.1))", nil)
             return .cancel
         default:
             break

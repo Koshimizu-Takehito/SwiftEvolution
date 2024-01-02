@@ -12,9 +12,9 @@ struct DetailView: View {
             html: model.html,
             codeHighlight: model.codeHighlight,
             isLoaded: $isLoaded.animation(.default.delay(0.1))
-        ) { linkID in
+        ) { linkID, url in
             if let proposal = list.proposal(id: linkID) {
-                path.append(proposal)
+                path.append(ProposalURL(proposal, url))
             }
         }
         .toolbar {

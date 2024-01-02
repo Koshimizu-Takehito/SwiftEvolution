@@ -4,6 +4,7 @@ import Observation
 @Observable
 final class Markdown {
     let proposal: Proposal
+    let url: MarkdownURL?
     var codeHighlight = CodeHighlight.current {
         didSet {
             CodeHighlight.current = codeHighlight
@@ -15,17 +16,17 @@ final class Markdown {
     }
     private(set) var html: String?
 
-    init(proposal: Proposal) {
+    init(proposal: Proposal, url: MarkdownURL? = nil) {
         self.proposal = proposal
+        self.url = url
         Task { try await self.fetch() }
     }
 }
 
 private extension Markdown {
     private func fetch() async throws {
-        // TODO: Host を切り替える
-        let url = URL(string: "https://raw.githubusercontent.com/apple/swift-evolution/main/proposals/\(proposal.link)")!
-        let (data, _) = try await URLSession.shared.data(from: url)
+        let url = url ?? MarkdownURL(proposal: proposal)
+        let (data, _) = try await URLSession.shared.data(from: url.rawValue)
         markdown = (String(data: data, encoding: .utf8) ?? "")
             .replacingOccurrences(of: "\n", with: #"\n"#)
             .replacingOccurrences(of: "'", with: #"\'"#)
