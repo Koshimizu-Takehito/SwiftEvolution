@@ -21,7 +21,7 @@ struct DetailView: View {
             ToolbarItemGroup(placement: .bottomBar) {
                 Spacer()
                 Menu {
-                    ForEach(CodeHighlight.allCases.reversed()) { item in
+                    ForEach(CodeHighlight.allCases) { item in
                         Button(item.displayName) {
                             model.codeHighlight = item
                         }
@@ -30,6 +30,7 @@ struct DetailView: View {
                     Image(systemName: "gearshape")
                         .imageScale(.large)
                 }
+                .menuOrder(.fixed)
                 .opacity(isLoaded ? 1 : 0)
             }
         }
