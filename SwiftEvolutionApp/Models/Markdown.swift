@@ -25,29 +25,24 @@ final class Markdown {
 private extension Markdown {
     var githubMarkdownCss: String {
         let (dark, light) = proposal.state.accentColor
-        return String(data: NSDataAsset(name: "github-markdown")!.data, encoding: .utf8)!
+        return HTMLAsset.CSS.githubMarkdown.asset
             .replacingOccurrences(of: "$color-accent-fg-dark", with: dark)
             .replacingOccurrences(of: "$color-accent-fg-light", with: light)
     }
 
-    var markedJs: String {
-        String(data: NSDataAsset(name: "marked.min")!.data, encoding: .utf8)!
-    }
-
-    var highlightJs: String {
-        String(data: NSDataAsset(name: "highlight.min")!.data, encoding: .utf8)!
-    }
-
-    var proposalTemplateHTML: String {
-        String(data: NSDataAsset(name: "proposal.template")!.data, encoding: .utf8)!
+    var highlightjsStyleCss: String {
+        // TODO: 設定で切替え
+        HTMLAsset.CSS.highlightjsAtomOneDark.asset
     }
 
     func buildHTML() -> String {
-        proposalTemplateHTML
+        HTMLAsset.HTML.proposalTemplate.asset
             .replacingOccurrences(of: "$title", with: proposal.title)
             .replacingOccurrences(of: "$githubMarkdownCss", with: githubMarkdownCss)
-            .replacingOccurrences(of: "$markedJs", with: markedJs)
-            .replacingOccurrences(of: "$highlightJs", with: highlightJs)
+            .replacingOccurrences(of: "$highlightjsStyleCss", with: highlightjsStyleCss)
+            .replacingOccurrences(of: "$markedJs", with: HTMLAsset.Js.marked.asset)
+            .replacingOccurrences(of: "$highlightJs", with: HTMLAsset.Js.highlight.asset)
+            .replacingOccurrences(of: "$highlightJsSwift", with: HTMLAsset.Js.highlightSwift.asset)
             .replacingOccurrences(of: "$markdown", with: markdown)
     }
 }

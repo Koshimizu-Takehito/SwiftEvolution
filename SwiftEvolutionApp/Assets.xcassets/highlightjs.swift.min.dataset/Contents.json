@@ -1,0 +1,12 @@
+{
+  "data" : [
+    {
+      "filename" : "highlightjs.swift.min.js",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

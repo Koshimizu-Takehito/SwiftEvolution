@@ -1,20 +1,28 @@
 <!doctype html>
 <html>
-<head>
-  <meta charset="utf-8"/>
-  <title>$title</title>
-</head>
-<body>
-  <div id="content"></div>
-  <script>$markedJs</script>
-  <script>$highlightJs</script>
-  <style type="text/css">$githubMarkdownCss</style>
+    <head>
+        <meta charset="utf-8"/>
+        <title>$title</title>
+    </head>
+    <body>
+        <!-- マークダウンからhtmlに変換 -->
+        <!-- https://github.com/markedjs/marked -->
+        <script>$markedJs</script>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
-  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/swift.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script>
-    document.getElementById('content').innerHTML = marked.parse('$markdown');
-  </script>
-</body>
+        <!-- シンタックスハイライト -->
+        <!-- https://github.com/highlightjs/highlight.js -->
+        <style type="text/css">$highlightjsStyleCss</style>
+        <script>$highlightJs</script>
+        <script>$highlightJsSwift</script>
+        <script>hljs.highlightAll();</script>
+
+        <!-- GitHubマークダウンスタイルのCSS -->
+        <!-- https://qiita.com/__mick/items/c80fab6c185a41882880 -->
+        <style type="text/css">$githubMarkdownCss</style>
+
+        <div id="content"></div>
+        <script>
+            document.getElementById('content').innerHTML = marked.parse('$markdown');
+        </script>
+    </body>
 </html>
