@@ -88,7 +88,6 @@ extension HTMLViewCoordinator: WKNavigationDelegate {
         }
         Task { @MainActor in
             guard url.scheme?.contains(/^https?$/) == true else { return }
-            print(#function, #line, url)
             let controller = SFSafariViewController(url: url)
             controller.preferredControlTintColor = webView.tintColor
             webView.window?.rootViewController?.show(controller, sender: self)
