@@ -26,19 +26,29 @@ struct ProposalStatePicker: View {
                 }
                 Divider()
                     .padding(.vertical)
-                Button("Select All") {
-                    model.selectAllOptions()
+                HStack {
+                    Spacer()
+                    Button("Select All") {
+                        model.selectAllOptions()
+                    }
+                    .disabled(model.allOptionsSelected())
+                    Spacer()
+                    Button("Deselect All") {
+                        model.deselectAllOptions()
+                    }
+                    .disabled(model.allOptionsDeselected())
+                    Spacer()
                 }
-                .disabled(model.allOptionsSelected)
             }
             .frame(idealWidth: 240)
             .padding()
             .presentationCompactAdaptation(.popover)
+            .tint(Color.blue)
         }
     }
 
     var iconName: String {
-        model.allOptionsSelected
+        model.allOptionsSelected()
             ? "line.3.horizontal.decrease.circle"
             : "line.3.horizontal.decrease.circle.fill"
     }

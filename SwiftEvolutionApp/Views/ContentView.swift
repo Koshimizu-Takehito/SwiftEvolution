@@ -3,13 +3,15 @@ import Observation
 
 struct ContentView: View {
     @Environment(ProposalList.self) private var model
+    @Environment(ProposalStateOptions.self) private var options
     @State private var proposal: Proposal?
+    @State private var proposals: [Proposal] = []
     @State private var navigationPath = NavigationPath()
 
     var body: some View {
         NavigationStack(path: $navigationPath) {
             List {
-                ForEach(model.proposals) { proposal in
+                ForEach(proposals) { proposal in
                     NavigationLink(value: ProposalURL(proposal)) {
                         ItemView(item: proposal)
                     }
@@ -29,9 +31,22 @@ struct ContentView: View {
             .navigationTitle("Swift Evolution")
             .toolbar {
                 ProposalStatePicker()
+                    .opacity(model.proposals.isEmpty ? 0 : 1)
+                    .tint(Color(UIColor.label))
             }
         }
         .tint(proposal?.state?.color)
+        .onChange(of: model.proposals) { _, _ in update() }
+        .onChange(of: options.values) { _, _ in update() }
+    }
+
+    func update() {
+        withAnimation {
+            let selected = options.selectedOptions()
+            proposals = model.proposals.filter { proposal in
+                proposal.state.map(selected.contains(_:)) ?? false
+            }
+        }
     }
 }
 
