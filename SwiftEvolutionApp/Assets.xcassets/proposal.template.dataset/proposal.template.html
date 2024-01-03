@@ -26,7 +26,15 @@
             // https://zenn.dev/tayusa/articles/54128714c8ee2d
             const renderer = {
                 heading(text, level) {
-                    const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
+                    // アンカーの識別子をタイトルから生成する
+                    // - <code> ブロックの削除
+                    // - 半角スペースをハイフンに置き換え
+                    // - 記号の削除
+                    const escapedText = text.toLowerCase()
+                        .replace(/<code>/g, '')
+                        .replace(/<\/code>/g, '')
+                        .replace(/ +/g, '-')
+                        .replace(/[^\w-]+/g, '');
                     return `
                         <h${level}>
                           <a name="${escapedText}" class="anchor" href="#${escapedText}">
