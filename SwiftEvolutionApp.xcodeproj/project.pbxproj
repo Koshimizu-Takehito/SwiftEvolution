@@ -14,6 +14,7 @@
 		FB88EA3E2B43FE0C00A6EBB3 /* MarkdownURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB88EA3D2B43FE0C00A6EBB3 /* MarkdownURL.swift */; };
 		FB88EA5B2B44EF1800A6EBB3 /* ProposalStatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB88EA5A2B44EF1800A6EBB3 /* ProposalStatePicker.swift */; };
 		FB88EA5D2B44EF2900A6EBB3 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB88EA5C2B44EF2900A6EBB3 /* FlowLayout.swift */; };
+		FB88EA5F2B4508AC00A6EBB3 /* ProposalStateOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB88EA5E2B4508AC00A6EBB3 /* ProposalStateOptions.swift */; };
 		FBB64DE82B40189100D99C2F /* github-markdown.css in Resources */ = {isa = PBXBuildFile; fileRef = FBB64DE72B40189100D99C2F /* github-markdown.css */; };
 		FBB64DED2B424FBB00D99C2F /* ProposalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB64DEC2B424FBB00D99C2F /* ProposalState.swift */; };
 		FBB64DEF2B42791E00D99C2F /* ProposalList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB64DEE2B42791E00D99C2F /* ProposalList.swift */; };
@@ -36,6 +37,7 @@
 		FB88EA3D2B43FE0C00A6EBB3 /* MarkdownURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownURL.swift; sourceTree = "<group>"; };
 		FB88EA5A2B44EF1800A6EBB3 /* ProposalStatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalStatePicker.swift; sourceTree = "<group>"; };
 		FB88EA5C2B44EF2900A6EBB3 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
+		FB88EA5E2B4508AC00A6EBB3 /* ProposalStateOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalStateOptions.swift; sourceTree = "<group>"; };
 		FBB64DE72B40189100D99C2F /* github-markdown.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = "github-markdown.css"; path = "Assets.xcassets/github-markdown.dataset/github-markdown.css"; sourceTree = "<group>"; };
 		FBB64DEC2B424FBB00D99C2F /* ProposalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalState.swift; sourceTree = "<group>"; };
 		FBB64DEE2B42791E00D99C2F /* ProposalList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalList.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 			children = (
 				FBB64DF12B42797800D99C2F /* Markdown.swift */,
 				FBB64DEE2B42791E00D99C2F /* ProposalList.swift */,
+				FB88EA5E2B4508AC00A6EBB3 /* ProposalStateOptions.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 			files = (
 				FBCE36AB2B3FC5F4000763B5 /* DetailView.swift in Sources */,
 				FB88EA5B2B44EF1800A6EBB3 /* ProposalStatePicker.swift in Sources */,
+				FB88EA5F2B4508AC00A6EBB3 /* ProposalStateOptions.swift in Sources */,
 				FB88EA382B43DE0C00A6EBB3 /* CodeHighlight.swift in Sources */,
 				FB42FE7B2B43A5CA00348204 /* HTMLAsset.swift in Sources */,
 				FBB64DED2B424FBB00D99C2F /* ProposalState.swift in Sources */,

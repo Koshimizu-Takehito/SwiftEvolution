@@ -1,36 +1,50 @@
 import SwiftUI
 import Observation
 
-@Observable
-final class ProposalStateSetting {
-    var selected: [ProposalState: Bool] = [:]
-}
-
 struct ProposalStatePicker: View {
-    private let states = ProposalState.allCases
     @State private var showPopover = false
+    @Environment(ProposalStateOptions.self) private var model
 
     var body: some View {
-        Button("Show Popover") {
-            showPopover.toggle()
-        }
+        Button(
+            action: {
+                showPopover.toggle()
+            },
+            label: {
+                Image(systemName: iconName)
+                    .imageScale(.large)
+            }
+        )
         .popover(isPresented: $showPopover) {
-            FlowLayout(alignment: .leading, spacing: 8) {
-                ForEach(states, id: \.self) { keyword in
-                    Text(keyword.description)
-                        .padding(.vertical, 4)
-                        .padding(.horizontal, 12)
-                        .background(Color(.systemGroupedBackground))
-                        .cornerRadius(15)
+            VStack {
+                FlowLayout(alignment: .leading, spacing: 8) {
+                    ForEach(model.allOptions, id: \.self) { option in
+                        Toggle(option.description, isOn: model.isOn(option))
+                            .toggleStyle(.button)
+                            .tint(option.color)
+                    }
                 }
+                Divider()
+                    .padding(.vertical)
+                Button("Select All") {
+                    model.selectAllOptions()
+                }
+                .disabled(model.allOptionsSelected)
             }
             .frame(idealWidth: 240)
             .padding()
             .presentationCompactAdaptation(.popover)
         }
     }
+
+    var iconName: String {
+        model.allOptionsSelected
+            ? "line.3.horizontal.decrease.circle"
+            : "line.3.horizontal.decrease.circle.fill"
+    }
 }
 
 #Preview {
     ProposalStatePicker()
+        .environment(ProposalStateOptions())
 }

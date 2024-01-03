@@ -17,13 +17,19 @@ struct ContentView: View {
             }
             .navigationDestination(for: ProposalURL.self) { pair in
                 let proposal = pair.proposal
-                DetailView(model: Markdown(proposal: proposal, url: pair.url), path: $navigationPath)
-                    .onChange(of: proposal, initial: true) { _, new in
-                        self.proposal = new
-                    }
-                    .tint(proposal.state?.color)
+                DetailView(
+                    model: Markdown(proposal: proposal, url: pair.url),
+                    path: $navigationPath
+                )
+                .onChange(of: proposal, initial: true) { _, new in
+                    self.proposal = new
+                }
+                .tint(proposal.state?.color)
             }
             .navigationTitle("Swift Evolution")
+            .toolbar {
+                ProposalStatePicker()
+            }
         }
         .tint(proposal?.state?.color)
     }
@@ -65,4 +71,5 @@ private struct StateView: View {
 #Preview {
     ContentView()
         .environment(ProposalList())
+        .environment(ProposalStateOptions())
 }

@@ -46,7 +46,7 @@ extension ProposalState {
         case .returnedForRevision:
             .purple
         case .withdrawn:
-            .red
+            .gray
         }
     }
 
@@ -88,7 +88,7 @@ extension ProposalState? {
         case .withdrawn:
             ("rgba(255,69,58,1)", "rgba(255,59,48,1)")
         case nil:
-            ("rgba(10,132,255,1)", "rgba(0,122,255,1)")
+            ("rgba(142,142,147,1)", "rgba(142,142,147,1)")
         }
     }
 }
