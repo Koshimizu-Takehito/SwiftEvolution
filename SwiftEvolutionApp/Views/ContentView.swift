@@ -34,6 +34,15 @@ struct ContentView: View {
                     .opacity(model.proposals.isEmpty ? 0 : 1)
                     .tint(Color(UIColor.label))
             }
+            .overlay {
+                if let error = model.error as? URLError {
+                    ContentUnavailableView {
+                        Label("Connection issue", systemImage: "wifi.slash")
+                    } description: {
+                        Text(error.localizedDescription)
+                    }
+                }
+            }
         }
         .tint(proposal?.state?.color)
         .onChange(of: model.proposals) { _, _ in update() }

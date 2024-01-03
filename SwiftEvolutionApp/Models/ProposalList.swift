@@ -5,10 +5,28 @@ import Observation
 @Observable
 final class ProposalList {
     private(set) var proposals: [Proposal] = []
+    private(set) var error: (any Error)?
     private var dictionary: [Proposal.ID: Proposal] = [:]
 
     init() {
-        Task { try await fetch() }
+        fetch()
+    }
+
+    func proposal(id: Proposal.ID) -> Proposal? {
+        dictionary[id]
+    }
+}
+
+private extension ProposalList {
+    func fetch() {
+        Task {
+            do {
+                self.error = nil
+                try await fetch()
+            } catch {
+                self.error = error
+            }
+        }
     }
 
     func fetch() async throws {
@@ -20,9 +38,5 @@ final class ProposalList {
         }
         self.proposals = proposals.reversed()
         self.dictionary = Dictionary(uniqueKeysWithValues: proposals.map { ($0.id, $0) })
-    }
-
-    func proposal(id: Proposal.ID) -> Proposal? {
-        dictionary[id]
     }
 }
