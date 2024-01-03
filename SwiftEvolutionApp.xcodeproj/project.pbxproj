@@ -180,11 +180,11 @@
 			};
 			buildConfigurationList = FBCE368D2B3EDF2D000763B5 /* Build configuration list for PBXProject "SwiftEvolutionApp" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ja;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				ja,
 			);
 			mainGroup = FBCE36892B3EDF2D000763B5;
 			productRefGroup = FBCE36932B3EDF2D000763B5 /* Products */;
