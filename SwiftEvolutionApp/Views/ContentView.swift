@@ -1,15 +1,14 @@
 import SwiftUI
-import Observation
 
 struct ContentView: View {
     @Environment(ProposalList.self) private var model
     @Environment(ProposalStateOptions.self) private var options
     @State private var proposal: Proposal?
     @State private var proposals: [Proposal] = []
-    @State private var navigationPath = NavigationPath()
+    @State private var path = NavigationPath()
 
     var body: some View {
-        NavigationStack(path: $navigationPath) {
+        NavigationStack(path: $path) {
             List {
                 ForEach(proposals) { proposal in
                     NavigationLink(value: ProposalURL(proposal)) {
@@ -19,14 +18,12 @@ struct ContentView: View {
             }
             .navigationDestination(for: ProposalURL.self) { pair in
                 let proposal = pair.proposal
-                DetailView(
-                    model: Markdown(proposal: proposal, url: pair.url),
-                    path: $navigationPath
-                )
-                .onChange(of: proposal, initial: true) { _, new in
-                    self.proposal = new
-                }
-                .tint(proposal.state?.color)
+                let markdown = Markdown(proposal: proposal, url: pair.url)
+                MarkdownView(markdown: markdown, path: $path)
+                    .onChange(of: proposal, initial: true) { _, new in
+                        self.proposal = new
+                    }
+                    .tint(proposal.state?.color)
             }
             .navigationTitle("Swift Evolution")
             .toolbar {

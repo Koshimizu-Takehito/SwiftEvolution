@@ -1,16 +1,16 @@
 import SwiftUI
 import WebKit
 
-struct DetailView: View {
-    let model: Markdown
+struct MarkdownView: View {
+    let markdown: Markdown
     @Binding var path: NavigationPath
     @State private var isLoaded: Bool = false
     @Environment(ProposalList.self) private var list
 
     var body: some View {
         HTMLView(
-            html: model.html,
-            codeHighlight: model.codeHighlight,
+            html: markdown.html,
+            highlight: markdown.highlight,
             isLoaded: $isLoaded.animation(.default.delay(0.1))
         ) { linkID, url in
             if let proposal = list.proposal(id: linkID) {
@@ -21,9 +21,9 @@ struct DetailView: View {
             ToolbarItemGroup(placement: .bottomBar) {
                 Spacer()
                 Menu {
-                    ForEach(CodeHighlight.allCases) { item in
+                    ForEach(SyntaxHighlight.allCases) { item in
                         Button(item.displayName) {
-                            model.codeHighlight = item
+                            markdown.highlight = item
                         }
                     }
                 } label: {
@@ -35,15 +35,15 @@ struct DetailView: View {
             }
         }
         .opacity(isLoaded ? 1 : 0)
-        .navigationTitle(model.proposal.title)
+        .navigationTitle(markdown.proposal.title)
         .navigationBarTitleDisplayMode(.inline)
         .ignoresSafeArea(edges: .bottom)
     }
 }
 
 private struct CodeHighlightItem: View {
-    let value: CodeHighlight
-    let selected: (CodeHighlight) -> Void
+    let value: SyntaxHighlight
+    let selected: (SyntaxHighlight) -> Void
 
     var body: some View {
         Button(value.rawValue) {

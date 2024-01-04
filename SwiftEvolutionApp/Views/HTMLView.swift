@@ -5,7 +5,7 @@ import SafariServices
 @MainActor
 struct HTMLView: UIViewRepresentable {
     let html: String?
-    let codeHighlight: CodeHighlight
+    let highlight: SyntaxHighlight
     @Binding var isLoaded: Bool
     var link: (Proposal.ID, MarkdownURL?) -> Void = { _, _ in }
 
@@ -25,16 +25,13 @@ struct HTMLView: UIViewRepresentable {
             if !isLoaded {
                 view.loadHTMLString(html, baseURL: nil)
             } else {
-                view.evaluateJavaScript(codeHighlight.javascript)
+                view.evaluateJavaScript(highlight.javascript)
             }
         }
     }
 
     func makeCoordinator() -> HTMLViewCoordinator {
-        Coordinator(
-            isLoaded: { isLoaded = $0 },
-            link: link
-        )
+        HTMLViewCoordinator(isLoaded: { isLoaded = $0 }, link: link)
     }
 }
 

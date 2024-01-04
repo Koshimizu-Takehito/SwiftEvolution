@@ -5,9 +5,9 @@ import Observation
 final class Markdown {
     let proposal: Proposal
     let url: MarkdownURL?
-    var codeHighlight = CodeHighlight.current {
+    var highlight = SyntaxHighlight.current {
         didSet {
-            CodeHighlight.current = codeHighlight
+            SyntaxHighlight.current = highlight
             buildHTML()
         }
     }
@@ -43,7 +43,7 @@ private extension Markdown {
         self.html = HTMLAsset.HTML.proposalTemplate.asset
             .replacingOccurrences(of: "$title", with: proposal.title)
             .replacingOccurrences(of: "$githubMarkdownCss", with: githubMarkdownCss)
-            .replacingOccurrences(of: "$highlightjsStyleCss", with: codeHighlight.asset)
+            .replacingOccurrences(of: "$highlightjsStyleCss", with: highlight.asset)
             .replacingOccurrences(of: "$markedJs", with: HTMLAsset.Js.marked.asset)
             .replacingOccurrences(of: "$highlightJs", with: HTMLAsset.Js.highlight.asset)
             .replacingOccurrences(of: "$highlightJsSwift", with: HTMLAsset.Js.highlightSwift.asset)

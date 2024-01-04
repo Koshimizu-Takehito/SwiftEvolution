@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum CodeHighlight: String, Hashable, CaseIterable, Identifiable {
+enum SyntaxHighlight: String, Hashable, CaseIterable, Identifiable {
     case androidStudio = "androidstudio"
     case atomOneDark = "atom-one-dark"
     case atomOneLight = "atom-one-light"
@@ -15,7 +15,7 @@ enum CodeHighlight: String, Hashable, CaseIterable, Identifiable {
         get {
             let defaults = UserDefaults.standard
             let string = defaults.string(forKey: String(describing: Self.self))
-            return string.flatMap(CodeHighlight.init) ?? .atomOneDark
+            return string.flatMap(SyntaxHighlight.init) ?? .atomOneDark
         }
         set {
             let defaults = UserDefaults.standard
