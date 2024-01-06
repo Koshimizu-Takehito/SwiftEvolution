@@ -17,16 +17,14 @@
 		FB88EA5F2B4508AC00A6EBB3 /* ProposalStateOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB88EA5E2B4508AC00A6EBB3 /* ProposalStateOptions.swift */; };
 		FBB64DE82B40189100D99C2F /* github-markdown.css in Resources */ = {isa = PBXBuildFile; fileRef = FBB64DE72B40189100D99C2F /* github-markdown.css */; };
 		FBB64DED2B424FBB00D99C2F /* ProposalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB64DEC2B424FBB00D99C2F /* ProposalState.swift */; };
-		FBB64DEF2B42791E00D99C2F /* ProposalList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB64DEE2B42791E00D99C2F /* ProposalList.swift */; };
 		FBB64DF22B42797800D99C2F /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB64DF12B42797800D99C2F /* Markdown.swift */; };
-		FBB64DF52B42907600D99C2F /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB64DF42B42907600D99C2F /* RootView.swift */; };
 		FBCE36962B3EDF2D000763B5 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36952B3EDF2D000763B5 /* App.swift */; };
 		FBCE369C2B3EDF2F000763B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBCE369B2B3EDF2F000763B5 /* Assets.xcassets */; };
 		FBCE36A02B3EDF2F000763B5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBCE369F2B3EDF2F000763B5 /* Preview Assets.xcassets */; };
-		FBCE36A72B3EE016000763B5 /* Proposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36A62B3EE016000763B5 /* Proposal.swift */; };
 		FBCE36A92B3F684F000763B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36A82B3F684F000763B5 /* ContentView.swift */; };
 		FBCE36AB2B3FC5F4000763B5 /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36AA2B3FC5F4000763B5 /* MarkdownView.swift */; };
 		FBCE36AD2B3FD320000763B5 /* HTMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36AC2B3FD320000763B5 /* HTMLView.swift */; };
+		FBD164002B48E5D500C18625 /* Proposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD163FF2B48E5D500C18625 /* Proposal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,19 +38,17 @@
 		FB88EA5E2B4508AC00A6EBB3 /* ProposalStateOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalStateOptions.swift; sourceTree = "<group>"; };
 		FBB64DE72B40189100D99C2F /* github-markdown.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = "github-markdown.css"; path = "Assets.xcassets/github-markdown.dataset/github-markdown.css"; sourceTree = "<group>"; };
 		FBB64DEC2B424FBB00D99C2F /* ProposalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalState.swift; sourceTree = "<group>"; };
-		FBB64DEE2B42791E00D99C2F /* ProposalList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalList.swift; sourceTree = "<group>"; };
 		FBB64DF12B42797800D99C2F /* Markdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Markdown.swift; sourceTree = "<group>"; };
-		FBB64DF42B42907600D99C2F /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		FBCE36922B3EDF2D000763B5 /* SwiftEvolutionApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftEvolutionApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBCE36952B3EDF2D000763B5 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		FBCE369B2B3EDF2F000763B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FBCE369D2B3EDF2F000763B5 /* SwiftEvolutionApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftEvolutionApp.entitlements; sourceTree = "<group>"; };
 		FBCE369F2B3EDF2F000763B5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		FBCE36A62B3EE016000763B5 /* Proposal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proposal.swift; sourceTree = "<group>"; };
 		FBCE36A82B3F684F000763B5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FBCE36AA2B3FC5F4000763B5 /* MarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownView.swift; sourceTree = "<group>"; };
 		FBCE36AC2B3FD320000763B5 /* HTMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLView.swift; sourceTree = "<group>"; };
 		FBCE36AE2B3FD63C000763B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		FBD163FF2B48E5D500C18625 /* Proposal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proposal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				FBB64DF12B42797800D99C2F /* Markdown.swift */,
-				FBB64DEE2B42791E00D99C2F /* ProposalList.swift */,
+				FBD163FF2B48E5D500C18625 /* Proposal.swift */,
 				FB88EA5E2B4508AC00A6EBB3 /* ProposalStateOptions.swift */,
 			);
 			path = Models;
@@ -81,7 +77,6 @@
 			children = (
 				FB42FE7A2B43A5CA00348204 /* HTMLAsset.swift */,
 				FB88EA3D2B43FE0C00A6EBB3 /* MarkdownURL.swift */,
-				FBCE36A62B3EE016000763B5 /* Proposal.swift */,
 				FBB64DEC2B424FBB00D99C2F /* ProposalState.swift */,
 				FB88EA3B2B43F58300A6EBB3 /* ProposalURL.swift */,
 				FB88EA372B43DE0C00A6EBB3 /* SyntaxHighlight.swift */,
@@ -97,7 +92,6 @@
 				FB88EA5C2B44EF2900A6EBB3 /* FlowLayout.swift */,
 				FBCE36AC2B3FD320000763B5 /* HTMLView.swift */,
 				FB88EA5A2B44EF1800A6EBB3 /* ProposalStatePicker.swift */,
-				FBB64DF42B42907600D99C2F /* RootView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -221,14 +215,12 @@
 				FB88EA382B43DE0C00A6EBB3 /* SyntaxHighlight.swift in Sources */,
 				FB42FE7B2B43A5CA00348204 /* HTMLAsset.swift in Sources */,
 				FBB64DED2B424FBB00D99C2F /* ProposalState.swift in Sources */,
-				FBB64DEF2B42791E00D99C2F /* ProposalList.swift in Sources */,
 				FB88EA3C2B43F58300A6EBB3 /* ProposalURL.swift in Sources */,
 				FB88EA5D2B44EF2900A6EBB3 /* FlowLayout.swift in Sources */,
+				FBD164002B48E5D500C18625 /* Proposal.swift in Sources */,
 				FBCE36A92B3F684F000763B5 /* ContentView.swift in Sources */,
 				FBB64DF22B42797800D99C2F /* Markdown.swift in Sources */,
-				FBB64DF52B42907600D99C2F /* RootView.swift in Sources */,
 				FB88EA3E2B43FE0C00A6EBB3 /* MarkdownURL.swift in Sources */,
-				FBCE36A72B3EE016000763B5 /* Proposal.swift in Sources */,
 				FBCE36962B3EDF2D000763B5 /* App.swift in Sources */,
 				FBCE36AD2B3FD320000763B5 /* HTMLView.swift in Sources */,
 			);

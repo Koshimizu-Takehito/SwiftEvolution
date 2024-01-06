@@ -7,7 +7,7 @@ struct HTMLView: UIViewRepresentable {
     let html: String?
     let highlight: SyntaxHighlight
     @Binding var isLoaded: Bool
-    var link: (Proposal.ID, MarkdownURL?) -> Void = { _, _ in }
+    var link: (ProposalID, MarkdownURL?) -> Void = { _, _ in }
 
     public func makeUIView(context: Context) -> WKWebView {
         let view = WKWebView()
@@ -38,11 +38,11 @@ struct HTMLView: UIViewRepresentable {
 @MainActor
 final class HTMLViewCoordinator: NSObject {
     var isLoaded: (Bool) -> Void
-    var link: (Proposal.ID, MarkdownURL?) -> Void
+    var link: (ProposalID, MarkdownURL?) -> Void
 
     init(
         isLoaded: @escaping (Bool) -> Void = { _ in },
-        link: @escaping (Proposal.ID, MarkdownURL?) -> Void = { _, _ in }
+        link: @escaping (ProposalID, MarkdownURL?) -> Void = { _, _ in }
     ) {
         self.isLoaded = isLoaded
         self.link = link

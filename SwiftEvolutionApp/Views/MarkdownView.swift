@@ -2,10 +2,11 @@ import SwiftUI
 import WebKit
 
 struct MarkdownView: View {
+    @Environment(\.modelContext) private var context
+
     let markdown: Markdown
     @Binding var path: NavigationPath
     @State private var isLoaded: Bool = false
-    @Environment(ProposalList.self) private var list
 
     var body: some View {
         HTMLView(
@@ -13,7 +14,7 @@ struct MarkdownView: View {
             highlight: markdown.highlight,
             isLoaded: $isLoaded.animation(.default.delay(0.1))
         ) { linkID, url in
-            if let proposal = list.proposal(id: linkID) {
+            if let proposal = Proposal.find(by: linkID, in: context) {
                 path.append(ProposalURL(proposal, url))
             }
         }

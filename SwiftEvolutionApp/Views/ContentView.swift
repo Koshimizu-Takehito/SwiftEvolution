@@ -1,11 +1,15 @@
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
-    @Environment(ProposalList.self) private var model
+    @Environment(\.modelContext) private var context
+    @Query(sort: \Proposal.id, order: .reverse) private var proposals: [Proposal]
+
     @Environment(ProposalStateOptions.self) private var options
-    @State private var proposal: Proposal?
-    @State private var proposals: [Proposal] = []
+
     @State private var path = NavigationPath()
+    @State private var error: Error?
+    @State private var proposal: Proposal?
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -28,11 +32,11 @@ struct ContentView: View {
             .navigationTitle("Swift Evolution")
             .toolbar {
                 ProposalStatePicker()
-                    .opacity(model.proposals.isEmpty ? 0 : 1)
+                    .opacity(proposals.isEmpty ? 0 : 1)
                     .tint(Color(UIColor.label))
             }
             .overlay {
-                if let error = model.error as? URLError {
+                if let error {
                     ContentUnavailableView {
                         Label("Connection issue", systemImage: "wifi.slash")
                     } description: {
@@ -42,22 +46,36 @@ struct ContentView: View {
             }
         }
         .tint(proposal?.state?.color)
-        .onChange(of: model.proposals) { _, _ in update() }
+        .onChange(of: proposals) { _, _ in update() }
         .onChange(of: options.values) { _, _ in update() }
+        .task {
+            do {
+                try await Proposal.fetch(context: context)
+            } catch {
+                if proposals.isEmpty {
+                    self.error = error
+                }
+            }
+        }
     }
 
     func update() {
         withAnimation {
-            let selected = options.selectedOptions()
-            proposals = model.proposals.filter { proposal in
-                proposal.state.map(selected.contains(_:)) ?? false
-            }
+//            let selected = options.selectedOptions()
+            // TODO: 実装
+//            proposals = model.proposals.filter { proposal in
+//                proposal.state.map(selected.contains(_:)) ?? false
+//            }
         }
     }
 }
 
 private struct ItemView: View {
     let item: Proposal
+
+    init(item: Proposal) {
+        self.item = item
+    }
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -91,6 +109,5 @@ private struct StateView: View {
 
 #Preview {
     ContentView()
-        .environment(ProposalList())
         .environment(ProposalStateOptions())
 }
