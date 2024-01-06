@@ -6,7 +6,7 @@ struct ProposalURL: Hashable {
 }
 
 extension ProposalURL {
-    init(_ proposal: Proposal, _ url: MarkdownURL? = nil) {
-        self.init(proposal: proposal, url: url)
+    init(_ proposal: ProposalObject, _ url: MarkdownURL? = nil) {
+        self.init(proposal: .init(proposal), url: url)
     }
 }

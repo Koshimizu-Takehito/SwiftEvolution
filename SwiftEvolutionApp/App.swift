@@ -10,7 +10,7 @@ struct App: SwiftUI.App {
             ContentView()
                 .environment(stateOptions)
         }
-        .modelContainer(for: Proposal.self)
+        .modelContainer(for: ProposalObject.self)
     }
 }
 

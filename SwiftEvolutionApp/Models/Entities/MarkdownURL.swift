@@ -12,12 +12,12 @@ struct MarkdownURL: RawRepresentable, Hashable {
         self.rawValue = component.url!
     }
 
-    init(proposal: Proposal) {
+    init(link: ProposalLink) {
         var component = URLComponents()
         component.scheme = "https"
         component.host = "raw.githubusercontent.com"
         // main ブランチのプロポーザル URL
-        component.path = "/apple/swift-evolution/main/proposals/\(proposal.link)"
+        component.path = "/apple/swift-evolution/main/proposals/\(link)"
         self.rawValue = component.url!
     }
 }

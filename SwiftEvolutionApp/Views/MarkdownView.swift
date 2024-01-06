@@ -14,7 +14,7 @@ struct MarkdownView: View {
             highlight: markdown.highlight,
             isLoaded: $isLoaded.animation(.default.delay(0.1))
         ) { linkID, url in
-            if let proposal = Proposal.find(by: linkID, in: context) {
+            if let proposal = ProposalObject.find(by: linkID, in: context) {
                 path.append(ProposalURL(proposal, url))
             }
         }

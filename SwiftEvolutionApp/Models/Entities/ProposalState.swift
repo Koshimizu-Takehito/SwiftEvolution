@@ -92,3 +92,9 @@ extension ProposalState? {
         }
     }
 }
+
+extension Set<ProposalState> {
+    static var allCases: Set {
+        .init(Element.allCases)
+    }
+}

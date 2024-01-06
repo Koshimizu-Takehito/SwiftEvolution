@@ -2,80 +2,88 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var context
-    @Query(sort: \Proposal.id, order: .reverse) private var proposals: [Proposal]
-
-    @Environment(ProposalStateOptions.self) private var options
-
     @State private var path = NavigationPath()
     @State private var error: Error?
     @State private var proposal: Proposal?
+    @State private var states = Set<ProposalState>.allCases
+    @Query(animation: .default) private var proposals: [ProposalObject]
+    @Environment(\.modelContext) private var context
+    @Environment(ProposalStateOptions.self) private var options
 
     var body: some View {
         NavigationStack(path: $path) {
-            List {
-                ForEach(proposals) { proposal in
-                    NavigationLink(value: ProposalURL(proposal)) {
-                        ItemView(item: proposal)
+            // リスト画面
+            ProposalListView(path: $path, states: states)
+                .overlay {
+                    if let error {
+                        ProposalListErrorView(error: error)
                     }
                 }
-            }
-            .navigationDestination(for: ProposalURL.self) { pair in
-                let proposal = pair.proposal
-                let markdown = Markdown(proposal: proposal, url: pair.url)
-                MarkdownView(markdown: markdown, path: $path)
-                    .onChange(of: proposal, initial: true) { _, new in
-                        self.proposal = new
-                    }
-                    .tint(proposal.state?.color)
-            }
-            .navigationTitle("Swift Evolution")
-            .toolbar {
-                ProposalStatePicker()
-                    .opacity(proposals.isEmpty ? 0 : 1)
-                    .tint(Color(UIColor.label))
-            }
-            .overlay {
-                if let error {
-                    ContentUnavailableView {
-                        Label("Connection issue", systemImage: "wifi.slash")
-                    } description: {
-                        Text(error.localizedDescription)
+                .navigationDestination(for: ProposalURL.self) { pair in
+                    // 詳細画面
+                    let proposal = pair.proposal
+                    let markdown = Markdown(proposal: proposal, url: pair.url)
+                    MarkdownView(markdown: markdown, path: $path)
+                        .onChange(of: proposal, initial: true) {
+                            self.proposal = proposal
+                        }
+                        .tint(proposal.state?.color)
+                }
+                .toolbar {
+                    if !proposals.isEmpty {
+                        ProposalStatePicker()
+                            .tint(Color(UIColor.label))
                     }
                 }
-            }
         }
         .tint(proposal?.state?.color)
-        .onChange(of: proposals) { _, _ in update() }
-        .onChange(of: options.values) { _, _ in update() }
-        .task {
-            do {
-                try await Proposal.fetch(context: context)
-            } catch {
-                if proposals.isEmpty {
-                    self.error = error
-                }
+        .task { await refresh() }
+        .onChange(of: options.currentOption) { filter() }
+    }
+
+    @MainActor
+    func refresh() async {
+        do {
+            try await ProposalObject.fetch(context: context)
+        } catch {
+            if proposals.isEmpty {
+                self.error = error
             }
         }
     }
 
-    func update() {
+    func filter() {
         withAnimation {
-//            let selected = options.selectedOptions()
-            // TODO: 実装
-//            proposals = model.proposals.filter { proposal in
-//                proposal.state.map(selected.contains(_:)) ?? false
-//            }
+            states = options.currentOption
         }
     }
 }
 
-private struct ItemView: View {
-    let item: Proposal
+// MARK: - ProposalListView
+private struct ProposalListView: View {
+    @Binding var path: NavigationPath
+    @Query private var proposals: [ProposalObject]
 
-    init(item: Proposal) {
-        self.item = item
+    init(path: Binding<NavigationPath>, states: Set<ProposalState>) {
+        _path = path
+        _proposals = ProposalObject.query(states: states)
     }
+
+    var body: some View {
+        List {
+            ForEach(proposals) { proposal in
+                NavigationLink(value: ProposalURL(proposal)) {
+                    ProposalItemView(item: .init(proposal))
+                }
+            }
+        }
+        .navigationTitle("Swift Evolution")
+    }
+}
+
+// MARK: - ProposalItemView
+private struct ProposalItemView: View {
+    let item: Proposal
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -90,6 +98,7 @@ private struct ItemView: View {
     }
 }
 
+// MARK: - StateView
 private struct StateView: View {
     let state: ProposalState?
 
@@ -103,6 +112,19 @@ private struct StateView: View {
                         .stroke()
                 }
                 .foregroundStyle(state.color)
+        }
+    }
+}
+
+// MARK: - ProposalListErrorView
+private struct ProposalListErrorView: View {
+    let error: Error
+
+    var body: some View {
+        ContentUnavailableView {
+            Label("Connection issue", systemImage: "wifi.slash")
+        } description: {
+            Text(error.localizedDescription)
         }
     }
 }

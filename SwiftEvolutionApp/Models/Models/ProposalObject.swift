@@ -1,14 +1,15 @@
-import Foundation
+import SwiftUI
 import SwiftData
 
 typealias ProposalID = String
+typealias ProposalLink = String
 
-// MARK: - Proposal
+// MARK: - ProposalObject
 @Model
-final class Proposal {
+final class ProposalObject {
     @Attribute(.unique) var id: ProposalID
     var authors: [ReviewManager]
-    var link: String
+    var link: ProposalLink
     var reviewManager: ReviewManager
     var sha: String
     var status: Status
@@ -45,7 +46,7 @@ final class Proposal {
     }
 }
 
-extension Proposal {
+extension ProposalObject {
     var state: ProposalState? {
         ProposalState(rawValue: status.state)
     }
@@ -54,40 +55,42 @@ extension Proposal {
     static func fetch(context: ModelContext) async throws {
         let url = URL(string: "https://download.swift.org/swift-evolution/proposals.json")!
         let (data, _) = try await URLSession.shared.data(from: url)
-        var values = try JSONDecoder().decode([Response].self, from: data)
+        var values = try JSONDecoder().decode([Proposal].self, from: data)
         for (offset, proposal) in values.enumerated() {
             values[offset].title = proposal.title.trimmingCharacters(in: .whitespaces)
         }
         values.forEach { value in
-            context.insert(Proposal(value))
+            context.insert(ProposalObject(value))
         }
     }
 
-    static func find(by id: ProposalID, in context: ModelContext) -> Proposal? {
-        let predicate = #Predicate<Proposal> {
+    static func find(by id: ProposalID, in context: ModelContext) -> ProposalObject? {
+        let predicate = #Predicate<ProposalObject> {
             $0.id == id
         }
         let descriptor = FetchDescriptor(predicate: predicate)
         return try? context.fetch(descriptor).first
     }
-}
 
-private extension Proposal {
-    struct Response: Codable, Hashable, Identifiable {
-        var authors: [ReviewManager]
-        var id: String
-        var link: String
-        var reviewManager: ReviewManager
-        var sha: String
-        var status: Status
-        var summary: String
-        var title: String
-        var trackingBugs: [TrackingBug]?
-        var warnings: [Warning]?
-        var implementation: [Implementation]?
+    static func query(states: Set<ProposalState> = []) -> Query<ProposalObject, [ProposalObject]> {
+        Query(
+            filter: predicate(states: states),
+            sort: \.id,
+            order: .reverse,
+            animation: .default
+        )
     }
 
-    convenience init(_ value: Response) {
+    static func predicate(states: Set<ProposalState> = []) -> Predicate<ProposalObject> {
+        let states = Set(states.map(\.rawValue))
+        return #Predicate<ProposalObject> { proposal in
+            states.contains(proposal.status.state)
+        }
+    }
+}
+
+private extension ProposalObject {
+    convenience init(_ value: Proposal) {
         self.init(
             id: value.id,
             authors: value.authors,
@@ -101,6 +104,41 @@ private extension Proposal {
             warnings: value.warnings,
             implementation: value.implementation
         )
+    }
+}
+
+// MARK: - Proposal
+struct Proposal: Codable, Hashable, Identifiable {
+    var id: ProposalID
+    var authors: [ReviewManager]
+    var link: ProposalLink
+    var reviewManager: ReviewManager
+    var sha: String
+    var status: Status
+    var summary: String
+    var title: String
+    var trackingBugs: [TrackingBug]?
+    var warnings: [Warning]?
+    var implementation: [Implementation]?
+
+    var state: ProposalState? {
+        ProposalState(rawValue: status.state)
+    }
+}
+
+extension Proposal {
+    init(_ object: ProposalObject) {
+        self.id = object.id
+        self.authors = object.authors
+        self.link = object.link
+        self.reviewManager = object.reviewManager
+        self.sha = object.sha
+        self.status = object.status
+        self.summary = object.summary
+        self.title = object.title
+        self.trackingBugs = object.trackingBugs
+        self.warnings = object.warnings
+        self.implementation = object.implementation
     }
 }
 

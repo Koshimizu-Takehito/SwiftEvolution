@@ -11,9 +11,7 @@ final class Markdown {
             buildHTML()
         }
     }
-    private(set) var markdown = "" {
-        didSet { buildHTML() }
-    }
+    private(set) var markdown = ""
     private(set) var html: String?
 
     init(proposal: Proposal, url: MarkdownURL? = nil) {
@@ -25,11 +23,12 @@ final class Markdown {
 
 private extension Markdown {
     private func fetch() async throws {
-        let url = url ?? MarkdownURL(proposal: proposal)
+        let url = url ?? MarkdownURL(link: proposal.link)
         let (data, _) = try await URLSession.shared.data(from: url.rawValue)
         markdown = (String(data: data, encoding: .utf8) ?? "")
             .replacingOccurrences(of: "\n", with: #"\n"#)
             .replacingOccurrences(of: "'", with: #"\'"#)
+        buildHTML()
     }
 
     var githubMarkdownCss: String {
