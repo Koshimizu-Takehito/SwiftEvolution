@@ -41,14 +41,3 @@ struct MarkdownView: View {
         .ignoresSafeArea(edges: .bottom)
     }
 }
-
-private struct CodeHighlightItem: View {
-    let value: SyntaxHighlight
-    let selected: (SyntaxHighlight) -> Void
-
-    var body: some View {
-        Button(value.rawValue) {
-            selected(value)
-        }
-    }
-}
