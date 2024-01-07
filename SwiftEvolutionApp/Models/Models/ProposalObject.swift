@@ -109,10 +109,20 @@ extension ProposalObject {
         )
     }
 
+    static func query(id: ProposalID) -> Query<ProposalObject, [ProposalObject]> {
+        Query(filter: predicate(id: id), sort: \.id)
+    }
+
     static func predicate(states: Set<ProposalState> = []) -> Predicate<ProposalObject> {
         let states = Set(states.map(\.rawValue))
         return #Predicate<ProposalObject> { proposal in
             states.contains(proposal.status.state)
+        }
+    }
+
+    static func predicate(id: ProposalID) -> Predicate<ProposalObject> {
+        #Predicate<ProposalObject> {
+            $0.id == id
         }
     }
 }

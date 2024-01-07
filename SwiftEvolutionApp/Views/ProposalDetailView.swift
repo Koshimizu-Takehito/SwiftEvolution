@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 extension ProposalDetailView {
     init(path: Binding<NavigationPath>, tint: Binding<Color?>, url: ProposalURL) {
@@ -10,6 +11,7 @@ extension ProposalDetailView {
 // MARK: - DetailView
 struct ProposalDetailView: View {
     @Environment(\.modelContext) private var context
+    @State private var isBookmarked: Bool = false
     @State private var isLoaded: Bool = false
     @Binding var path: NavigationPath
     @Binding var tint: Color?
@@ -29,20 +31,30 @@ struct ProposalDetailView: View {
         .toolbar {
             // ツールバー
             ToolbarItemGroup(placement: .bottomBar) {
-                Spacer()
-                Menu {
-                    ForEach(SyntaxHighlight.allCases) { item in
-                        Button(item.displayName) {
-                            markdown.highlight = item
+                HStack(spacing: 20) {
+                    Spacer()
+                    Button(action: toggleBookmark, label: {
+                        Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
+                            .imageScale(.large)
+                    })
+                    Menu {
+                        ForEach(SyntaxHighlight.allCases) { item in
+                            Button(item.displayName) {
+                                markdown.highlight = item
+                            }
                         }
+                    } label: {
+                        Image(systemName: "gearshape")
+                            .imageScale(.large)
                     }
-                } label: {
-                    Image(systemName: "gearshape")
-                        .imageScale(.large)
+                    .menuOrder(.fixed)
                 }
-                .menuOrder(.fixed)
                 .opacity(isLoaded ? 1 : 0)
             }
+        }
+        .onAppear {
+            let object = ProposalObject.find(by: markdown.proposal.id, in: context)
+            isBookmarked = object?.isBookmarked == true
         }
         .opacity(isLoaded ? 1 : 0)
         .navigationTitle(markdown.proposal.title)
@@ -53,6 +65,14 @@ struct ProposalDetailView: View {
 
     var stateColor: Color? {
         markdown.proposal.state?.color
+    }
+
+    func toggleBookmark() {
+        isBookmarked.toggle()
+        let proposal = ProposalObject.find(by: markdown.proposal.id, in: context)
+        guard let proposal else { return }
+        proposal.isBookmarked = isBookmarked
+        try? proposal.modelContext?.save()
     }
 
     func onTapURL(_ url: ProposalURL) {
