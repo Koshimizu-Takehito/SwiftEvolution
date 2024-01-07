@@ -19,12 +19,9 @@ struct ProposalDetailView: View {
         HTMLView(
             html: markdown.html,
             highlight: markdown.highlight,
-            isLoaded: $isLoaded.animation()
-        ) { linkID, url in
-            if let proposal = ProposalObject.find(by: linkID, in: context) {
-                path.append(ProposalURL(proposal, url))
-            }
-        }
+            isLoaded: $isLoaded.animation(),
+            onTap: onTapURL
+        )
         .onChange(of: stateColor, initial: true) {
             tint = stateColor
         }
@@ -36,6 +33,10 @@ struct ProposalDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .ignoresSafeArea(edges: .bottom)
         .tint(stateColor)
+    }
+
+    func onTapURL(_ url: ProposalURL) {
+        path.append(url)
     }
 }
 

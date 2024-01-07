@@ -1,13 +1,14 @@
 import SwiftUI
 import WebKit
 import SafariServices
+import SwiftData
 
 @MainActor
 struct HTMLView: UIViewRepresentable {
     let html: String?
     let highlight: SyntaxHighlight
     @Binding var isLoaded: Bool
-    var link: (ProposalID, MarkdownURL?) -> Void = { _, _ in }
+    var onTap: (ProposalURL) -> Void
 
     public func makeUIView(context: Context) -> WKWebView {
         let view = WKWebView()
@@ -31,21 +32,19 @@ struct HTMLView: UIViewRepresentable {
     }
 
     func makeCoordinator() -> HTMLViewCoordinator {
-        HTMLViewCoordinator(isLoaded: { isLoaded = $0 }, link: link)
+        HTMLViewCoordinator(isLoaded: { isLoaded = $0 }, onTap: onTap)
     }
 }
 
 @MainActor
 final class HTMLViewCoordinator: NSObject {
-    var isLoaded: (Bool) -> Void
-    var link: (ProposalID, MarkdownURL?) -> Void
+    private let container = try? ModelContainer(for: Schema([ProposalObject.self]), configurations: [])
+    private let isLoaded: (Bool) -> Void
+    private let onTap: (ProposalURL) -> Void
 
-    init(
-        isLoaded: @escaping (Bool) -> Void = { _ in },
-        link: @escaping (ProposalID, MarkdownURL?) -> Void = { _, _ in }
-    ) {
+    init(isLoaded: @escaping (Bool) -> Void, onTap: @escaping (ProposalURL) -> Void) {
         self.isLoaded = isLoaded
-        self.link = link
+        self.onTap = onTap
     }
 }
 
@@ -72,13 +71,13 @@ extension HTMLViewCoordinator: WKNavigationDelegate {
             return webView.title == "" ? .allow: .cancel
         case (_, "github.com", let path):
             guard let match = path.firstMatch(of: /^.+\/swift-evolution\/.*\/(\d+)-.*\.md/) else { break }
-            // 別プロポーザルへのリンクとして判定
-            link("SE-\(String(match.1))", MarkdownURL(rawValue: url))
+            // 別プロポーザルへのリンクを送信
+            send(id: match.1, url: url)
             return .cancel
         case (nil, nil, let path):
             guard let match = path.firstMatch(of: /^(\d+)-.*\.md/) else { break }
-            // 別プロポーザルへのリンクとして判定
-            link("SE-\(String(match.1))", nil)
+            // 別プロポーザルへのリンクを送信
+            send(id: match.1)
             return .cancel
         default:
             break
@@ -105,5 +104,15 @@ extension HTMLViewCoordinator: WKNavigationDelegate {
         if !webView.canGoBack {
             isLoaded(false)
         }
+    }
+
+    func send(id: some StringProtocol, url: URL? = nil) {
+        let id = "SE-\(String(id))"
+        let url = url.map(MarkdownURL.init(rawValue:))
+        let context = container?.mainContext
+        guard let context, let proposal = ProposalObject.find(by: id, in: context) else {
+            return
+        }
+        onTap(ProposalURL(proposal, url))
     }
 }
