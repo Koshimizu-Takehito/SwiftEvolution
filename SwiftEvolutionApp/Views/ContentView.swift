@@ -4,7 +4,7 @@ import SwiftData
 struct ContentView: View {
     @State private var path = NavigationPath()
     @State private var error: Error?
-    @State private var proposal: Proposal?
+    @State private var tintColor: Color?
     @State private var states = Set<ProposalState>.allCases
     @State private var refreshRrigger = UUID()
     @Query(animation: .default) private var proposals: [ProposalObject]
@@ -23,7 +23,7 @@ struct ContentView: View {
                 }
                 .navigationDestination(for: ProposalURL.self) { url in
                     // 詳細画面
-                    ProposalDetailView(path: $path, proposal: $proposal, url: url)
+                    ProposalDetailView(path: $path, tint: $tintColor, url: url)
                 }
                 .toolbar {
                     if !proposals.isEmpty {
@@ -32,7 +32,7 @@ struct ContentView: View {
                     }
                 }
         }
-        .tint(proposal?.state?.color)
+        .tint(tintColor)
         .task(id: refreshRrigger) { await refresh() }
         .onChange(of: options.currentOption) { filter() }
     }

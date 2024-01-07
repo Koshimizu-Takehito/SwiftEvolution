@@ -27,7 +27,6 @@
 		FBCE369C2B3EDF2F000763B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBCE369B2B3EDF2F000763B5 /* Assets.xcassets */; };
 		FBCE36A02B3EDF2F000763B5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBCE369F2B3EDF2F000763B5 /* Preview Assets.xcassets */; };
 		FBCE36A92B3F684F000763B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36A82B3F684F000763B5 /* ContentView.swift */; };
-		FBCE36AB2B3FC5F4000763B5 /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36AA2B3FC5F4000763B5 /* MarkdownView.swift */; };
 		FBCE36AD2B3FD320000763B5 /* HTMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36AC2B3FD320000763B5 /* HTMLView.swift */; };
 		FBD164002B48E5D500C18625 /* ProposalObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD163FF2B48E5D500C18625 /* ProposalObject.swift */; };
 /* End PBXBuildFile section */
@@ -55,7 +54,6 @@
 		FBCE369D2B3EDF2F000763B5 /* SwiftEvolutionApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftEvolutionApp.entitlements; sourceTree = "<group>"; };
 		FBCE369F2B3EDF2F000763B5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FBCE36A82B3F684F000763B5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		FBCE36AA2B3FC5F4000763B5 /* MarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownView.swift; sourceTree = "<group>"; };
 		FBCE36AC2B3FD320000763B5 /* HTMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLView.swift; sourceTree = "<group>"; };
 		FBCE36AE2B3FD63C000763B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		FBD163FF2B48E5D500C18625 /* ProposalObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalObject.swift; sourceTree = "<group>"; };
@@ -110,7 +108,6 @@
 				FB3C48382B4A319700945FC6 /* ErrorView.swift */,
 				FB88EA5C2B44EF2900A6EBB3 /* FlowLayout.swift */,
 				FBCE36AC2B3FD320000763B5 /* HTMLView.swift */,
-				FBCE36AA2B3FC5F4000763B5 /* MarkdownView.swift */,
 				FB71CF9D2B4A4A3E0018050B /* ProposalDetailView.swift */,
 				FB71CF9B2B4A48590018050B /* ProposalListView.swift */,
 				FB88EA5A2B44EF1800A6EBB3 /* ProposalStatePicker.swift */,
@@ -232,7 +229,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FBCE36AB2B3FC5F4000763B5 /* MarkdownView.swift in Sources */,
 				FB88EA5B2B44EF1800A6EBB3 /* ProposalStatePicker.swift in Sources */,
 				FB88EA5F2B4508AC00A6EBB3 /* ProposalStateOptions.swift in Sources */,
 				FB88EA382B43DE0C00A6EBB3 /* SyntaxHighlight.swift in Sources */,

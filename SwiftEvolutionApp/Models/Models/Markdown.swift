@@ -19,6 +19,10 @@ final class Markdown {
         self.url = url
         Task { try await self.fetch() }
     }
+
+    convenience init(url: ProposalURL) {
+        self.init(proposal: url.proposal, url: url.url)
+    }
 }
 
 private extension Markdown {
