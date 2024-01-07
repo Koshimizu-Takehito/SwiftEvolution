@@ -17,18 +17,13 @@ struct ContentView: View {
             ProposalListView(path: $path, states: states)
                 .overlay {
                     if let error {
+                        // エラー画面
                         ErrorView(error: error, retry: retry)
                     }
                 }
-                .navigationDestination(for: ProposalURL.self) { pair in
+                .navigationDestination(for: ProposalURL.self) { url in
                     // 詳細画面
-                    let proposal = pair.proposal
-                    let markdown = Markdown(proposal: proposal, url: pair.url)
-                    MarkdownView(markdown: markdown, path: $path)
-                        .onChange(of: proposal, initial: true) {
-                            self.proposal = proposal
-                        }
-                        .tint(proposal.state?.color)
+                    ProposalDetailView(path: $path, proposal: $proposal, url: url)
                 }
                 .toolbar {
                     if !proposals.isEmpty {

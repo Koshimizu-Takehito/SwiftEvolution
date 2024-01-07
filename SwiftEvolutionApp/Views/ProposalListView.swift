@@ -1,10 +1,3 @@
-//
-//  ProposalListView.swift
-//  SwiftEvolutionApp
-//
-//  Created by Takehito Koshimizu on 2024/01/07.
-//
-
 import SwiftUI
 import SwiftData
 
