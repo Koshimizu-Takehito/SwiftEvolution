@@ -41,7 +41,9 @@ struct ContentView: View {
         .task(id: refreshRrigger) { await refresh() }
         .onChange(of: options.currentOption) { filter() }
     }
+}
 
+private extension ContentView {
     @MainActor
     func refresh() async {
         withAnimation { self.error = nil }
@@ -61,63 +63,6 @@ struct ContentView: View {
     func filter() {
         withAnimation {
             states = options.currentOption
-        }
-    }
-}
-
-// MARK: - ProposalListView
-private struct ProposalListView: View {
-    @Binding var path: NavigationPath
-    @Query private var proposals: [ProposalObject]
-
-    init(path: Binding<NavigationPath>, states: Set<ProposalState>) {
-        _path = path
-        _proposals = ProposalObject.query(states: states)
-    }
-
-    var body: some View {
-        List {
-            ForEach(proposals) { proposal in
-                NavigationLink(value: ProposalURL(proposal)) {
-                    ProposalItemView(item: .init(proposal))
-                }
-            }
-        }
-        .navigationTitle("Swift Evolution")
-    }
-}
-
-// MARK: - ProposalItemView
-private struct ProposalItemView: View {
-    let item: Proposal
-
-    var body: some View {
-        VStack(alignment: .leading) {
-            StateView(state: item.state)
-
-            Text(item.id)
-                .foregroundStyle(.secondary)
-            + Text(" ")
-            + Text(item.title)
-                .foregroundStyle(.primary)
-        }
-    }
-}
-
-// MARK: - StateView
-private struct StateView: View {
-    let state: ProposalState?
-
-    var body: some View {
-        if let state {
-            Text(String(describing: state))
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .overlay {
-                    RoundedRectangle(cornerRadius: 4, style: .circular)
-                        .stroke()
-                }
-                .foregroundStyle(state.color)
         }
     }
 }
