@@ -16,6 +16,7 @@ struct ProposalDetailView: View {
     let markdown: Markdown
 
     var body: some View {
+        // HTML
         HTMLView(
             html: markdown.html,
             highlight: markdown.highlight,
@@ -26,7 +27,22 @@ struct ProposalDetailView: View {
             tint = stateColor
         }
         .toolbar {
-            toolbar
+            // ツールバー
+            ToolbarItemGroup(placement: .bottomBar) {
+                Spacer()
+                Menu {
+                    ForEach(SyntaxHighlight.allCases) { item in
+                        Button(item.displayName) {
+                            markdown.highlight = item
+                        }
+                    }
+                } label: {
+                    Image(systemName: "gearshape")
+                        .imageScale(.large)
+                }
+                .menuOrder(.fixed)
+                .opacity(isLoaded ? 1 : 0)
+            }
         }
         .opacity(isLoaded ? 1 : 0)
         .navigationTitle(markdown.proposal.title)
@@ -35,32 +51,12 @@ struct ProposalDetailView: View {
         .tint(stateColor)
     }
 
-    func onTapURL(_ url: ProposalURL) {
-        path.append(url)
-    }
-}
-
-private extension ProposalDetailView {
     var stateColor: Color? {
         markdown.proposal.state?.color
     }
 
-    var toolbar: some ToolbarContent {
-        ToolbarItemGroup(placement: .bottomBar) {
-            Spacer()
-            Menu {
-                ForEach(SyntaxHighlight.allCases) { item in
-                    Button(item.displayName) {
-                        markdown.highlight = item
-                    }
-                }
-            } label: {
-                Image(systemName: "gearshape")
-                    .imageScale(.large)
-            }
-            .menuOrder(.fixed)
-            .opacity(isLoaded ? 1 : 0)
-        }
+    func onTapURL(_ url: ProposalURL) {
+        path.append(url)
     }
 }
 
