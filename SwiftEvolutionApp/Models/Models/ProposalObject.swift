@@ -18,6 +18,7 @@ final class ProposalObject {
     var trackingBugs: [TrackingBug]
     var warnings: [Warning]
     var implementation: [Implementation]
+    var isBookmarked: Bool
 
     init(
         id: String,
@@ -30,7 +31,8 @@ final class ProposalObject {
         title: String,
         trackingBugs: [TrackingBug]?,
         warnings: [Warning]?,
-        implementation: [Implementation]?
+        implementation: [Implementation]?,
+        isBookmarked: Bool
     ) {
         self.authors = authors
         self.id = id
@@ -43,6 +45,7 @@ final class ProposalObject {
         self.trackingBugs = trackingBugs ?? []
         self.warnings = warnings ?? []
         self.implementation = implementation ?? []
+        self.isBookmarked = isBookmarked
     }
 }
 
@@ -53,15 +56,40 @@ extension ProposalObject {
 
     @MainActor
     static func fetch(context: ModelContext) async throws {
-        let url = URL(string: "https://download.swift.org/swift-evolution/proposals.json")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        var values = try JSONDecoder().decode([Proposal].self, from: data)
-        for (offset, proposal) in values.enumerated() {
-            values[offset].title = proposal.title.trimmingCharacters(in: .whitespaces)
-        }
+        let executor = DefaultSerialModelExecutor(modelContext: context)
+
+        // APIからプロポーザルを取得
+        let values = try await Task.detached {
+            let url = URL(string: "https://download.swift.org/swift-evolution/proposals.json")!
+            let (data, _) = try await URLSession.shared.data(from: url)
+            var values = try JSONDecoder().decode([Proposal].self, from: data)
+            for (offset, proposal) in values.enumerated() {
+                values[offset].title = proposal.title.trimmingCharacters(in: .whitespaces)
+            }
+            return values
+        }.value
+
+        // 設定済みブックマークを取得
+        let bookmark = await Task.detached {
+            let context = executor.modelContext
+            let objects = self.objects(in: context)
+            return Dictionary(
+                uniqueKeysWithValues: objects.map {
+                    ($0.id, $0.isBookmarked)
+                }
+            )
+        }.value
+
+        // 設定済みブックマークとマージして、APIから取得した結果を保存
         values.forEach { value in
-            context.insert(ProposalObject(value))
+            let isBookmarked = bookmark[value.id] ?? false
+            let object = ProposalObject(value: value, isBookmarked: isBookmarked)
+            context.insert(object)
         }
+    }
+
+    static func objects(in context: ModelContext) -> [ProposalObject] {
+        (try? context.fetch(FetchDescriptor<ProposalObject>())) ?? []
     }
 
     static func find(by id: ProposalID, in context: ModelContext) -> ProposalObject? {
@@ -90,7 +118,7 @@ extension ProposalObject {
 }
 
 private extension ProposalObject {
-    convenience init(_ value: Proposal) {
+    convenience init(value: Proposal, isBookmarked: Bool) {
         self.init(
             id: value.id,
             authors: value.authors,
@@ -102,7 +130,8 @@ private extension ProposalObject {
             title: value.title,
             trackingBugs: value.trackingBugs,
             warnings: value.warnings,
-            implementation: value.implementation
+            implementation: value.implementation,
+            isBookmarked: isBookmarked
         )
     }
 }

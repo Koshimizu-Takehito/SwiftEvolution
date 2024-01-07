@@ -62,6 +62,8 @@ struct ProposalDetailView: View {
 
 #Preview {
     PreviewContainer {
-        ProposalDetailView(path: .fake, tint: .fake, url: .fake0418)
+        NavigationStack {
+            ProposalDetailView(path: .fake, tint: .fake, url: .fake0418)
+        }
     }
 }
