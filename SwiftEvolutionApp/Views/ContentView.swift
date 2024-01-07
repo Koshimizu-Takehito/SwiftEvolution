@@ -6,6 +6,7 @@ struct ContentView: View {
     @State private var error: Error?
     @State private var proposal: Proposal?
     @State private var states = Set<ProposalState>.allCases
+    @State private var refreshRrigger = UUID()
     @Query(animation: .default) private var proposals: [ProposalObject]
     @Environment(\.modelContext) private var context
     @Environment(ProposalStateOptions.self) private var options
@@ -16,7 +17,7 @@ struct ContentView: View {
             ProposalListView(path: $path, states: states)
                 .overlay {
                     if let error {
-                        ProposalListErrorView(error: error)
+                        ErrorView(error: error, retry: retry)
                     }
                 }
                 .navigationDestination(for: ProposalURL.self) { pair in
@@ -37,19 +38,24 @@ struct ContentView: View {
                 }
         }
         .tint(proposal?.state?.color)
-        .task { await refresh() }
+        .task(id: refreshRrigger) { await refresh() }
         .onChange(of: options.currentOption) { filter() }
     }
 
     @MainActor
     func refresh() async {
+        withAnimation { self.error = nil }
         do {
             try await ProposalObject.fetch(context: context)
         } catch {
             if proposals.isEmpty {
-                self.error = error
+                withAnimation { self.error = error }
             }
         }
+    }
+
+    func retry() {
+        refreshRrigger = .init()
     }
 
     func filter() {
@@ -116,20 +122,8 @@ private struct StateView: View {
     }
 }
 
-// MARK: - ProposalListErrorView
-private struct ProposalListErrorView: View {
-    let error: Error
-
-    var body: some View {
-        ContentUnavailableView {
-            Label("Connection issue", systemImage: "wifi.slash")
-        } description: {
-            Text(error.localizedDescription)
-        }
-    }
-}
-
 #Preview {
-    ContentView()
-        .environment(ProposalStateOptions())
+    PreviewContainer {
+        ContentView()
+    }
 }

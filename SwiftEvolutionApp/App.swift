@@ -15,7 +15,7 @@ struct App: SwiftUI.App {
 }
 
 #Preview {
-    @State var stateOptions = ProposalStateOptions()
-    return ContentView()
-        .environment(stateOptions)
+    PreviewContainer {
+        ContentView()
+    }
 }

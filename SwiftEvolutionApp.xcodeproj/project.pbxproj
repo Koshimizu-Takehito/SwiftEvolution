@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB3C48392B4A319700945FC6 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3C48382B4A319700945FC6 /* ErrorView.swift */; };
 		FB42FE7B2B43A5CA00348204 /* HTMLAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB42FE7A2B43A5CA00348204 /* HTMLAsset.swift */; };
+		FB71CF982B4A3AA80018050B /* PreviewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB71CF972B4A3AA80018050B /* PreviewContainer.swift */; };
+		FB71CF9A2B4A3B1E0018050B /* PreviewSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB71CF992B4A3B1E0018050B /* PreviewSampleData.swift */; };
 		FB88EA382B43DE0C00A6EBB3 /* SyntaxHighlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB88EA372B43DE0C00A6EBB3 /* SyntaxHighlight.swift */; };
 		FB88EA3A2B43EDAF00A6EBB3 /* proposal.template.html in Resources */ = {isa = PBXBuildFile; fileRef = FB88EA392B43EDAF00A6EBB3 /* proposal.template.html */; };
 		FB88EA3C2B43F58300A6EBB3 /* ProposalURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB88EA3B2B43F58300A6EBB3 /* ProposalURL.swift */; };
@@ -28,7 +31,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FB3C48382B4A319700945FC6 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		FB42FE7A2B43A5CA00348204 /* HTMLAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLAsset.swift; sourceTree = "<group>"; };
+		FB71CF972B4A3AA80018050B /* PreviewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewContainer.swift; sourceTree = "<group>"; };
+		FB71CF992B4A3B1E0018050B /* PreviewSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSampleData.swift; sourceTree = "<group>"; };
 		FB88EA372B43DE0C00A6EBB3 /* SyntaxHighlight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntaxHighlight.swift; sourceTree = "<group>"; };
 		FB88EA392B43EDAF00A6EBB3 /* proposal.template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = proposal.template.html; path = Assets.xcassets/proposal.template.dataset/proposal.template.html; sourceTree = "<group>"; };
 		FB88EA3B2B43F58300A6EBB3 /* ProposalURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalURL.swift; sourceTree = "<group>"; };
@@ -97,9 +103,10 @@
 			isa = PBXGroup;
 			children = (
 				FBCE36A82B3F684F000763B5 /* ContentView.swift */,
-				FBCE36AA2B3FC5F4000763B5 /* MarkdownView.swift */,
+				FB3C48382B4A319700945FC6 /* ErrorView.swift */,
 				FB88EA5C2B44EF2900A6EBB3 /* FlowLayout.swift */,
 				FBCE36AC2B3FD320000763B5 /* HTMLView.swift */,
+				FBCE36AA2B3FC5F4000763B5 /* MarkdownView.swift */,
 				FB88EA5A2B44EF1800A6EBB3 /* ProposalStatePicker.swift */,
 			);
 			path = Views;
@@ -141,6 +148,8 @@
 			isa = PBXGroup;
 			children = (
 				FBCE369F2B3EDF2F000763B5 /* Preview Assets.xcassets */,
+				FB71CF972B4A3AA80018050B /* PreviewContainer.swift */,
+				FB71CF992B4A3B1E0018050B /* PreviewSampleData.swift */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -224,10 +233,13 @@
 				FB42FE7B2B43A5CA00348204 /* HTMLAsset.swift in Sources */,
 				FBB64DED2B424FBB00D99C2F /* ProposalState.swift in Sources */,
 				FB88EA3C2B43F58300A6EBB3 /* ProposalURL.swift in Sources */,
+				FB71CF9A2B4A3B1E0018050B /* PreviewSampleData.swift in Sources */,
 				FB88EA5D2B44EF2900A6EBB3 /* FlowLayout.swift in Sources */,
 				FBD164002B48E5D500C18625 /* ProposalObject.swift in Sources */,
 				FBCE36A92B3F684F000763B5 /* ContentView.swift in Sources */,
+				FB3C48392B4A319700945FC6 /* ErrorView.swift in Sources */,
 				FBB64DF22B42797800D99C2F /* Markdown.swift in Sources */,
+				FB71CF982B4A3AA80018050B /* PreviewContainer.swift in Sources */,
 				FB88EA3E2B43FE0C00A6EBB3 /* MarkdownURL.swift in Sources */,
 				FBCE36962B3EDF2D000763B5 /* App.swift in Sources */,
 				FBCE36AD2B3FD320000763B5 /* HTMLView.swift in Sources */,
