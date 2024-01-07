@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MarkdownURL: RawRepresentable, Hashable {
+struct MarkdownURL: RawRepresentable, Codable, Hashable {
     var rawValue: URL
 
     init(rawValue url: URL) {
