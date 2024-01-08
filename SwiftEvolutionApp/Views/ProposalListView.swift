@@ -5,12 +5,14 @@ import SwiftData
 struct ProposalListView: View {
     @Binding var path: NavigationPath
     @Query private var proposals: [ProposalObject]
+    let states: Set<ProposalState>
 
     init(
         path: Binding<NavigationPath>,
         states: Set<ProposalState>,
         isBookmarked: Bool
     ) {
+        self.states = states
         _path = path
         _proposals = ProposalObject.query(
             states: states, isBookmarked: isBookmarked
@@ -26,6 +28,7 @@ struct ProposalListView: View {
                 }
             }
         }
+        .animation(.default, value: states)
         .navigationTitle("Swift Evolution")
     }
 }

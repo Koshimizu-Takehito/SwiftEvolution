@@ -9,9 +9,9 @@ struct ContentView: View {
     /// ナビゲーションバーの現在の色合い
     @State private var tintColor: Color?
     /// ブックマークでのフィルタ有無
-    @State private var isFilteredBookmark: Bool = false
+    @State private var isBookmarked: Bool = false
     /// リスト取得エラー
-    @State private var listFetcherror: Error?
+    @State private var fetcherror: Error?
     /// リスト再取得トリガー
     @State private var listRefreshRrigger = UUID()
     /// すべてのプロポーザル
@@ -25,14 +25,11 @@ struct ContentView: View {
             ProposalListView(
                 path: $path,
                 states: states.current,
-                isBookmarked: isFilteredBookmark
+                isBookmarked: isBookmarked
             )
-            .animation(.default, value: states.current)
             .overlay {
-                if let listFetcherror {
-                    // エラー画面
-                    ErrorView(error: listFetcherror, retry: retry)
-                }
+                // エラー画面
+                ErrorView(error: fetcherror, retry: retry)
             }
             .navigationDestination(for: ProposalURL.self) { url in
                 // 詳細画面
@@ -43,7 +40,7 @@ struct ContentView: View {
                     // ツールバー
                     ToolbarItemGroup(placement: .topBarTrailing) {
                         Group {
-                            Toggle(isOn: $isFilteredBookmark.animation()) {
+                            Toggle(isOn: $isBookmarked.animation()) {
                                 Image(systemName: "bookmark")
                                     .imageScale(.large)
                             }
@@ -64,12 +61,12 @@ struct ContentView: View {
 private extension ContentView {
     @MainActor
     func refresh() async {
-        withAnimation { self.listFetcherror = nil }
+        fetcherror = nil
         do {
             try await ProposalObject.fetch(context: context)
         } catch {
             if allProposals.isEmpty {
-                withAnimation { self.listFetcherror = error }
+                fetcherror = error
             }
         }
     }
