@@ -1,7 +1,10 @@
 import SwiftUI
 import SwiftData
 
+// MARK: - 
+/// コンテンツ
 struct ContentView: View {
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     /// ModelContext
     @Environment(\.modelContext) private var context
     /// ナビゲーションバーの現在の色合い
@@ -27,6 +30,7 @@ struct ContentView: View {
                 states: states.current,
                 isBookmarked: isBookmarked
             )
+            .tint(.darkText.opacity(0.2))
             .overlay {
                 // エラー画面
                 ErrorView(error: fetcherror, retry: retry)
@@ -44,17 +48,18 @@ struct ContentView: View {
 
                             ProposalStatePicker()
                         }
-                        .tint(Color(UIColor.label))
+                        .tint(.darkText)
                     }
                 }
             }
         } detail: {
             // 詳細画面
             if let detailURL {
-                SplitDetailView(url: detailURL, tintColor: $tintColor)
+                SplitDetailView(url: detailURL, tintColor: detailTint)
+                    .id(detailURL)
             }
         }
-        .tint(tintColor)
+        .tint(listTint)
         .task(id: listRefreshRrigger) { await refresh() }
     }
 }
@@ -75,8 +80,27 @@ private extension ContentView {
     func retry() {
         listRefreshRrigger = .init()
     }
+
+    var detailTint: Binding<Color?> {
+        switch horizontalSizeClass {
+        case .compact:
+            return $tintColor
+        default:
+            return .constant(nil)
+        }
+    }
+
+    var listTint: Color? {
+        switch horizontalSizeClass {
+        case .compact:
+            return tintColor ?? .darkText
+        default:
+            return .darkText
+        }
+    }
 }
 
+// MARK: -
 /// SplitViewの詳細
 private struct SplitDetailView: View {
     /// 詳細画面のNavigationPath
@@ -95,6 +119,12 @@ private struct SplitDetailView: View {
             // 詳細画面内のリンクURLタップ時に、該当のURLで別途詳細画面を表示する
             ProposalDetailView(path: $detailPath, tint: $tintColor, url: linkURL)
         }
+    }
+}
+
+extension Color {
+    static var darkText: Color {
+        Color(UIColor.label)
     }
 }
 
