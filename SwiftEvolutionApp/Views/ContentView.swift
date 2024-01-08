@@ -2,8 +2,6 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    /// NavigationPath
-    @State private var path = NavigationPath()
     /// ModelContext
     @Environment(\.modelContext) private var context
     /// ナビゲーションバーの現在の色合い
@@ -18,22 +16,20 @@ struct ContentView: View {
     @Query(animation: .default) private var allProposals: [ProposalObject]
     /// 選択中のステータス
     @Environment(PickedStates.self) private var states
+    /// 詳細画面のコンテンツURL
+    @State private var detailURL: ProposalURL?
 
     var body: some View {
-        NavigationStack(path: $path) {
+        NavigationSplitView {
             // リスト画面
             ProposalListView(
-                path: $path,
+                detailURL: $detailURL,
                 states: states.current,
                 isBookmarked: isBookmarked
             )
             .overlay {
                 // エラー画面
                 ErrorView(error: fetcherror, retry: retry)
-            }
-            .navigationDestination(for: ProposalURL.self) { url in
-                // 詳細画面
-                ProposalDetailView(path: $path, tint: $tintColor, url: url)
             }
             .toolbar {
                 if !allProposals.isEmpty {
@@ -51,6 +47,11 @@ struct ContentView: View {
                         .tint(Color(UIColor.label))
                     }
                 }
+            }
+        } detail: {
+            // 詳細画面
+            if let detailURL {
+                SplitDetailView(url: detailURL, tintColor: $tintColor)
             }
         }
         .tint(tintColor)
@@ -73,6 +74,27 @@ private extension ContentView {
 
     func retry() {
         listRefreshRrigger = .init()
+    }
+}
+
+/// SplitViewの詳細
+private struct SplitDetailView: View {
+    /// 詳細画面のNavigationPath
+    @State private var detailPath = NavigationPath()
+    /// 詳細画面のコンテンツURL
+    let url: ProposalURL
+    /// ナビゲーションバーの現在の色合い
+    @Binding var tintColor: Color?
+
+    var body: some View {
+        NavigationStack(path: $detailPath) {
+            // 詳細画面
+            ProposalDetailView(path: $detailPath, tint: $tintColor, url: url)
+        }
+        .navigationDestination(for: ProposalURL.self) { linkURL in
+            // 詳細画面内のリンクURLタップ時に、該当のURLで別途詳細画面を表示する
+            ProposalDetailView(path: $detailPath, tint: $tintColor, url: linkURL)
+        }
     }
 }
 

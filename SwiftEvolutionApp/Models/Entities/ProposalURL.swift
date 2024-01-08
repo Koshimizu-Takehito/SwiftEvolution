@@ -1,6 +1,7 @@
 import SwiftUI
 
-struct ProposalURL: Hashable {
+struct ProposalURL: Hashable, Identifiable {
+    var id: ProposalID { proposal.id }
     var proposal: Proposal
     var url: MarkdownURL?
 }

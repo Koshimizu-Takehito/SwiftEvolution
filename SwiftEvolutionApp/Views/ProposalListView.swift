@@ -3,24 +3,24 @@ import SwiftData
 
 // MARK: - ListView
 struct ProposalListView: View {
-    @Binding var path: NavigationPath
+    @Binding var detailURL: ProposalURL?
     @Query private var proposals: [ProposalObject]
     let states: Set<ProposalState>
 
     init(
-        path: Binding<NavigationPath>,
+        detailURL: Binding<ProposalURL?>,
         states: Set<ProposalState>,
         isBookmarked: Bool
     ) {
         self.states = states
-        _path = path
+        _detailURL = detailURL
         _proposals = ProposalObject.query(
             states: states, isBookmarked: isBookmarked
         )
     }
 
     var body: some View {
-        List {
+        List(selection: $detailURL) {
             ForEach(proposals) { proposal in
                 NavigationLink(value: ProposalURL(proposal)) {
                     // Item View（セル）
