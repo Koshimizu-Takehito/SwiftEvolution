@@ -3,7 +3,7 @@ import SwiftData
 
 @main
 struct App: SwiftUI.App {
-    @State var stateOptions = ProposalStateOptions()
+    @State var stateOptions = PickedStates()
 
     var body: some Scene {
         WindowGroup {

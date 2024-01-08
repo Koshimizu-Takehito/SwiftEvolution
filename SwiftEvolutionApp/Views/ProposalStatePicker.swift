@@ -3,7 +3,7 @@ import Observation
 
 struct ProposalStatePicker: View {
     @State private var showPopover = false
-    @Environment(ProposalStateOptions.self) private var model
+    @Environment(PickedStates.self) private var model
 
     var body: some View {
         Button(
@@ -18,7 +18,7 @@ struct ProposalStatePicker: View {
         .popover(isPresented: $showPopover) {
             VStack {
                 FlowLayout(alignment: .leading, spacing: 8) {
-                    ForEach(model.allOptions, id: \.self) { option in
+                    ForEach(model.all, id: \.self) { option in
                         Toggle(option.description, isOn: model.isOn(option))
                             .toggleStyle(.button)
                             .tint(option.color)
@@ -29,14 +29,14 @@ struct ProposalStatePicker: View {
                 HStack {
                     Spacer()
                     Button("Select All") {
-                        model.selectAllOptions()
+                        model.selectAll()
                     }
-                    .disabled(model.allOptionsSelected())
+                    .disabled(model.isAll())
                     Spacer()
                     Button("Deselect All") {
-                        model.deselectAllOptions()
+                        model.deselectAll()
                     }
-                    .disabled(model.allOptionsDeselected())
+                    .disabled(model.isNone())
                     Spacer()
                 }
             }
@@ -48,7 +48,7 @@ struct ProposalStatePicker: View {
     }
 
     var iconName: String {
-        model.allOptionsSelected()
+        model.isAll()
             ? "line.3.horizontal.decrease.circle"
             : "line.3.horizontal.decrease.circle.fill"
     }
@@ -56,5 +56,5 @@ struct ProposalStatePicker: View {
 
 #Preview {
     ProposalStatePicker()
-        .environment(ProposalStateOptions())
+        .environment(PickedStates())
 }
