@@ -10,6 +10,7 @@ extension ProposalDetailView {
 
 // MARK: - DetailView
 struct ProposalDetailView: View {
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     @Environment(\.modelContext) private var context
     @State private var isBookmarked: Bool = false
     @State private var isLoaded: Bool = false
@@ -30,7 +31,7 @@ struct ProposalDetailView: View {
         }
         .toolbar {
             // ツールバー
-            ToolbarItemGroup(placement: .bottomBar) {
+            ToolbarItemGroup(placement: toolbarItemPlacement) {
                 HStack(spacing: 20) {
                     Spacer()
                     Button(action: toggleBookmark, label: {
@@ -53,6 +54,7 @@ struct ProposalDetailView: View {
             }
         }
         .onAppear {
+            // ブックマークの状態を復元
             let object = ProposalObject.find(by: markdown.proposal.id, in: context)
             isBookmarked = object?.isBookmarked == true
         }
@@ -65,6 +67,17 @@ struct ProposalDetailView: View {
 
     var stateColor: Color? {
         markdown.proposal.state?.color
+    }
+
+    var toolbarItemPlacement: ToolbarItemPlacement {
+        switch verticalSizeClass {
+        case .regular:
+            return .bottomBar
+        case .compact:
+            return .topBarTrailing
+        default:
+            return .automatic
+        }
     }
 
     func toggleBookmark() {
