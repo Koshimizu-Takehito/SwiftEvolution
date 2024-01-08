@@ -125,6 +125,13 @@ body {
   word-wrap: break-word;
 }
 
+/* ラージスクリーン */
+@media (min-width: 1024px) {
+    body {
+        font-size: 20px;
+    }
+}
+
 body .octicon {
   display: inline-block;
   fill: currentColor;
