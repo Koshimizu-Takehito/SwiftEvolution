@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 // MARK: - 
-/// コンテンツ
+/// ContentView
 struct ContentView: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     /// ModelContext
@@ -115,9 +115,9 @@ private struct SplitDetailView: View {
             // 詳細画面
             ProposalDetailView(path: $detailPath, tint: $tintColor, url: url)
         }
-        .navigationDestination(for: ProposalURL.self) { linkURL in
+        .navigationDestination(for: ProposalURL.self) { url in
             // 詳細画面内のリンクURLタップ時に、該当のURLで別途詳細画面を表示する
-            ProposalDetailView(path: $detailPath, tint: $tintColor, url: linkURL)
+            ProposalDetailView(path: $detailPath, tint: $tintColor, url: url)
         }
     }
 }

@@ -51,10 +51,10 @@ private struct ProposalItemView: View {
                     }
                     .foregroundStyle(label.color)
                 // ブックマーク
-                if proposal.isBookmarked {
-                    Image(systemName: "bookmark.fill")
-                        .foregroundStyle(label.color)
-                }
+                Image(systemName: "bookmark.fill")
+                    .foregroundStyle(label.color)
+                    .opacity(proposal.isBookmarked ? 1 : 0)
+                    .animation(.default, value: proposal.isBookmarked)
             }
             // 本文
             Text(proposal.id)
