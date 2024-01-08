@@ -132,6 +132,13 @@ body {
     }
 }
 
+/* 横長ディスプレイ用のスタイル */
+@media screen and (min-aspect-ratio: 1/1) {
+    body {
+        font-size: 20px;
+    }
+}
+
 body .octicon {
   display: inline-block;
   fill: currentColor;
