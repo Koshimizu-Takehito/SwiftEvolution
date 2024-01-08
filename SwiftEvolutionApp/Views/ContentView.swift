@@ -14,7 +14,7 @@ struct ContentView: View {
     /// リスト取得エラー
     @State private var fetcherror: Error?
     /// リスト再取得トリガー
-    @State private var listRefreshRrigger = UUID()
+    @State private var refresh = UUID()
     /// すべてのプロポーザル
     @Query(animation: .default) private var allProposals: [ProposalObject]
     /// 選択中のステータス
@@ -60,7 +60,7 @@ struct ContentView: View {
             }
         }
         .tint(listTint)
-        .task(id: listRefreshRrigger) { await refresh() }
+        .task(id: refresh) { await refresh() }
     }
 }
 
@@ -78,7 +78,7 @@ private extension ContentView {
     }
 
     func retry() {
-        listRefreshRrigger = .init()
+        refresh = .init()
     }
 
     var detailTint: Binding<Color?> {
