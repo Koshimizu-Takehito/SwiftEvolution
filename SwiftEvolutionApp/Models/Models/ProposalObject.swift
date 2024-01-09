@@ -56,8 +56,6 @@ extension ProposalObject {
 
     @MainActor
     static func fetch(context: ModelContext) async throws {
-        let executor = DefaultSerialModelExecutor(modelContext: context)
-
         // APIからプロポーザルを取得
         let values = try await Task.detached {
             let url = URL(string: "https://download.swift.org/swift-evolution/proposals.json")!
@@ -69,22 +67,18 @@ extension ProposalObject {
             return values
         }.value
 
-        // 設定済みブックマークを取得
-        let bookmark = await Task.detached {
-            let context = executor.modelContext
-            let objects = self.objects(in: context)
-            return Dictionary(
-                uniqueKeysWithValues: objects.map {
-                    ($0.id, $0.isBookmarked)
-                }
-            )
-        }.value
-
-        // 設定済みブックマークとマージして、APIから取得した結果を保存
+        // APIから取得した結果をマージ・保存
+        let objects = Dictionary(
+            self.objects(in: context).map { ($0.id, $0) },
+            uniquingKeysWith: { _, rhs in rhs }
+        )
         values.forEach { value in
-            let isBookmarked = bookmark[value.id] ?? false
-            let object = ProposalObject(value: value, isBookmarked: isBookmarked)
-            context.insert(object)
+            if let object = objects[value.id] {
+                object.update(with: value)
+            } else {
+                let object = ProposalObject(value: value, isBookmarked: false)
+                context.insert(object)
+            }
         }
     }
 
@@ -134,6 +128,19 @@ private extension ProposalObject {
             implementation: value.implementation,
             isBookmarked: isBookmarked
         )
+    }
+
+    func update(with value: Proposal) {
+        authors = value.authors
+        link = value.link
+        reviewManager = value.reviewManager
+        sha = value.sha
+        status = value.status
+        summary = value.summary
+        title = value.title
+        trackingBugs = value.trackingBugs ?? []
+        warnings = value.warnings ?? []
+        implementation = value.implementation ?? []
     }
 }
 
