@@ -39,12 +39,19 @@ struct ContentView: View {
                 if !allProposals.isEmpty {
                     // ツールバー
                     ToolbarItemGroup(placement: .topBarTrailing) {
-                        Group {
-                            Toggle(isOn: $isBookmarked.animation()) {
-                                Image(systemName: "bookmark")
+                        HStack {
+                            Button(
+                                action: {
+                                    withAnimation {
+                                        isBookmarked.toggle()
+                                    }
+                                },
+                                label: {
+                                Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
                                     .imageScale(.large)
-                            }
-                            .toggleStyle(.button)
+                                }
+                            )
+                            .animation(.default, value: isBookmarked)
 
                             ProposalStatePicker()
                         }

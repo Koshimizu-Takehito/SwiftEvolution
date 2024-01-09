@@ -32,7 +32,7 @@ struct ProposalDetailView: View {
         .toolbar {
             // ツールバー
             ToolbarItemGroup(placement: toolbarItemPlacement) {
-                HStack(spacing: 20) {
+                HStack {
                     Spacer()
                     Button(action: toggleBookmark, label: {
                         Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
