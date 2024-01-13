@@ -116,3 +116,9 @@ private extension ProposalObject {
         title = value.title
     }
 }
+
+extension Predicate<ProposalObject> {
+    static var bookmark: Predicate<ProposalObject> {
+        #Predicate<ProposalObject> { $0.isBookmarked }
+    }
+}

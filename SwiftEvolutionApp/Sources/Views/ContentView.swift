@@ -16,7 +16,11 @@ struct ContentView: View {
     /// リスト再取得トリガー
     @State private var refresh = UUID()
     /// すべてのプロポーザル
-    @Query(animation: .default) private var allProposals: [ProposalObject]
+    @Query(animation: .default) 
+    private var allProposals: [ProposalObject]
+    /// すべてのブックマーク
+    @Query(filter: .bookmark, animation: .default) 
+    private var allBookmark: [ProposalObject]
     /// 選択中のステータス
     @Environment(PickedStatus.self) private var states
     /// 詳細画面のコンテンツURL
@@ -29,7 +33,7 @@ struct ContentView: View {
                 horizontal: horizontal,
                 detailURL: $detailURL,
                 states: states.current,
-                isBookmarked: isBookmarked
+                isBookmarked: !allBookmark.isEmpty && isBookmarked
             )
             .tint(.darkText.opacity(0.2))
             .overlay {
@@ -62,6 +66,13 @@ struct ContentView: View {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 HStack {
                     BookmarkButton(isBookmarked: $isBookmarked)
+                        .disabled(allBookmark.isEmpty)
+                        .opacity(allBookmark.isEmpty ? 0 : 1)
+                        .onChange(of: allBookmark.isEmpty) { _, isEmpty in
+                            if isEmpty {
+                                isBookmarked = false
+                            }
+                        }
                     ProposalStatusPicker()
                 }
                 .tint(.darkText)
