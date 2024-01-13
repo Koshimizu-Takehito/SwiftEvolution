@@ -4,7 +4,7 @@ import SwiftData
 extension ProposalDetailView {
     init(
         path: Binding<NavigationPath>,
-        tint: Binding<Color?>,
+        tint: Binding<Color?> = .constant(nil),
         url: ProposalURL
     ) {
         let markdown = Markdown(url: url)
@@ -14,7 +14,7 @@ extension ProposalDetailView {
 
 // MARK: - DetailView
 struct ProposalDetailView: View {
-    @Environment(\.verticalSizeClass) var verticalSizeClass
+    @Environment(\.verticalSizeClass) var vertical
     @Environment(\.modelContext) private var context
     @State private var isBookmarked: Bool = false
     @State private var isLoaded: Bool = false
@@ -30,37 +30,20 @@ struct ProposalDetailView: View {
             isLoaded: $isLoaded.animation(),
             onTap: onTapURL
         )
-        .onChange(of: stateColor, initial: true) {
-            tint = stateColor
-        }
         .toolbar {
             // ツールバー
-            ToolbarItemGroup(placement: toolbarItemPlacement) {
-                HStack {
-                    Spacer()
-                    Button(action: toggleBookmark, label: {
-                        Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
-                            .imageScale(.large)
-                    })
-                    Menu {
-                        ForEach(SyntaxHighlight.allCases) { item in
-                            Button(item.displayName) {
-                                markdown.highlight = item
-                            }
-                        }
-                    } label: {
-                        Image(systemName: "gearshape")
-                            .imageScale(.large)
-                    }
-                    .menuOrder(.fixed)
-                }
-                .opacity(isLoaded ? 1 : 0)
-            }
+            toolbar
         }
         .onAppear {
             // ブックマークの状態を復元
-            let object = ProposalObject.find(by: markdown.proposal.id, in: context)
+            let object = ProposalObject[markdown.proposal.id, in: context]
             isBookmarked = object?.isBookmarked == true
+        }
+        .onChange(of: isBookmarked) { _, new in
+            saveBookmark(isBookmarked: new)
+        }
+        .onChange(of: stateColor, initial: true) {
+            tint = stateColor
         }
         .opacity(isLoaded ? 1 : 0)
         .navigationTitle(markdown.proposal.title)
@@ -69,24 +52,45 @@ struct ProposalDetailView: View {
         .tint(stateColor)
     }
 
+    /// ツールバー
+    @ToolbarContentBuilder
+    var toolbar: some ToolbarContent {
+        let placement: ToolbarItemPlacement = switch vertical {
+        case .regular:
+            .bottomBar
+        case .compact:
+            .topBarTrailing
+        default:
+            .automatic
+        }
+        ToolbarItemGroup(placement: placement) {
+            HStack {
+                Spacer()
+                BookmarkButton(isBookmarked: $isBookmarked)
+                Menu {
+                    ForEach(SyntaxHighlight.allCases) { item in
+                        Button(item.displayName) {
+                            markdown.highlight = item
+                        }
+                    }
+                } label: {
+                    Image(systemName: "gearshape")
+                        .imageScale(.large)
+                }
+                .menuOrder(.fixed)
+            }
+            .opacity(isLoaded ? 1 : 0)
+        }
+    }
+}
+
+private extension ProposalDetailView {
     var stateColor: Color? {
         markdown.proposal.state?.color
     }
 
-    var toolbarItemPlacement: ToolbarItemPlacement {
-        switch verticalSizeClass {
-        case .regular:
-            return .bottomBar
-        case .compact:
-            return .topBarTrailing
-        default:
-            return .automatic
-        }
-    }
-
-    func toggleBookmark() {
-        isBookmarked.toggle()
-        let proposal = ProposalObject.find(by: markdown.proposal.id, in: context)
+    func saveBookmark(isBookmarked: Bool) {
+        let proposal = ProposalObject[markdown.proposal.id, in: context]
         guard let proposal else { return }
         proposal.isBookmarked = isBookmarked
         try? proposal.modelContext?.save()

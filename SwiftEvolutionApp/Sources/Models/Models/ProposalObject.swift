@@ -73,6 +73,14 @@ extension ProposalObject {
         return try? context.fetch(descriptor).first
     }
 
+    static subscript(id: ProposalID, in context: ModelContext) -> ProposalObject? {
+        let predicate = #Predicate<ProposalObject> {
+            $0.id == id
+        }
+        let descriptor = FetchDescriptor(predicate: predicate)
+        return try? context.fetch(descriptor).first
+    }
+
     static func query(states: Set<ProposalState>, isBookmarked: Bool) -> Query<ProposalObject, [ProposalObject]> {
         Query(
             filter: predicate(states: states, isBookmarked: isBookmarked),

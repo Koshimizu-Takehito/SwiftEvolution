@@ -4,7 +4,7 @@ import SwiftData
 // MARK: - 
 /// ContentView
 struct ContentView: View {
-    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.horizontalSizeClass) var horizontal
     /// ModelContext
     @Environment(\.modelContext) private var context
     /// ナビゲーションバーの現在の色合い
@@ -26,7 +26,7 @@ struct ContentView: View {
         NavigationSplitView {
             // リスト画面
             ProposalListView(
-                horizontalSizeClass: horizontalSizeClass,
+                horizontal: horizontal,
                 detailURL: $detailURL,
                 states: states.current,
                 isBookmarked: isBookmarked
@@ -37,38 +37,36 @@ struct ContentView: View {
                 ErrorView(error: fetcherror, retry: retry)
             }
             .toolbar {
-                if !allProposals.isEmpty {
-                    // ツールバー
-                    ToolbarItemGroup(placement: .topBarTrailing) {
-                        HStack {
-                            Button(
-                                action: {
-                                    withAnimation {
-                                        isBookmarked.toggle()
-                                    }
-                                },
-                                label: {
-                                Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
-                                    .imageScale(.large)
-                                }
-                            )
-                            .animation(.default, value: isBookmarked)
-
-                            ProposalStatusPicker()
-                        }
-                        .tint(.darkText)
-                    }
-                }
+                // ツールバー
+                toolbar
             }
         } detail: {
             // 詳細画面
             if let detailURL {
-                SplitDetailView(url: detailURL, tintColor: detailTint)
-                    .id(detailURL)
+                SplitDetailView(
+                    url: detailURL,
+                    horizontal: horizontal,
+                    tintColor: detailTint
+                )
+                .id(detailURL)
             }
         }
         .tint(listTint)
         .task(id: refresh) { await refresh() }
+    }
+
+    /// ツールバー
+    @ToolbarContentBuilder
+    var toolbar: some ToolbarContent {
+        if !allProposals.isEmpty {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                HStack {
+                    BookmarkButton(isBookmarked: $isBookmarked)
+                    ProposalStatusPicker()
+                }
+                .tint(.darkText)
+            }
+        }
     }
 }
 
@@ -90,7 +88,7 @@ private extension ContentView {
     }
 
     var detailTint: Binding<Color?> {
-        switch horizontalSizeClass {
+        switch horizontal {
         case .compact:
             return $tintColor
         default:
@@ -99,7 +97,7 @@ private extension ContentView {
     }
 
     var listTint: Color? {
-        switch horizontalSizeClass {
+        switch horizontal {
         case .compact:
             return tintColor ?? .darkText
         default:
@@ -115,18 +113,41 @@ private struct SplitDetailView: View {
     @State private var detailPath = NavigationPath()
     /// 詳細画面のコンテンツURL
     let url: ProposalURL
+    /// 水平サイズクラス
+    let horizontal: UserInterfaceSizeClass?
     /// ナビゲーションバーの現在の色合い
     @Binding var tintColor: Color?
 
     var body: some View {
-        NavigationStack(path: $detailPath) {
-            // 詳細画面
-            ProposalDetailView(path: $detailPath, tint: $tintColor, url: url)
+        NavigationStack(path: $detailPath, root: rootView)
+            .navigationDestination(
+                for: ProposalURL.self,
+                destination: destinationView(url:)
+            )
+    }
+
+    func rootView() -> some View {
+        Group {
+            switch (horizontal, tintColor) {
+            case (.compact, .none):
+                // compact の場合は tint の設定まで描画を遅延
+                EmptyView()
+            case (_, _):
+                ProposalDetailView(path: $detailPath, url: url)
+            }
         }
-        .navigationDestination(for: ProposalURL.self) { url in
-            // 詳細画面内のリンクURLタップ時に、該当のURLで別途詳細画面を表示する
-            ProposalDetailView(path: $detailPath, tint: $tintColor, url: url)
+        .onChange(of: initialTintColor, initial: true) { _, color in
+            tintColor = color
         }
+    }
+
+    /// 詳細画面内のリンクURLタップ時に、該当のURLで別途詳細画面を表示する
+    func destinationView(url: ProposalURL) -> some View {
+        ProposalDetailView(path: $detailPath, tint: $tintColor, url: url)
+    }
+
+    var initialTintColor: Color {
+        url.proposal.state?.color ?? .darkText
     }
 }
 

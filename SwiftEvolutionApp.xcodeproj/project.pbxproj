@@ -27,6 +27,7 @@
 		FBCE36A92B3F684F000763B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36A82B3F684F000763B5 /* ContentView.swift */; };
 		FBCE36AD2B3FD320000763B5 /* ProposalDetailWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36AC2B3FD320000763B5 /* ProposalDetailWebView.swift */; };
 		FBD164002B48E5D500C18625 /* ProposalObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD163FF2B48E5D500C18625 /* ProposalObject.swift */; };
+		FBF8D1772B5298E700E3994A /* BookmarkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF8D1762B5298E700E3994A /* BookmarkButton.swift */; };
 		FBFDD4192B5240A80004EDE1 /* Proposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFDD4182B5240A80004EDE1 /* Proposal.swift */; };
 		FBFDD41D2B5243C60004EDE1 /* github-markdown.css in Resources */ = {isa = PBXBuildFile; fileRef = FBFDD41C2B5243C60004EDE1 /* github-markdown.css */; };
 		FBFDD41F2B5243D30004EDE1 /* proposal.template.html in Resources */ = {isa = PBXBuildFile; fileRef = FBFDD41E2B5243D30004EDE1 /* proposal.template.html */; };
@@ -56,6 +57,7 @@
 		FBCE36AC2B3FD320000763B5 /* ProposalDetailWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalDetailWebView.swift; sourceTree = "<group>"; };
 		FBCE36AE2B3FD63C000763B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FBD163FF2B48E5D500C18625 /* ProposalObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalObject.swift; sourceTree = "<group>"; };
+		FBF8D1762B5298E700E3994A /* BookmarkButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkButton.swift; sourceTree = "<group>"; };
 		FBFDD4182B5240A80004EDE1 /* Proposal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proposal.swift; sourceTree = "<group>"; };
 		FBFDD41C2B5243C60004EDE1 /* github-markdown.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = "github-markdown.css"; path = "Assets.xcassets/github-markdown.dataset/github-markdown.css"; sourceTree = "<group>"; };
 		FBFDD41E2B5243D30004EDE1 /* proposal.template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = proposal.template.html; path = Assets.xcassets/proposal.template.dataset/proposal.template.html; sourceTree = "<group>"; };
@@ -108,12 +110,13 @@
 			isa = PBXGroup;
 			children = (
 				FBCE36A82B3F684F000763B5 /* ContentView.swift */,
-				FB3C48382B4A319700945FC6 /* ErrorView.swift */,
-				FB88EA5C2B44EF2900A6EBB3 /* FlowLayout.swift */,
+				FB71CF9B2B4A48590018050B /* ProposalListView.swift */,
 				FB71CF9D2B4A4A3E0018050B /* ProposalDetailView.swift */,
 				FBCE36AC2B3FD320000763B5 /* ProposalDetailWebView.swift */,
-				FB71CF9B2B4A48590018050B /* ProposalListView.swift */,
 				FB88EA5A2B44EF1800A6EBB3 /* ProposalStatusPicker.swift */,
+				FBF8D1762B5298E700E3994A /* BookmarkButton.swift */,
+				FB3C48382B4A319700945FC6 /* ErrorView.swift */,
+				FB88EA5C2B44EF2900A6EBB3 /* FlowLayout.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 				FBD164002B48E5D500C18625 /* ProposalObject.swift in Sources */,
 				FB71CF9E2B4A4A3E0018050B /* ProposalDetailView.swift in Sources */,
 				FBCE36A92B3F684F000763B5 /* ContentView.swift in Sources */,
+				FBF8D1772B5298E700E3994A /* BookmarkButton.swift in Sources */,
 				FB3C48392B4A319700945FC6 /* ErrorView.swift in Sources */,
 				FBB64DF22B42797800D99C2F /* Markdown.swift in Sources */,
 				FB71CF982B4A3AA80018050B /* PreviewContainer.swift in Sources */,
