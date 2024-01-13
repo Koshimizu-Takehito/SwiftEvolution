@@ -37,19 +37,19 @@ private extension Markdown {
 
     var githubMarkdownCss: String {
         let (dark, light) = proposal.state.accentColor
-        return HTMLAsset.CSS.githubMarkdown.asset
+        return Assets.CSS.githubMarkdown.asset
             .replacingOccurrences(of: "$color-accent-fg-dark", with: dark)
             .replacingOccurrences(of: "$color-accent-fg-light", with: light)
     }
 
     func buildHTML() {
-        self.html = HTMLAsset.HTML.proposalTemplate.asset
+        self.html = Assets.HTML.proposalTemplate.asset
             .replacingOccurrences(of: "$title", with: proposal.title)
             .replacingOccurrences(of: "$githubMarkdownCss", with: githubMarkdownCss)
             .replacingOccurrences(of: "$highlightjsStyleCss", with: highlight.asset)
-            .replacingOccurrences(of: "$markedJs", with: HTMLAsset.Js.marked.asset)
-            .replacingOccurrences(of: "$highlightJs", with: HTMLAsset.Js.highlight.asset)
-            .replacingOccurrences(of: "$highlightJsSwift", with: HTMLAsset.Js.highlightSwift.asset)
+            .replacingOccurrences(of: "$markedJs", with: Assets.Js.marked.asset)
+            .replacingOccurrences(of: "$highlightJs", with: Assets.Js.highlight.asset)
+            .replacingOccurrences(of: "$highlightJsSwift", with: Assets.Js.highlightSwift.asset)
             .replacingOccurrences(of: "$markdown", with: markdown)
     }
 }

@@ -1,7 +1,7 @@
 import SwiftUI
 
-// MARK: - HTMLAsset
-enum HTMLAsset {
+// MARK: - Assets
+enum Assets {
     enum CSS: String, StringAssetConvertible {
         case githubMarkdown = "github-markdown"
         case highlightjsAtomOneDark = "atom-one-dark.min"
