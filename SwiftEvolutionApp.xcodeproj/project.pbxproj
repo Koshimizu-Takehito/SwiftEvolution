@@ -107,8 +107,8 @@
 				FBCE36A82B3F684F000763B5 /* ContentView.swift */,
 				FB3C48382B4A319700945FC6 /* ErrorView.swift */,
 				FB88EA5C2B44EF2900A6EBB3 /* FlowLayout.swift */,
-				FBCE36AC2B3FD320000763B5 /* ProposalDetailWebView.swift */,
 				FB71CF9D2B4A4A3E0018050B /* ProposalDetailView.swift */,
+				FBCE36AC2B3FD320000763B5 /* ProposalDetailWebView.swift */,
 				FB71CF9B2B4A48590018050B /* ProposalListView.swift */,
 				FB88EA5A2B44EF1800A6EBB3 /* ProposalStatusPicker.swift */,
 			);

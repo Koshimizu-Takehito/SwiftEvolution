@@ -2,7 +2,11 @@ import SwiftUI
 import SwiftData
 
 extension ProposalDetailView {
-    init(path: Binding<NavigationPath>, tint: Binding<Color?>, url: ProposalURL) {
+    init(
+        path: Binding<NavigationPath>,
+        tint: Binding<Color?>,
+        url: ProposalURL
+    ) {
         let markdown = Markdown(url: url)
         self.init(path: path, tint: tint, markdown: markdown)
     }
