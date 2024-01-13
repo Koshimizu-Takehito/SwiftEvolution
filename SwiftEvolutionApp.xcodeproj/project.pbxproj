@@ -29,6 +29,7 @@
 		FBCE36A92B3F684F000763B5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36A82B3F684F000763B5 /* ContentView.swift */; };
 		FBCE36AD2B3FD320000763B5 /* ProposalDetailWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36AC2B3FD320000763B5 /* ProposalDetailWebView.swift */; };
 		FBD164002B48E5D500C18625 /* ProposalObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD163FF2B48E5D500C18625 /* ProposalObject.swift */; };
+		FBFDD4192B5240A80004EDE1 /* Proposal.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFDD4182B5240A80004EDE1 /* Proposal.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 		FBCE36AC2B3FD320000763B5 /* ProposalDetailWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalDetailWebView.swift; sourceTree = "<group>"; };
 		FBCE36AE2B3FD63C000763B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		FBD163FF2B48E5D500C18625 /* ProposalObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalObject.swift; sourceTree = "<group>"; };
+		FBFDD4182B5240A80004EDE1 /* Proposal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proposal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 			children = (
 				FB42FE7A2B43A5CA00348204 /* Assets.swift */,
 				FB88EA3D2B43FE0C00A6EBB3 /* MarkdownURL.swift */,
+				FBFDD4182B5240A80004EDE1 /* Proposal.swift */,
 				FBB64DEC2B424FBB00D99C2F /* ProposalState.swift */,
 				FB88EA3B2B43F58300A6EBB3 /* ProposalURL.swift */,
 				FB88EA372B43DE0C00A6EBB3 /* SyntaxHighlight.swift */,
@@ -235,6 +238,7 @@
 				FB71CF9C2B4A48590018050B /* ProposalListView.swift in Sources */,
 				FB42FE7B2B43A5CA00348204 /* Assets.swift in Sources */,
 				FBB64DED2B424FBB00D99C2F /* ProposalState.swift in Sources */,
+				FBFDD4192B5240A80004EDE1 /* Proposal.swift in Sources */,
 				FB88EA3C2B43F58300A6EBB3 /* ProposalURL.swift in Sources */,
 				FB71CF9A2B4A3B1E0018050B /* PreviewSampleData.swift in Sources */,
 				FB88EA5D2B44EF2900A6EBB3 /* FlowLayout.swift in Sources */,
