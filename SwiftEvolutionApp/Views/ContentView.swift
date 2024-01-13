@@ -18,7 +18,7 @@ struct ContentView: View {
     /// すべてのプロポーザル
     @Query(animation: .default) private var allProposals: [ProposalObject]
     /// 選択中のステータス
-    @Environment(PickedStates.self) private var states
+    @Environment(PickedStatus.self) private var states
     /// 詳細画面のコンテンツURL
     @State private var detailURL: ProposalURL?
 
@@ -26,6 +26,7 @@ struct ContentView: View {
         NavigationSplitView {
             // リスト画面
             ProposalListView(
+                horizontalSizeClass: horizontalSizeClass,
                 detailURL: $detailURL,
                 states: states.current,
                 isBookmarked: isBookmarked
@@ -53,7 +54,7 @@ struct ContentView: View {
                             )
                             .animation(.default, value: isBookmarked)
 
-                            ProposalStatePicker()
+                            ProposalStatusPicker()
                         }
                         .tint(.darkText)
                     }

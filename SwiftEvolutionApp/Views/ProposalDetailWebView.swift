@@ -4,7 +4,7 @@ import SafariServices
 import SwiftData
 
 @MainActor
-struct HTMLView: UIViewRepresentable {
+struct ProposalDetailWebView: UIViewRepresentable {
     let html: String?
     let highlight: SyntaxHighlight
     @Binding var isLoaded: Bool

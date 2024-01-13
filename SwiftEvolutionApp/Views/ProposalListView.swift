@@ -3,15 +3,18 @@ import SwiftData
 
 // MARK: - ListView
 struct ProposalListView: View {
+    let horizontalSizeClass: UserInterfaceSizeClass?
     @Binding var detailURL: ProposalURL?
     @Query private var proposals: [ProposalObject]
     let states: Set<ProposalState>
 
     init(
+        horizontalSizeClass: UserInterfaceSizeClass?,
         detailURL: Binding<ProposalURL?>,
         states: Set<ProposalState>,
         isBookmarked: Bool
     ) {
+        self.horizontalSizeClass = horizontalSizeClass
         self.states = states
         _detailURL = detailURL
         _proposals = ProposalObject.query(
@@ -30,6 +33,13 @@ struct ProposalListView: View {
         }
         .animation(.default, value: states)
         .navigationTitle("Swift Evolution")
+        .onAppear(perform: selectFirstItem)
+    }
+
+    func selectFirstItem() {
+        if horizontalSizeClass == .regular, detailURL == nil, let proposal = proposals.first {
+            detailURL = ProposalURL(proposal)
+        }
     }
 }
 

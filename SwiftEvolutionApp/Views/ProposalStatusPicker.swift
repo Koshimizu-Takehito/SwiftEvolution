@@ -1,9 +1,9 @@
 import SwiftUI
 import Observation
 
-struct ProposalStatePicker: View {
+struct ProposalStatusPicker: View {
     @State private var showPopover = false
-    @Environment(PickedStates.self) private var model
+    @Environment(PickedStatus.self) private var model
 
     var body: some View {
         Button(
@@ -55,6 +55,6 @@ struct ProposalStatePicker: View {
 }
 
 #Preview {
-    ProposalStatePicker()
-        .environment(PickedStates())
+    ProposalStatusPicker()
+        .environment(PickedStatus())
 }

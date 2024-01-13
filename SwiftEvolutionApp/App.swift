@@ -3,12 +3,12 @@ import SwiftData
 
 @main
 struct App: SwiftUI.App {
-    @State var stateOptions = PickedStates()
+    @State var status = PickedStatus()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(stateOptions)
+                .environment(status)
         }
         .modelContainer(for: ProposalObject.self)
     }

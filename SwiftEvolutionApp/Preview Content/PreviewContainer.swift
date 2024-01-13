@@ -7,15 +7,15 @@ import SwiftData
 /// to create a container before showing the view content.
 struct PreviewContainer<Content: View>: View {
     var content: () -> Content
-    let container: ModelContainer
+    let modelContainer: ModelContainer
 
     init(
-        _ container: @escaping () throws -> ModelContainer = PreviewSampleData.inMemoryContainer,
+        _ modelContainer: @escaping () throws -> ModelContainer = PreviewSampleData.inMemoryContainer,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.content = content
         do {
-            self.container = try MainActor.assumeIsolated(container)
+            self.modelContainer = try MainActor.assumeIsolated(modelContainer)
         } catch {
             fatalError("Failed to create the model container: \(error.localizedDescription)")
         }
@@ -23,7 +23,7 @@ struct PreviewContainer<Content: View>: View {
 
     var body: some View {
         content()
-            .environment(PickedStates())
-            .modelContainer(container)
+            .environment(PickedStatus())
+            .modelContainer(modelContainer)
     }
 }

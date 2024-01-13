@@ -20,7 +20,7 @@ struct ProposalDetailView: View {
 
     var body: some View {
         // HTML
-        HTMLView(
+        ProposalDetailWebView(
             html: markdown.html,
             highlight: markdown.highlight,
             isLoaded: $isLoaded.animation(),

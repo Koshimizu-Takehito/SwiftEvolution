@@ -3,7 +3,7 @@ import Observation
 
 /// 選択中のステータス
 @Observable
-final class PickedStates {
+final class PickedStatus {
     /// ステータスの一覧
     var all: [ProposalState] {
         ProposalState.allCases
