@@ -16,11 +16,9 @@ struct ContentView: View {
     /// リスト再取得トリガー
     @State private var refresh = UUID()
     /// すべてのプロポーザル
-    @Query(animation: .default) 
-    private var allProposals: [ProposalObject]
+    @Query(animation: .default) private var allProposals: [ProposalObject]
     /// すべてのブックマーク
-    @Query(filter: .bookmark, animation: .default) 
-    private var allBookmark: [ProposalObject]
+    @State private var allBookmark: [ProposalID] = []
     /// 選択中のステータス
     @Environment(PickedStatus.self) private var states
     /// 詳細画面のコンテンツURL
@@ -57,6 +55,9 @@ struct ContentView: View {
         }
         .tint(listTint)
         .task(id: refresh) { await refresh() }
+        .onChange(of: try! allProposals.filter(.bookmark), initial: true) { _, new in
+            withAnimation { allBookmark = new.map(\.id) }
+        }
     }
 
     /// ツールバー
