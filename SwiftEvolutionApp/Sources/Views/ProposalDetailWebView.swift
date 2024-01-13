@@ -3,7 +3,6 @@ import WebKit
 import SafariServices
 import SwiftData
 
-@MainActor
 struct ProposalDetailWebView: UIViewRepresentable {
     let html: String?
     let highlight: SyntaxHighlight
@@ -31,24 +30,27 @@ struct ProposalDetailWebView: UIViewRepresentable {
         }
     }
 
-    func makeCoordinator() -> HTMLViewCoordinator {
-        HTMLViewCoordinator(isLoaded: { isLoaded = $0 }, onTap: onTap)
+    func makeCoordinator() -> Coordinator {
+        Coordinator(isLoaded: $isLoaded, onTap: onTap)
+    }
+}
+
+extension ProposalDetailWebView {
+    @MainActor
+    final class Coordinator: NSObject {
+        private let container = try? ModelContainer(for: Schema([ProposalObject.self]), configurations: [])
+        private let isLoaded: Binding<Bool>
+        private let onTap: (ProposalURL) -> Void
+
+        init(isLoaded: Binding<Bool>, onTap: @escaping (ProposalURL) -> Void) {
+            self.isLoaded = isLoaded
+            self.onTap = onTap
+        }
     }
 }
 
 @MainActor
-final class HTMLViewCoordinator: NSObject {
-    private let container = try? ModelContainer(for: Schema([ProposalObject.self]), configurations: [])
-    private let isLoaded: (Bool) -> Void
-    private let onTap: (ProposalURL) -> Void
-
-    init(isLoaded: @escaping (Bool) -> Void, onTap: @escaping (ProposalURL) -> Void) {
-        self.isLoaded = isLoaded
-        self.onTap = onTap
-    }
-}
-
-extension HTMLViewCoordinator: WKNavigationDelegate {
+extension ProposalDetailWebView.Coordinator: WKNavigationDelegate {
     func webView(
         _ webView: WKWebView,
         decidePolicyFor navigationAction: WKNavigationAction
@@ -91,19 +93,14 @@ extension HTMLViewCoordinator: WKNavigationDelegate {
         return .cancel
     }
 
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-    }
 
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        if !webView.canGoBack {
-            isLoaded(true)
+    nonisolated func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        Task { @MainActor in
+            isLoaded.wrappedValue = true
         }
     }
 
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        if !webView.canGoBack {
-            isLoaded(false)
-        }
+    nonisolated func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
     }
 
     func send(id: some StringProtocol, url: URL? = nil) {
