@@ -8,43 +8,22 @@ typealias ProposalLink = String
 @Model
 final class ProposalObject {
     @Attribute(.unique) var id: ProposalID
-    var authors: [ReviewManager]
     var link: ProposalLink
-    var reviewManager: ReviewManager
-    var sha: String
     var status: Status
-    var summary: String
     var title: String
-    var trackingBugs: [TrackingBug]
-    var warnings: [Warning]
-    var implementation: [Implementation]
     var isBookmarked: Bool
 
     init(
         id: String,
-        authors: [ReviewManager],
         link: String,
-        reviewManager: ReviewManager,
-        sha: String,
         status: Status,
-        summary: String,
         title: String,
-        trackingBugs: [TrackingBug]?,
-        warnings: [Warning]?,
-        implementation: [Implementation]?,
         isBookmarked: Bool
     ) {
-        self.authors = authors
         self.id = id
         self.link = link
-        self.reviewManager = reviewManager
-        self.sha = sha
         self.status = status
-        self.summary = summary
         self.title = title
-        self.trackingBugs = trackingBugs ?? []
-        self.warnings = warnings ?? []
-        self.implementation = implementation ?? []
         self.isBookmarked = isBookmarked
     }
 }
@@ -116,30 +95,16 @@ private extension ProposalObject {
     convenience init(value: Proposal, isBookmarked: Bool) {
         self.init(
             id: value.id,
-            authors: value.authors,
             link: value.link,
-            reviewManager: value.reviewManager,
-            sha: value.sha,
             status: value.status,
-            summary: value.summary,
             title: value.title,
-            trackingBugs: value.trackingBugs,
-            warnings: value.warnings,
-            implementation: value.implementation,
             isBookmarked: isBookmarked
         )
     }
 
     func update(with value: Proposal) {
-        authors = value.authors
         link = value.link
-        reviewManager = value.reviewManager
-        sha = value.sha
         status = value.status
-        summary = value.summary
         title = value.title
-        trackingBugs = value.trackingBugs ?? []
-        warnings = value.warnings ?? []
-        implementation = value.implementation ?? []
     }
 }
