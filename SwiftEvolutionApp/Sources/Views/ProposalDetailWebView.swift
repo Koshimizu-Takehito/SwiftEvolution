@@ -60,14 +60,10 @@ extension ProposalDetailWebView.Coordinator: WKNavigationDelegate {
         _ webView: WKWebView,
         decidePolicyFor navigationAction: WKNavigationAction
     ) async -> WKNavigationActionPolicy {
-        // https://github.com/apple/swift-evolution/blob/main/proposals/0249-key-path-literal-function-expressions.md
-        // 0418-inferring-sendable-for-methods.md
-        // https://github.com/apple/swift/pull/68793
-        // about:blank%23isolation-region-dataflow // SE-0414
-        // https://github.com/apple/swift-evolution/blob/main/proposals/0302-concurrent-value-and-concurrent-closures.md#key-path-literals  // SE-0418
         guard
             let url = navigationAction.request.url,
-            let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+            let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+            url.absoluteString != "about:blank"
         else {
             return .allow
         }
@@ -75,29 +71,27 @@ extension ProposalDetailWebView.Coordinator: WKNavigationDelegate {
         switch (components.scheme, components.host, components.path) {
         case _ where url.absoluteString == "about:blank":
             // HTML 文字列のロード
-            return webView.title == "" ? .allow: .cancel
+            return .allow
         case (_, "github.com", let path):
-            guard let match = path.firstMatch(of: /^.+\/swift-evolution\/.*\/(\d+)-.*\.md/) else { break }
+            guard let match = path.firstMatch(of: /^.+\/swift-evolution\/.*\/(\d+)-.*\.md/) else {
+                break
+            }
             // 別プロポーザルへのリンクを送信
             send(id: match.1, url: url)
             return .cancel
         case (nil, nil, let path):
-            guard let match = path.firstMatch(of: /^(\d+)-.*\.md/) else { break }
+            guard let match = path.firstMatch(of: /^(\d+)-.*\.md/) else {
+                break
+            }
             // 別プロポーザルへのリンクを送信
             send(id: match.1)
             return .cancel
         default:
             break
         }
-        Task { @MainActor in
-            guard url.scheme?.contains(/^https?$/) == true else { return }
-            let controller = SFSafariViewController(url: url)
-            controller.preferredControlTintColor = webView.tintColor
-            webView.window?.rootViewController?.show(controller, sender: self)
-        }
+        showSafariView(webView: webView, url: url)
         return .cancel
     }
-
 
     nonisolated func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         Task { @MainActor in
@@ -116,5 +110,14 @@ extension ProposalDetailWebView.Coordinator: WKNavigationDelegate {
             return
         }
         onTap(ProposalURL(proposal, url))
+    }
+
+    /// SFSafariViewController で Web コンテンツを表示
+    @MainActor
+    func showSafariView(webView: WKWebView, url: URL) {
+        guard url.scheme?.contains(/^https?$/) == true else { return }
+        let controller = SFSafariViewController(url: url)
+        controller.preferredControlTintColor = webView.tintColor
+        webView.window?.rootViewController?.show(controller, sender: self)
     }
 }
