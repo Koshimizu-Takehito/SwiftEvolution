@@ -14,12 +14,23 @@ extension ProposalDetailView {
 
 // MARK: - DetailView
 struct ProposalDetailView: View {
+    /// SizeClass
     @Environment(\.verticalSizeClass) var vertical
+    /// ModelContext
     @Environment(\.modelContext) private var context
+    /// 該当コンテンツのブックマーク有無
     @State private var isBookmarked: Bool = false
+    /// コンテンツロード済み
     @State private var isLoaded: Bool = false
+    /// コンテンツ取得失敗
+    @State private var error: Error?
+    /// 再取得処理を発火するためのUUID
+    @State private var refresh = UUID()
+    /// NavigationPath
     @Binding var path: NavigationPath
+    /// TintColor
     @Binding var tint: Color?
+    /// 当該コンテンツ（Model）
     let markdown: Markdown
 
     var body: some View {
