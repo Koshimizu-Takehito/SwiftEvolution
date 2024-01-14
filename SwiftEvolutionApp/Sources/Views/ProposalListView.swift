@@ -31,6 +31,7 @@ struct ProposalListView: View {
                 }
             }
         }
+        .tint(.darkText.opacity(0.2))
         .animation(.default, value: states)
         .navigationTitle("Swift Evolution")
         .onAppear(perform: selectFirstItem)

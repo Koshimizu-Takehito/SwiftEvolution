@@ -33,7 +33,6 @@ struct ContentView: View {
                 states: states.current,
                 isBookmarked: !allBookmark.isEmpty && isBookmarked
             )
-            .tint(.darkText.opacity(0.2))
             .overlay {
                 // エラー画面
                 ErrorView(error: fetcherror, retry: retry)
@@ -53,7 +52,7 @@ struct ContentView: View {
                 .id(detailURL)
             }
         }
-        .tint(listTint)
+        .tint(barTint)
         .task(id: refresh) { await refresh() }
         .onChange(of: try! allProposals.filter(.bookmark), initial: true) { _, new in
             withAnimation { allBookmark = new.map(\.id) }
@@ -108,7 +107,7 @@ private extension ContentView {
         }
     }
 
-    var listTint: Color? {
+    var barTint: Color? {
         switch horizontal {
         case .compact:
             return tintColor ?? .darkText
