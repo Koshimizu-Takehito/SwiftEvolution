@@ -39,7 +39,7 @@ struct ProposalDetailView: View {
             html: markdown.html,
             highlight: markdown.highlight,
             isLoaded: $isLoaded.animation(),
-            onTap: onTapURL
+            onTapLinkURL: showProposal
         )
         .toolbar {
             // ツールバー
@@ -53,14 +53,14 @@ struct ProposalDetailView: View {
         .onChange(of: isBookmarked) { _, new in
             saveBookmark(isBookmarked: new)
         }
-        .onChange(of: stateColor, initial: true) {
-            tint = stateColor
+        .onChange(of: statusColor, initial: true) {
+            tint = statusColor
         }
         .opacity(isLoaded ? 1 : 0)
         .navigationTitle(markdown.proposal.title)
         .navigationBarTitleDisplayMode(.inline)
         .ignoresSafeArea(edges: .bottom)
-        .tint(stateColor)
+        .tint(statusColor)
     }
 
     /// ツールバー
@@ -96,10 +96,12 @@ struct ProposalDetailView: View {
 }
 
 private extension ProposalDetailView {
-    var stateColor: Color? {
+    /// 当該プロポーザルのレビューステータスに関連した色
+    var statusColor: Color? {
         markdown.proposal.state?.color
     }
 
+    /// 当該プロポーザルのブックマークの有無を保存
     func saveBookmark(isBookmarked: Bool) {
         let proposal = ProposalObject[markdown.proposal.id, in: context]
         guard let proposal else { return }
@@ -107,7 +109,8 @@ private extension ProposalDetailView {
         try? proposal.modelContext?.save()
     }
 
-    func onTapURL(_ url: ProposalURL) {
+    /// 指定したプロポーザルを表示する
+    func showProposal(_ url: ProposalURL) {
         path.append(url)
     }
 }

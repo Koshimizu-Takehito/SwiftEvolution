@@ -3,11 +3,16 @@ import WebKit
 import SafariServices
 import SwiftData
 
+/// プロポーザルのHTMLを表示するための WebView
 struct ProposalDetailWebView: UIViewRepresentable {
+    /// 該当プロポーザルのHTML
     let html: String?
+    /// 表示コンテンツで利用するシンタックスハイライト
     let highlight: SyntaxHighlight
+    /// HTMLのロード状態
     @Binding var isLoaded: Bool
-    var onTap: (ProposalURL) -> Void
+    /// 別プロポーザルへのリンクをタップした際のコールバックハンドラ
+    var onTapLinkURL: (ProposalURL) -> Void
 
     public func makeUIView(context: Context) -> WKWebView {
         let view = WKWebView()
@@ -31,14 +36,14 @@ struct ProposalDetailWebView: UIViewRepresentable {
     }
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(isLoaded: $isLoaded, onTap: onTap)
+        Coordinator(isLoaded: $isLoaded, onTap: onTapLinkURL)
     }
 }
 
 extension ProposalDetailWebView {
     @MainActor
     final class Coordinator: NSObject {
-        private let container = try? ModelContainer(for: Schema([ProposalObject.self]), configurations: [])
+        private let container = try! ModelContainer(for: Schema([ProposalObject.self]))
         private let isLoaded: Binding<Bool>
         private let onTap: (ProposalURL) -> Void
 
@@ -106,8 +111,8 @@ extension ProposalDetailWebView.Coordinator: WKNavigationDelegate {
     func send(id: some StringProtocol, url: URL? = nil) {
         let id = "SE-\(String(id))"
         let url = url.map(MarkdownURL.init(rawValue:))
-        let context = container?.mainContext
-        guard let context, let proposal = ProposalObject.find(by: id, in: context) else {
+        let context = container.mainContext
+        guard let proposal = ProposalObject.find(by: id, in: context) else {
             return
         }
         onTap(ProposalURL(proposal, url))
