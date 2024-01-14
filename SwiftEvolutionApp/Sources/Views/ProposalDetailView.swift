@@ -15,7 +15,7 @@ extension ProposalDetailView {
 // MARK: - DetailView
 struct ProposalDetailView: View {
     /// SizeClass
-    @Environment(\.verticalSizeClass) var vertical
+    @Environment(\.verticalSizeClass) private var vertical
     /// ModelContext
     @Environment(\.modelContext) private var context
     /// 該当コンテンツのブックマーク有無
@@ -27,11 +27,11 @@ struct ProposalDetailView: View {
     /// 再取得処理を発火するためのUUID
     @State private var refresh = UUID()
     /// NavigationPath
-    @Binding var path: NavigationPath
+    @Binding private var path: NavigationPath
     /// TintColor
-    @Binding var tint: Color?
+    @Binding private var tint: Color?
     /// 当該コンテンツ（Model）
-    let markdown: Markdown
+    private let markdown: Markdown
 
     var body: some View {
         // WebView（ コンテンツの HTML を読み込む ）
