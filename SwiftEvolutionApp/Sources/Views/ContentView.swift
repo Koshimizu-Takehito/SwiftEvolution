@@ -44,7 +44,7 @@ struct ContentView: View {
         } detail: {
             // 詳細画面
             if let detailURL {
-                SplitDetailView(
+                ContentDetailView(
                     url: detailURL,
                     horizontal: horizontal,
                     tintColor: detailTint
@@ -114,57 +114,6 @@ private extension ContentView {
         default:
             return .darkText
         }
-    }
-}
-
-// MARK: -
-/// SplitViewの詳細
-private struct SplitDetailView: View {
-    /// 詳細画面のNavigationPath
-    @State private var detailPath = NavigationPath()
-    /// 詳細画面のコンテンツURL
-    let url: ProposalURL
-    /// 水平サイズクラス
-    let horizontal: UserInterfaceSizeClass?
-    /// ナビゲーションバーの現在の色合い
-    @Binding var tintColor: Color?
-
-    var body: some View {
-        NavigationStack(path: $detailPath, root: rootView)
-            .navigationDestination(
-                for: ProposalURL.self,
-                destination: destinationView(url:)
-            )
-    }
-
-    func rootView() -> some View {
-        Group {
-            switch (horizontal, tintColor) {
-            case (.compact, .none):
-                // compact の場合は tint の設定まで描画を遅延
-                EmptyView()
-            case (_, _):
-                ProposalDetailView(path: $detailPath, url: url)
-            }
-        }
-        .onChange(of: initialTintColor, initial: true) { _, color in
-            tintColor = color
-        }
-    }
-
-    /// 詳細画面内のリンクURLタップ時に、該当のURLで別途詳細画面を表示する
-    func destinationView(url: ProposalURL) -> some View {
-        ProposalDetailView(path: $detailPath, tint: $tintColor, url: url)
-    }
-
-    var initialTintColor: Color {
-        url.proposal.state?.color ?? .darkText
-    }
-}
-
-extension Color {
-    static var darkText: Color {
-        Color(UIColor.label)
     }
 }
 
