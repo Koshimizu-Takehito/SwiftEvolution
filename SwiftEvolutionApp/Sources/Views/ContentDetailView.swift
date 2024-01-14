@@ -54,6 +54,7 @@ struct ContentDetailView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     PreviewContainer {
         ContentDetailView(
@@ -63,3 +64,4 @@ struct ContentDetailView: View {
         )
     }
 }
+#endif

@@ -85,8 +85,10 @@ private struct ProposalItemView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     PreviewContainer {
         ContentView()
     }
 }
+#endif

@@ -4,7 +4,8 @@ import SafariServices
 import SwiftData
 
 /// プロポーザルのHTMLを表示するための WebView
-struct ProposalDetailWebView: UIViewRepresentable {
+@MainActor
+struct ProposalDetailWebView: PlatformViewRepresentable {
     /// 該当プロポーザルのHTML
     let html: String?
     /// 表示コンテンツで利用するシンタックスハイライト
@@ -14,17 +15,17 @@ struct ProposalDetailWebView: UIViewRepresentable {
     /// 別プロポーザルへのリンクをタップした際のコールバックハンドラ
     var onTapLinkURL: (ProposalURL) -> Void
 
-    public func makeUIView(context: Context) -> WKWebView {
+    public func makeView(context: Context) -> WKWebView {
         let view = WKWebView()
         view.navigationDelegate = context.coordinator
-        view.backgroundColor = UIColor.systemBackground
+        view.backgroundColor = PlatformColor.systemBackground
         if let html {
             DispatchQueue.main.async { view.loadHTMLString(html, baseURL: nil) }
         }
         return view
     }
 
-    public func updateUIView(_ view: WKWebView, context: Context) {
+    public func updateView(_ view: WKWebView, context: Context) {
         guard let html else { return }
         DispatchQueue.main.async {
             if !isLoaded {
@@ -116,8 +117,12 @@ extension ProposalDetailWebView.Coordinator: WKNavigationDelegate {
     @MainActor
     func showSafariView(webView: WKWebView, url: URL) {
         guard url.scheme?.contains(/^https?$/) == true else { return }
+#if os(macOS)
+        NSWorkspace.shared.open(url)
+#elseif os(iOS)
         let controller = SFSafariViewController(url: url)
         controller.preferredControlTintColor = webView.tintColor
         webView.window?.rootViewController?.show(controller, sender: self)
+#endif
     }
 }

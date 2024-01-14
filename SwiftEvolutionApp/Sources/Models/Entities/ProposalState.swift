@@ -50,7 +50,7 @@ extension ProposalState {
         }
     }
 
-    var tintColor: UIColor {
+    var tintColor: PlatformColor {
         switch self {
         case .accepted:
             .systemGreen

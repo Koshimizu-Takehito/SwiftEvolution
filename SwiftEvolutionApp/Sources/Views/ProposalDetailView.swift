@@ -58,7 +58,9 @@ struct ProposalDetailView: View {
         }
         .opacity(isLoaded ? 1 : 0)
         .navigationTitle(markdown.proposal.title)
+#if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+#endif
         .ignoresSafeArea(edges: .bottom)
         .tint(statusColor)
     }
@@ -66,6 +68,9 @@ struct ProposalDetailView: View {
     /// ツールバー
     @ToolbarContentBuilder
     var toolbar: some ToolbarContent {
+#if os(macOS)
+        let placement: ToolbarItemPlacement = .automatic
+#elseif os(iOS)
         let placement: ToolbarItemPlacement = switch vertical {
         case .regular:
             .bottomBar
@@ -74,6 +79,7 @@ struct ProposalDetailView: View {
         default:
             .automatic
         }
+#endif
         ToolbarItemGroup(placement: placement) {
             HStack {
                 Spacer()
@@ -115,6 +121,7 @@ private extension ProposalDetailView {
     }
 }
 
+#if DEBUG
 #Preview {
     PreviewContainer {
         NavigationStack {
@@ -122,3 +129,4 @@ private extension ProposalDetailView {
         }
     }
 }
+#endif
