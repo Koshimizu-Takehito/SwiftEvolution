@@ -4,7 +4,7 @@ import SwiftData
 // MARK: - 
 /// ContentView
 struct ContentView: View {
-    @Environment(\.horizontalSizeClass) var horizontal
+    @Environment(\.horizontalSizeClass) private var horizontal
     /// ModelContext
     @Environment(\.modelContext) private var context
     /// ナビゲーションバーの現在の色合い
