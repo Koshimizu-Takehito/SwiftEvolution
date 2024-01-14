@@ -13,9 +13,3 @@ struct App: SwiftUI.App {
         .modelContainer(for: ProposalObject.self)
     }
 }
-
-#Preview {
-    PreviewContainer {
-        ContentView()
-    }
-}

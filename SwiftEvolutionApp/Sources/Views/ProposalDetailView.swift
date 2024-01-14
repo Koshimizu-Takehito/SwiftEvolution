@@ -34,7 +34,7 @@ struct ProposalDetailView: View {
     let markdown: Markdown
 
     var body: some View {
-        // HTML
+        // WebView（ コンテンツの HTML を読み込む ）
         ProposalDetailWebView(
             html: markdown.html,
             highlight: markdown.highlight,
