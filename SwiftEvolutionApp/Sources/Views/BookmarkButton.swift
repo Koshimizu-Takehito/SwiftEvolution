@@ -22,6 +22,5 @@ struct BookmarkButton: View {
 }
 
 #Preview {
-    @State var isBookmarked = false
-    return BookmarkButton(isBookmarked: .constant(false))
+    BookmarkButton(isBookmarked: .constant(false))
 }
