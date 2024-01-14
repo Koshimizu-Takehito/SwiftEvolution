@@ -81,9 +81,9 @@ extension ProposalObject {
         return try? context.fetch(descriptor).first
     }
 
-    static func query(states: Set<ProposalState>, isBookmarked: Bool) -> Query<ProposalObject, [ProposalObject]> {
+    static func query(status: Set<ProposalState>, isBookmarked: Bool) -> Query<ProposalObject, [ProposalObject]> {
         Query(
-            filter: predicate(states: states, isBookmarked: isBookmarked),
+            filter: predicate(states: status, isBookmarked: isBookmarked),
             sort: \.id,
             order: .reverse,
             animation: .default
@@ -94,7 +94,7 @@ extension ProposalObject {
         let states = Set(states.map(\.rawValue))
         return #Predicate<ProposalObject> { proposal in
             states.contains(proposal.status.state)
-            && (!isBookmarked || proposal.isBookmarked == isBookmarked)
+                && (!isBookmarked || proposal.isBookmarked == isBookmarked)
         }
     }
 }

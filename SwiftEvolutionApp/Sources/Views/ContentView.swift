@@ -20,7 +20,7 @@ struct ContentView: View {
     /// すべてのブックマーク
     @State private var allBookmark: [ProposalID] = []
     /// 選択中のステータス
-    @Environment(PickedStatus.self) private var states
+    @Environment(PickedStatus.self) private var status
     /// 詳細画面のコンテンツURL
     @State private var detailURL: ProposalURL?
 
@@ -30,7 +30,7 @@ struct ContentView: View {
             ProposalListView(
                 horizontal: horizontal,
                 detailURL: $detailURL,
-                states: states.current,
+                status: status.current,
                 isBookmarked: !allBookmark.isEmpty && isBookmarked
             )
             .overlay {

@@ -6,19 +6,19 @@ struct ProposalListView: View {
     let horizontal: UserInterfaceSizeClass?
     @Binding var detailURL: ProposalURL?
     @Query private var proposals: [ProposalObject]
-    let states: Set<ProposalState>
+    let status: Set<ProposalState>
 
     init(
         horizontal: UserInterfaceSizeClass?,
         detailURL: Binding<ProposalURL?>,
-        states: Set<ProposalState>,
+        status: Set<ProposalState>,
         isBookmarked: Bool
     ) {
         self.horizontal = horizontal
-        self.states = states
+        self.status = status
         _detailURL = detailURL
         _proposals = ProposalObject.query(
-            states: states, isBookmarked: isBookmarked
+            status: status, isBookmarked: isBookmarked
         )
     }
 
@@ -32,7 +32,7 @@ struct ProposalListView: View {
             }
         }
         .tint(.darkText.opacity(0.2))
-        .animation(.default, value: states)
+        .animation(.default, value: status)
         .navigationTitle("Swift Evolution")
         .onAppear(perform: selectFirstItem)
     }
