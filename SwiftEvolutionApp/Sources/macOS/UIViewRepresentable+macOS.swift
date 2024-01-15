@@ -4,7 +4,6 @@ import SwiftUI
 #if os(macOS)
 protocol UIViewRepresentable: NSViewRepresentable where NSViewType == ViewType {
     associatedtype ViewType: NSView
-
     @MainActor
     func makeUIView(context: Context) -> ViewType
     @MainActor

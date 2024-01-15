@@ -16,28 +16,40 @@ struct ProposalDetailWebView: UIViewRepresentable {
     var onTapLinkURL: (ProposalURL) -> Void
 
     public func makeUIView(context: Context) -> WKWebView {
-        let view = WKWebView()
-        view.navigationDelegate = context.coordinator
-        view.backgroundColor = UIColor.systemBackground
-        if let html {
-            DispatchQueue.main.async { view.loadHTMLString(html, baseURL: nil) }
+        perform {
+            let view = WKWebView()
+            view.navigationDelegate = context.coordinator
+            view.backgroundColor = UIColor.systemBackground
+            if let html {
+                DispatchQueue.main.async { [weak view] in
+                    view?.loadHTMLString(html, baseURL: nil)
+                }
+            }
+            return view
         }
-        return view
     }
 
     public func updateUIView(_ view: WKWebView, context: Context) {
         guard let html else { return }
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak view] in
             if !isLoaded {
-                view.loadHTMLString(html, baseURL: nil)
+                view?.loadHTMLString(html, baseURL: nil)
             } else {
-                view.evaluateJavaScript(highlight.javascript)
+                view?.evaluateJavaScript(highlight.javascript)
             }
         }
     }
 
     func makeCoordinator() -> Coordinator {
         Coordinator(isLoaded: $isLoaded, onTap: onTapLinkURL)
+    }
+
+    private func perform<T>(action: () -> T) -> T {
+        if Thread.isMainThread {
+            return action()
+        } else {
+            return DispatchQueue.main.sync(execute: action)
+        }
     }
 }
 
