@@ -5,7 +5,7 @@ import SwiftData
 
 /// プロポーザルのHTMLを表示するための WebView
 @MainActor
-struct ProposalDetailWebView: PlatformViewRepresentable {
+struct ProposalDetailWebView: UIViewRepresentable {
     /// 該当プロポーザルのHTML
     let html: String?
     /// 表示コンテンツで利用するシンタックスハイライト
@@ -15,17 +15,17 @@ struct ProposalDetailWebView: PlatformViewRepresentable {
     /// 別プロポーザルへのリンクをタップした際のコールバックハンドラ
     var onTapLinkURL: (ProposalURL) -> Void
 
-    public func makeView(context: Context) -> WKWebView {
+    public func makeUIView(context: Context) -> WKWebView {
         let view = WKWebView()
         view.navigationDelegate = context.coordinator
-        view.backgroundColor = PlatformColor.systemBackground
+        view.backgroundColor = UIColor.systemBackground
         if let html {
             DispatchQueue.main.async { view.loadHTMLString(html, baseURL: nil) }
         }
         return view
     }
 
-    public func updateView(_ view: WKWebView, context: Context) {
+    public func updateUIView(_ view: WKWebView, context: Context) {
         guard let html else { return }
         DispatchQueue.main.async {
             if !isLoaded {
