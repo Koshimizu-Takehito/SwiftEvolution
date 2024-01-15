@@ -69,11 +69,13 @@ private struct ProposalItemView: View {
                     .animation(.default, value: proposal.isBookmarked)
             }
             // 本文
-            Text(proposal.id)
+            let text = Text(proposal.id)
                 .foregroundStyle(.secondary)
             + Text(" ")
             + Text(proposal.title)
                 .foregroundStyle(.primary)
+            text
+                .lineLimit(nil) // macOS でこの指定が必須
         }
     }
 
