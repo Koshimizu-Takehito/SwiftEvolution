@@ -68,19 +68,7 @@ struct ProposalDetailView: View {
     /// ツールバー
     @ToolbarContentBuilder
     var toolbar: some ToolbarContent {
-#if os(macOS)
-        let placement: ToolbarItemPlacement = .automatic
-#elseif os(iOS)
-        let placement: ToolbarItemPlacement = switch vertical {
-        case .regular:
-            .bottomBar
-        case .compact:
-            .topBarTrailing
-        default:
-            .automatic
-        }
-#endif
-        ToolbarItemGroup(placement: placement) {
+        ToolbarItemGroup(placement: .detail(for: vertical)) {
             HStack {
                 Spacer()
                 BookmarkButton(isBookmarked: $isBookmarked)

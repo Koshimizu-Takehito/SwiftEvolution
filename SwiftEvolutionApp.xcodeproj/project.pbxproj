@@ -23,6 +23,7 @@
 		FB88EA5B2B44EF1800A6EBB3 /* ProposalStatusPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB88EA5A2B44EF1800A6EBB3 /* ProposalStatusPicker.swift */; };
 		FB88EA5D2B44EF2900A6EBB3 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB88EA5C2B44EF2900A6EBB3 /* FlowLayout.swift */; };
 		FB88EA5F2B4508AC00A6EBB3 /* PickedStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB88EA5E2B4508AC00A6EBB3 /* PickedStatus.swift */; };
+		FBB264BD2B55497E0030CC2F /* ToolbarItemPlacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB264BC2B55497E0030CC2F /* ToolbarItemPlacement.swift */; };
 		FBB64DED2B424FBB00D99C2F /* ProposalState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB64DEC2B424FBB00D99C2F /* ProposalState.swift */; };
 		FBB64DF22B42797800D99C2F /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB64DF12B42797800D99C2F /* Markdown.swift */; };
 		FBCE36962B3EDF2D000763B5 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBCE36952B3EDF2D000763B5 /* App.swift */; };
@@ -55,6 +56,7 @@
 		FB88EA5A2B44EF1800A6EBB3 /* ProposalStatusPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalStatusPicker.swift; sourceTree = "<group>"; };
 		FB88EA5C2B44EF2900A6EBB3 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 		FB88EA5E2B4508AC00A6EBB3 /* PickedStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickedStatus.swift; sourceTree = "<group>"; };
+		FBB264BC2B55497E0030CC2F /* ToolbarItemPlacement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarItemPlacement.swift; sourceTree = "<group>"; };
 		FBB64DEC2B424FBB00D99C2F /* ProposalState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalState.swift; sourceTree = "<group>"; };
 		FBB64DF12B42797800D99C2F /* Markdown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Markdown.swift; sourceTree = "<group>"; };
 		FBCE36922B3EDF2D000763B5 /* SwiftEvolutionApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftEvolutionApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,6 +147,7 @@
 				FB3C48382B4A319700945FC6 /* ErrorView.swift */,
 				FB88EA5C2B44EF2900A6EBB3 /* FlowLayout.swift */,
 				FB4654C82B53C44500E494E6 /* Color.swift */,
+				FBB264BC2B55497E0030CC2F /* ToolbarItemPlacement.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 				FB88EA5F2B4508AC00A6EBB3 /* PickedStatus.swift in Sources */,
 				FB4654C92B53C44500E494E6 /* Color.swift in Sources */,
 				FB88EA382B43DE0C00A6EBB3 /* SyntaxHighlight.swift in Sources */,
+				FBB264BD2B55497E0030CC2F /* ToolbarItemPlacement.swift in Sources */,
 				FB71CF9C2B4A48590018050B /* ProposalListView.swift in Sources */,
 				FB42FE7B2B43A5CA00348204 /* Assets.swift in Sources */,
 				FBB64DED2B424FBB00D99C2F /* ProposalState.swift in Sources */,

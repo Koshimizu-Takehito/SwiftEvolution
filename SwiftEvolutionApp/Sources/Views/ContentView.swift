@@ -63,12 +63,7 @@ struct ContentView: View {
     @ToolbarContentBuilder
     var toolbar: some ToolbarContent {
         if !allProposals.isEmpty {
-#if os(macOS)
-        let placement: ToolbarItemPlacement = .automatic
-#elseif os(iOS)
-        let placement: ToolbarItemPlacement = .topBarTrailing
-#endif
-            ToolbarItemGroup(placement: placement) {
+            ToolbarItemGroup(placement: .content) {
                 HStack {
                     BookmarkButton(isBookmarked: $isBookmarked)
                         .disabled(allBookmark.isEmpty)
