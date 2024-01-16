@@ -38,10 +38,16 @@ struct ProposalListView: View {
     }
 
     func selectFirstItem() {
+#if os(macOS)
+        if detailURL == nil, let proposal = proposals.first {
+            detailURL = ProposalURL(proposal)
+        }
+#elseif os(iOS)
         /// SplitView　が画面分割表示の場合に、初期表示を与える
         if horizontal == .regular, detailURL == nil, let proposal = proposals.first {
             detailURL = ProposalURL(proposal)
         }
+#endif
     }
 }
 
