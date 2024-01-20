@@ -7,11 +7,11 @@ typealias ProposalLink = String
 // MARK: - ProposalObject
 @Model
 final class ProposalObject {
-    var id: ProposalID
-    var link: ProposalLink
-    var status: Status
-    var title: String
-    var isBookmarked: Bool
+    var id: ProposalID = ""
+    var link: ProposalLink = ""
+    var status: Status = Status()
+    var title: String = ""
+    var isBookmarked: Bool = false
 
     init(
         id: String,
