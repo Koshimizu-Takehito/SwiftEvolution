@@ -7,7 +7,7 @@ typealias ProposalLink = String
 // MARK: - ProposalObject
 @Model
 final class ProposalObject {
-    var id: ProposalID = ""
+    @Attribute(.unique) var id: ProposalID = ""
     var link: ProposalLink = ""
     var status: Status = Status()
     var title: String = ""
@@ -36,41 +36,21 @@ extension ProposalObject {
     @MainActor
     static func fetch(context: ModelContext) async throws {
         // APIからプロポーザルを取得
-        let values = try await Task.detached {
-            let url = URL(string: "https://download.swift.org/swift-evolution/proposals.json")!
-            let (data, _) = try await URLSession.shared.data(from: url)
-            var values = try JSONDecoder().decode([Proposal].self, from: data)
-            for (offset, proposal) in values.enumerated() {
-                values[offset].title = proposal.title.trimmingCharacters(in: .whitespaces)
-            }
-            return values
-        }.value
-
+        let values = try await ProposalRipository().fetch()
         // APIから取得した結果をマージ・保存
         let objects = Dictionary(
-            self.objects(in: context).map { ($0.id, $0) },
+            self.objects(in: context).lazy.map { ($0.id, $0) },
             uniquingKeysWith: { _, rhs in rhs }
         )
         values.forEach { value in
-            if let object = objects[value.id] {
-                object.update(with: value)
-            } else {
-                let object = ProposalObject(value: value, isBookmarked: false)
-                context.insert(object)
-            }
+            let isBookmarked = objects[value.id]?.isBookmarked ?? false
+            let object = ProposalObject(value: value, isBookmarked: isBookmarked)
+            context.insert(object)
         }
     }
 
-    static func objects(in context: ModelContext) -> [ProposalObject] {
-        (try? context.fetch(FetchDescriptor<ProposalObject>())) ?? []
-    }
-
-    static func find(by id: ProposalID, in context: ModelContext) -> ProposalObject? {
-        let predicate = #Predicate<ProposalObject> {
-            $0.id == id
-        }
-        let descriptor = FetchDescriptor(predicate: predicate)
-        return try? context.fetch(descriptor).first
+    private static func objects(in context: ModelContext) -> [ProposalObject] {
+        (try? context.fetch(FetchDescriptor())) ?? []
     }
 
     static subscript(id: ProposalID, in context: ModelContext) -> ProposalObject? {

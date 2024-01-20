@@ -6,6 +6,8 @@ import SwiftData
 /// プロポーザルのHTMLを表示するための WebView
 @MainActor
 struct ProposalDetailWebView: UIViewRepresentable {
+    /// ModelContext
+    @Environment(\.modelContext) private var context
     /// 該当プロポーザルのHTML
     let html: String?
     /// 表示コンテンツで利用するシンタックスハイライト
@@ -41,7 +43,7 @@ struct ProposalDetailWebView: UIViewRepresentable {
     }
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(isLoaded: $isLoaded, onTap: onTapLinkURL)
+        Coordinator(container: context.container, isLoaded: $isLoaded, onTap: onTapLinkURL)
     }
 
     private func perform<T>(action: () -> T) -> T {
@@ -56,11 +58,12 @@ struct ProposalDetailWebView: UIViewRepresentable {
 extension ProposalDetailWebView {
     @MainActor
     final class Coordinator: NSObject {
-        private let container = try! ModelContainer(for: Schema([ProposalObject.self]))
+        private let container: ModelContainer
         private let isLoaded: Binding<Bool>
         private let onTap: (ProposalURL) -> Void
 
-        init(isLoaded: Binding<Bool>, onTap: @escaping (ProposalURL) -> Void) {
+        init(container: ModelContainer, isLoaded: Binding<Bool>, onTap: @escaping (ProposalURL) -> Void) {
+            self.container = container
             self.isLoaded = isLoaded
             self.onTap = onTap
         }
@@ -119,7 +122,7 @@ extension ProposalDetailWebView.Coordinator: WKNavigationDelegate {
         let id = "SE-\(String(id))"
         let url = url.map(MarkdownURL.init(rawValue:))
         let context = container.mainContext
-        guard let proposal = ProposalObject.find(by: id, in: context) else {
+        guard let proposal = ProposalObject[id, in: context] else {
             return
         }
         onTap(ProposalURL(proposal, url))
