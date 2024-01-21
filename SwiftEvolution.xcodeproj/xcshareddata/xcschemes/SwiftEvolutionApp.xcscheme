@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FBCE36912B3EDF2D000763B5"
-               BuildableName = "SwiftEvolutionApp.app"
-               BlueprintName = "SwiftEvolutionApp"
-               ReferencedContainer = "container:SwiftEvolutionApp.xcodeproj">
+               BuildableName = "SwiftEvolution.app"
+               BlueprintName = "SwiftEvolution"
+               ReferencedContainer = "container:SwiftEvolution.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -44,9 +44,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FBCE36912B3EDF2D000763B5"
-            BuildableName = "SwiftEvolutionApp.app"
-            BlueprintName = "SwiftEvolutionApp"
-            ReferencedContainer = "container:SwiftEvolutionApp.xcodeproj">
+            BuildableName = "SwiftEvolution.app"
+            BlueprintName = "SwiftEvolution"
+            ReferencedContainer = "container:SwiftEvolution.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -61,9 +61,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FBCE36912B3EDF2D000763B5"
-            BuildableName = "SwiftEvolutionApp.app"
-            BlueprintName = "SwiftEvolutionApp"
-            ReferencedContainer = "container:SwiftEvolutionApp.xcodeproj">
+            BuildableName = "SwiftEvolution.app"
+            BlueprintName = "SwiftEvolution"
+            ReferencedContainer = "container:SwiftEvolution.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
