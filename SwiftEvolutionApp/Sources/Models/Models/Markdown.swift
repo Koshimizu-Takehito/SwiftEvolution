@@ -61,6 +61,7 @@ private extension Markdown {
         // プロポーザルに関連したレビューステータスの配色をアクセントカラーとして注入
         let accent = proposal.state.accentColor
         return Assets.CSS.githubMarkdown.asset
+            .replacingOccurrences(of: "$body-font-size", with: bodyFontSize)
             .replacingOccurrences(of: "$color-accent-fg-dark", with: accent.dark)
             .replacingOccurrences(of: "$color-accent-fg-light", with: accent.light)
             .replacingOccurrences(of: "$background-color-dark", with: background.dark)
@@ -73,6 +74,14 @@ private extension Markdown {
         return ("#313131", "#ececec") // NSColor.windowBackgroundColor
 #else
         return ("#0d1117", "#ffffff")
+#endif
+    }
+
+    var bodyFontSize: String {
+#if os(macOS)
+        return "20px"
+#else
+        return "40px"
 #endif
     }
 }

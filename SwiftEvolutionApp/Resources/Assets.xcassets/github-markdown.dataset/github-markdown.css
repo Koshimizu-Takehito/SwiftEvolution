@@ -122,16 +122,10 @@ body {
   color: var(--color-fg-default);
   background-color: var(--color-canvas-default);
   font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
-  font-size: 40px;
+/*  font-size: 40px;*/
+  font-size: $body-font-size;
   line-height: 1.5;
   word-wrap: break-word;
-}
-
-/* ラージスクリーン */
-@media (min-width: 1024px) {
-    body {
-        font-size: 20px;
-    }
 }
 
 /* 横長ディスプレイ用のスタイル */
