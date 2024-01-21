@@ -11,8 +11,8 @@
 		FB42FE7B2B43A5CA00348204 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB42FE7A2B43A5CA00348204 /* Assets.swift */; };
 		FB4654C92B53C44500E494E6 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4654C82B53C44500E494E6 /* Color.swift */; };
 		FB4654CB2B53C46200E494E6 /* ContentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4654CA2B53C46200E494E6 /* ContentDetailView.swift */; };
-		FB4654EB2B53F8DB00E494E6 /* UIColor+macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4654EA2B53F8DB00E494E6 /* UIColor+macOS.swift */; };
-		FB4654EE2B53FC8400E494E6 /* UIViewRepresentable+macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4654ED2B53FC8400E494E6 /* UIViewRepresentable+macOS.swift */; };
+		FB4654EB2B53F8DB00E494E6 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4654EA2B53F8DB00E494E6 /* UIColor.swift */; };
+		FB4654EE2B53FC8400E494E6 /* UIViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4654ED2B53FC8400E494E6 /* UIViewRepresentable.swift */; };
 		FB71CF982B4A3AA80018050B /* PreviewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB71CF972B4A3AA80018050B /* PreviewContainer.swift */; };
 		FB71CF9A2B4A3B1E0018050B /* PreviewSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB71CF992B4A3B1E0018050B /* PreviewSampleData.swift */; };
 		FB71CF9C2B4A48590018050B /* ProposalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB71CF9B2B4A48590018050B /* ProposalListView.swift */; };
@@ -44,8 +44,8 @@
 		FB42FE7A2B43A5CA00348204 /* Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		FB4654C82B53C44500E494E6 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		FB4654CA2B53C46200E494E6 /* ContentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDetailView.swift; sourceTree = "<group>"; };
-		FB4654EA2B53F8DB00E494E6 /* UIColor+macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+macOS.swift"; sourceTree = "<group>"; };
-		FB4654ED2B53FC8400E494E6 /* UIViewRepresentable+macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewRepresentable+macOS.swift"; sourceTree = "<group>"; };
+		FB4654EA2B53F8DB00E494E6 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		FB4654ED2B53FC8400E494E6 /* UIViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewRepresentable.swift; sourceTree = "<group>"; };
 		FB4654F02B53FEFB00E494E6 /* SwiftData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.2.sdk/System/Library/Frameworks/SwiftData.framework; sourceTree = DEVELOPER_DIR; };
 		FB71CF972B4A3AA80018050B /* PreviewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewContainer.swift; sourceTree = "<group>"; };
 		FB71CF992B4A3B1E0018050B /* PreviewSampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewSampleData.swift; sourceTree = "<group>"; };
@@ -98,13 +98,13 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		FB4654EC2B53FC6E00E494E6 /* macOS */ = {
+		FB4654EC2B53FC6E00E494E6 /* Platforms */ = {
 			isa = PBXGroup;
 			children = (
-				FB4654EA2B53F8DB00E494E6 /* UIColor+macOS.swift */,
-				FB4654ED2B53FC8400E494E6 /* UIViewRepresentable+macOS.swift */,
+				FB4654EA2B53F8DB00E494E6 /* UIColor.swift */,
+				FB4654ED2B53FC8400E494E6 /* UIViewRepresentable.swift */,
 			);
-			path = macOS;
+			path = Platforms;
 			sourceTree = "<group>";
 		};
 		FB4654EF2B53FEFB00E494E6 /* Frameworks */ = {
@@ -198,7 +198,7 @@
 				FBCE36952B3EDF2D000763B5 /* App.swift */,
 				FBB64DF32B42903600D99C2F /* Views */,
 				FBB64DEB2B424F6F00D99C2F /* Models */,
-				FB4654EC2B53FC6E00E494E6 /* macOS */,
+				FB4654EC2B53FC6E00E494E6 /* Platforms */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -298,7 +298,7 @@
 				FB42FE7B2B43A5CA00348204 /* Assets.swift in Sources */,
 				FBB64DED2B424FBB00D99C2F /* ProposalState.swift in Sources */,
 				FBFDD4192B5240A80004EDE1 /* Proposal.swift in Sources */,
-				FB4654EB2B53F8DB00E494E6 /* UIColor+macOS.swift in Sources */,
+				FB4654EB2B53F8DB00E494E6 /* UIColor.swift in Sources */,
 				FB88EA3C2B43F58300A6EBB3 /* ProposalURL.swift in Sources */,
 				FB71CF9A2B4A3B1E0018050B /* PreviewSampleData.swift in Sources */,
 				FB88EA5D2B44EF2900A6EBB3 /* FlowLayout.swift in Sources */,
@@ -311,7 +311,7 @@
 				FB71CF982B4A3AA80018050B /* PreviewContainer.swift in Sources */,
 				FB88EA3E2B43FE0C00A6EBB3 /* MarkdownURL.swift in Sources */,
 				FBCE36962B3EDF2D000763B5 /* App.swift in Sources */,
-				FB4654EE2B53FC8400E494E6 /* UIViewRepresentable+macOS.swift in Sources */,
+				FB4654EE2B53FC8400E494E6 /* UIViewRepresentable.swift in Sources */,
 				FBCE36AD2B3FD320000763B5 /* ProposalDetailWebView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
