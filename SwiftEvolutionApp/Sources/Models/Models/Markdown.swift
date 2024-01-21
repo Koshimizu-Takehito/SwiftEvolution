@@ -37,17 +37,7 @@ private extension Markdown {
         buildHTML()
     }
 
-    /// github-markdown の　CSS
-    var githubMarkdownCss: String {
-        // プロポーザルに関連したレビューステータスの配色をアクセントカラーとして注入
-        let accent = proposal.state.accentColor
-        return Assets.CSS.githubMarkdown.asset
-            .replacingOccurrences(of: "$color-accent-fg-dark", with: accent.dark)
-            .replacingOccurrences(of: "$color-accent-fg-light", with: accent.light)
-            .replacingOccurrences(of: "$background-color-dark", with: background.dark)
-            .replacingOccurrences(of: "$background-color-light", with: background.light)
-    }
-
+    /// HTML 文字列を生成
     func buildHTML() {
         self.html = Assets.HTML.proposalTemplate.asset
             // HTML のタイトルを設定
@@ -66,6 +56,18 @@ private extension Markdown {
             .replacingOccurrences(of: "$markdown", with: markdown)
     }
 
+    /// github-markdown の　CSS
+    var githubMarkdownCss: String {
+        // プロポーザルに関連したレビューステータスの配色をアクセントカラーとして注入
+        let accent = proposal.state.accentColor
+        return Assets.CSS.githubMarkdown.asset
+            .replacingOccurrences(of: "$color-accent-fg-dark", with: accent.dark)
+            .replacingOccurrences(of: "$color-accent-fg-light", with: accent.light)
+            .replacingOccurrences(of: "$background-color-dark", with: background.dark)
+            .replacingOccurrences(of: "$background-color-light", with: background.light)
+    }
+
+    /// HTML の背景色
     var background: (dark: String, light: String) {
 #if os(macOS)
         return ("#313131", "#ececec") // NSColor.windowBackgroundColor
