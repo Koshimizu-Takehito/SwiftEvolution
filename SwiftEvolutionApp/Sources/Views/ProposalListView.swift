@@ -83,6 +83,10 @@ private struct ProposalItemView: View {
             text
                 .lineLimit(nil) // macOS でこの指定が必須
         }
+#if os(macOS)
+        .padding(.top, 8)
+        .padding(.leading, 4)
+#endif
     }
 
     var label: (text: String, color: Color) {
