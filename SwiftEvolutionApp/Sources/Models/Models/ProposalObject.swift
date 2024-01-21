@@ -39,7 +39,7 @@ extension ProposalObject {
         let values = try await ProposalRipository().fetch()
         // APIから取得した結果をマージ・保存
         let objects = Dictionary(
-            self.objects(in: context).lazy.map { ($0.id, $0) },
+            try context.fetch(ProposalObject.self).lazy.map { ($0.id, $0) },
             uniquingKeysWith: { _, rhs in rhs }
         )
         values.forEach { value in
@@ -47,10 +47,6 @@ extension ProposalObject {
             let object = ProposalObject(value: value, isBookmarked: isBookmarked)
             context.insert(object)
         }
-    }
-
-    private static func objects(in context: ModelContext) -> [ProposalObject] {
-        (try? context.fetch(FetchDescriptor())) ?? []
     }
 
     static subscript(id: ProposalID, in context: ModelContext) -> ProposalObject? {
@@ -100,5 +96,11 @@ private extension ProposalObject {
 extension Predicate<ProposalObject> {
     static var bookmark: Predicate<ProposalObject> {
         #Predicate<ProposalObject> { $0.isBookmarked }
+    }
+}
+
+extension ModelContext {
+    func fetch<T>(_ type: T.Type = T.self) throws -> [T] where T : PersistentModel {
+        try fetch(FetchDescriptor())
     }
 }
