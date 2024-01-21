@@ -40,10 +40,12 @@ private extension Markdown {
     /// github-markdown の　CSS
     var githubMarkdownCss: String {
         // プロポーザルに関連したレビューステータスの配色をアクセントカラーとして注入
-        let (dark, light) = proposal.state.accentColor
+        let accent = proposal.state.accentColor
         return Assets.CSS.githubMarkdown.asset
-            .replacingOccurrences(of: "$color-accent-fg-dark", with: dark)
-            .replacingOccurrences(of: "$color-accent-fg-light", with: light)
+            .replacingOccurrences(of: "$color-accent-fg-dark", with: accent.dark)
+            .replacingOccurrences(of: "$color-accent-fg-light", with: accent.light)
+            .replacingOccurrences(of: "$background-color-dark", with: background.dark)
+            .replacingOccurrences(of: "$background-color-light", with: background.light)
     }
 
     func buildHTML() {
@@ -62,5 +64,13 @@ private extension Markdown {
             .replacingOccurrences(of: "$highlightJsSwift", with: Assets.Js.highlightSwift.asset)
             // マークダウンを HTML ファイルに注入
             .replacingOccurrences(of: "$markdown", with: markdown)
+    }
+
+    var background: (dark: String, light: String) {
+#if os(macOS)
+        return ("#313131", "#ececec") // NSColor.windowBackgroundColor
+#else
+        return ("#0d1117", "#ffffff")
+#endif
     }
 }

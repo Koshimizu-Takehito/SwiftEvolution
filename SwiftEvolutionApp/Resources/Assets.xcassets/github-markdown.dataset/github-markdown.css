@@ -36,7 +36,8 @@
     --color-fg-default: #e6edf3;
     --color-fg-muted: #848d97;
     --color-fg-subtle: #6e7681;
-    --color-canvas-default: #0d1117;
+/*    --color-canvas-default: #0d1117;*/
+    --color-canvas-default: $background-color-dark;
     --color-canvas-subtle: #161b22;
     --color-border-default: #30363d;
     --color-border-muted: #21262d;
@@ -93,7 +94,8 @@
     --color-fg-default: #1F2328;
     --color-fg-muted: #656d76;
     --color-fg-subtle: #6e7781;
-    --color-canvas-default: #ffffff;
+/*    --color-canvas-default: #ffffff;*/
+    --color-canvas-default: $background-color-light;
     --color-canvas-subtle: #f6f8fa;
     --color-border-default: #d0d7de;
     --color-border-muted: hsla(210,18%,87%,1);

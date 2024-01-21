@@ -6,7 +6,7 @@ import SwiftUI
 typealias UIColor = NSColor
 extension UIColor {
     static var systemBackground: UIColor {
-        windowBackgroundColor
+        windowBackgroundColor.usingColorSpace(.extendedSRGB)!
     }
 }
 
