@@ -12,6 +12,11 @@ struct App: SwiftUI.App {
                 .environment(status)
         }
         .modelContainer(modelContainer)
+#if os(macOS)
+        Settings {
+            SettingsView()
+        }
+#endif
     }
 }
 
