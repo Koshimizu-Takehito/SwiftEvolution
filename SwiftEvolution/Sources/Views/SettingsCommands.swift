@@ -23,23 +23,10 @@ struct AcknowledgementsView: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 16) {
-            ScrollView {
-                VStack(alignment: .leading) {
-                    ForEach(items, id: \.self) { item in
-                        (selection == item ? Color.accentColor : Color(.underPageBackgroundColor))
-                            .frame(
-                                maxWidth: .infinity,
-                                alignment: .leading
-                            )
-                            .frame(height: 40)
-                            .overlay(alignment: .leading) {
-                                Text(item.title)
-                                    .padding(.leading, 8)
-                            }
-                            .clipShape(RoundedRectangle(cornerRadius: 8))
-                            .onTapGesture {
-                                selection = item
-                            }
+            NavigationStack {
+                List(selection: $selection) {
+                    ForEach(items) { item in
+                        NavigationLink(item.title, value: item)
                     }
                 }
             }
@@ -49,6 +36,7 @@ struct AcknowledgementsView: View {
                 ScrollView {
                     Text(selection.text)
                         .lineLimit(nil)
+                        .padding(.vertical)
                 }
             }
             Spacer()
