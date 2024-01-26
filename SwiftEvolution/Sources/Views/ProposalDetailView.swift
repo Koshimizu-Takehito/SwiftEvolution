@@ -18,6 +18,8 @@ struct ProposalDetailView: View {
     @Environment(\.verticalSizeClass) private var vertical
     /// ModelContext
     @Environment(\.modelContext) private var context
+    /// 表示コンテンツで利用するシンタックスハイライト
+    @AppStorage<SyntaxHighlight> private var highlight = .atomOneDark
     /// 該当コンテンツのブックマーク有無
     @State private var isBookmarked: Bool = false
     /// コンテンツロード済み
@@ -39,7 +41,6 @@ struct ProposalDetailView: View {
         // WebView（ コンテンツの HTML を読み込む ）
         ProposalDetailWebView(
             html: markdown.html,
-            highlight: markdown.highlight,
             isLoaded: $isLoaded.animation(),
             onTapLinkURL: showProposal
         )
@@ -73,7 +74,7 @@ struct ProposalDetailView: View {
         .task(id: HTMLRebuildId) {
             // マークダウンファイルを HTML ファイルに変換
             guard HTMLRebuildId != nil else { return }
-            try? await markdown.buildHTML(highlight: markdown.highlight)
+            try? await markdown.buildHTML(highlight: highlight)
         }
     }
 
@@ -87,7 +88,7 @@ struct ProposalDetailView: View {
                 Menu {
                     ForEach(SyntaxHighlight.allCases) { item in
                         Button(item.displayName) {
-                            markdown.highlight = item
+                            highlight = item
                             HTMLRebuildId = .init()
                         }
                     }

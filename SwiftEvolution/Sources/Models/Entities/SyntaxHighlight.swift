@@ -11,18 +11,6 @@ enum SyntaxHighlight: String, Hashable, CaseIterable, Identifiable {
     case vs2015 = "vs2015"
     case xcode = "xcode"
 
-    static var current: Self {
-        get {
-            let defaults = UserDefaults.standard
-            let string = defaults.string(forKey: String(describing: Self.self))
-            return string.flatMap(SyntaxHighlight.init) ?? .atomOneDark
-        }
-        set {
-            let defaults = UserDefaults.standard
-            defaults.set(newValue.rawValue, forKey: String(describing: Self.self))
-        }
-    }
-
     var id: String {
         rawValue
     }

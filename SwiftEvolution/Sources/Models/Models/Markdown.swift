@@ -5,11 +5,6 @@ import Observation
 final class Markdown {
     let proposal: Proposal
     let url: MarkdownURL
-    var highlight = SyntaxHighlight.current {
-        didSet {
-            SyntaxHighlight.current = highlight
-        }
-    }
     private var markdown: String?
     private(set) var html: String?
 
