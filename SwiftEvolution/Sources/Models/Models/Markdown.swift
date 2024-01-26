@@ -6,7 +6,6 @@ final class Markdown {
     let proposal: Proposal
     let url: MarkdownURL
     private var markdown: String?
-    private(set) var html: String?
 
     init(proposal: Proposal, url: MarkdownURL? = nil) {
         self.proposal = proposal
@@ -21,13 +20,13 @@ final class Markdown {
         markdown = try await MarkdownRipository(url: url).fetch()
     }
 
-    func buildHTML(highlight: SyntaxHighlight) async throws {
+    func buildHTML(highlight: SyntaxHighlight) async throws -> String {
         if let markdown {
             let builder = HTMLBuilder(proposal: proposal, markdown: markdown, highlight: highlight)
-            html = await builder.buildHTML()
+            return await builder.buildHTML()
         } else {
             try await fetch()
-            try await buildHTML(highlight: highlight)
+            return try await buildHTML(highlight: highlight)
         }
     }
 }

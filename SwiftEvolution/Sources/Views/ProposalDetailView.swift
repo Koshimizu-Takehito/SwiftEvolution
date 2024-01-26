@@ -26,21 +26,21 @@ struct ProposalDetailView: View {
     @State private var isLoaded: Bool = false
     /// コンテンツ取得失敗
     @State private var error: Error?
-    /// 再取得処理を発火するためのUUID
-    @State private var refresh = UUID()
     /// NavigationPath
     @Binding private var path: NavigationPath
     /// TintColor
     @Binding private var tint: Color?
     /// HTML を再生成するための識別子
-    @State var HTMLRebuildId: UUID?
+    @State var HTMLRebuildId = UUID()
+    /// マークダウンから生成される HTML
+    @State var html: String?
     /// 当該コンテンツ（Model）
     private let markdown: Markdown
 
     var body: some View {
         // WebView（ コンテンツの HTML を読み込む ）
         ProposalDetailWebView(
-            html: markdown.html,
+            html: html,
             isLoaded: $isLoaded.animation(),
             onTapLinkURL: showProposal
         )
@@ -66,15 +66,9 @@ struct ProposalDetailView: View {
 #endif
         .ignoresSafeArea(edges: .bottom)
         .tint(statusColor)
-        .task {
-            // マークダウンファイルを取得
-            try? await markdown.fetch()
-            HTMLRebuildId = .init()
-        }
         .task(id: HTMLRebuildId) {
             // マークダウンファイルを HTML ファイルに変換
-            guard HTMLRebuildId != nil else { return }
-            try? await markdown.buildHTML(highlight: highlight)
+            html = try? await markdown.buildHTML(highlight: highlight)
         }
     }
 
