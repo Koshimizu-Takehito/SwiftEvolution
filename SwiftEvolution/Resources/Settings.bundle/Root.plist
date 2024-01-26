@@ -18,16 +18,16 @@
 			<key>File</key>
 			<string>Acknowledgements</string>
 		</dict>
-        <dict>
-            <key>Type</key>
-            <string>PSTitleValueSpecifier</string>
-            <key>DefaultValue</key>
-            <string>1.0.0(1)</string>
-            <key>Title</key>
-            <string>バージョン</string>
-            <key>Key</key>
-            <string>version</string>
-        </dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+			<key>DefaultValue</key>
+			<string>1.0.0(1)</string>
+			<key>Title</key>
+			<string>バージョン</string>
+			<key>Key</key>
+			<string>version</string>
+		</dict>
 	</array>
 </dict>
 </plist>
