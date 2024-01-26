@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB1AC20D2B63A7CA0053072B /* MarkdownRipository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1AC20C2B63A7CA0053072B /* MarkdownRipository.swift */; };
+		FB1AC20F2B63A9390053072B /* HTMLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1AC20E2B63A9390053072B /* HTMLBuilder.swift */; };
 		FB26CCA92B5CD41A00D92D1F /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FB26CCA82B5CD41A00D92D1F /* Settings.bundle */; };
 		FB26CCAB2B5CF1A700D92D1F /* SettingsCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB26CCAA2B5CF1A700D92D1F /* SettingsCommands.swift */; };
 		FB3C48392B4A319700945FC6 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3C48382B4A319700945FC6 /* ErrorView.swift */; };
@@ -42,6 +44,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FB1AC20C2B63A7CA0053072B /* MarkdownRipository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownRipository.swift; sourceTree = "<group>"; };
+		FB1AC20E2B63A9390053072B /* HTMLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLBuilder.swift; sourceTree = "<group>"; };
 		FB26CCA82B5CD41A00D92D1F /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		FB26CCAA2B5CF1A700D92D1F /* SettingsCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCommands.swift; sourceTree = "<group>"; };
 		FB3C48382B4A319700945FC6 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
@@ -91,13 +95,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FB1AC20B2B63A7B50053072B /* Ripositories */ = {
+			isa = PBXGroup;
+			children = (
+				FBB264DC2B5BA3A20030CC2F /* ProposalRipository.swift */,
+				FB1AC20C2B63A7CA0053072B /* MarkdownRipository.swift */,
+			);
+			path = Ripositories;
+			sourceTree = "<group>";
+		};
 		FB3C48372B4A1A3600945FC6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				FBD163FF2B48E5D500C18625 /* ProposalObject.swift */,
-				FBB264DC2B5BA3A20030CC2F /* ProposalRipository.swift */,
 				FB88EA5E2B4508AC00A6EBB3 /* PickedStatus.swift */,
 				FBB64DF12B42797800D99C2F /* Markdown.swift */,
+				FB1AC20E2B63A9390053072B /* HTMLBuilder.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -122,6 +135,7 @@
 		FBB64DEB2B424F6F00D99C2F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				FB1AC20B2B63A7B50053072B /* Ripositories */,
 				FB3C48372B4A1A3600945FC6 /* Models */,
 				FBB64DF02B42795B00D99C2F /* Entities */,
 			);
@@ -308,11 +322,13 @@
 				FB4654EB2B53F8DB00E494E6 /* UIColor.swift in Sources */,
 				FB88EA3C2B43F58300A6EBB3 /* ProposalURL.swift in Sources */,
 				FB26CCAB2B5CF1A700D92D1F /* SettingsCommands.swift in Sources */,
+				FB1AC20D2B63A7CA0053072B /* MarkdownRipository.swift in Sources */,
 				FB71CF9A2B4A3B1E0018050B /* PreviewSampleData.swift in Sources */,
 				FB88EA5D2B44EF2900A6EBB3 /* FlowLayout.swift in Sources */,
 				FBD164002B48E5D500C18625 /* ProposalObject.swift in Sources */,
 				FB71CF9E2B4A4A3E0018050B /* ProposalDetailView.swift in Sources */,
 				FBCE36A92B3F684F000763B5 /* ContentView.swift in Sources */,
+				FB1AC20F2B63A9390053072B /* HTMLBuilder.swift in Sources */,
 				FBF8D1772B5298E700E3994A /* BookmarkButton.swift in Sources */,
 				FB3C48392B4A319700945FC6 /* ErrorView.swift in Sources */,
 				FBB64DF22B42797800D99C2F /* Markdown.swift in Sources */,

@@ -70,7 +70,6 @@ extension ProposalDetailWebView {
     }
 }
 
-@MainActor
 extension ProposalDetailWebView.Coordinator: WKNavigationDelegate {
     func webView(
         _ webView: WKWebView,

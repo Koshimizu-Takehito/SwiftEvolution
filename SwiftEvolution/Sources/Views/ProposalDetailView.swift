@@ -30,6 +30,8 @@ struct ProposalDetailView: View {
     @Binding private var path: NavigationPath
     /// TintColor
     @Binding private var tint: Color?
+    /// HTML を再生成するための識別子
+    @State var HTMLRebuildId: UUID?
     /// 当該コンテンツ（Model）
     private let markdown: Markdown
 
@@ -63,6 +65,16 @@ struct ProposalDetailView: View {
 #endif
         .ignoresSafeArea(edges: .bottom)
         .tint(statusColor)
+        .task {
+            // マークダウンファイルを取得
+            try? await markdown.fetch()
+            HTMLRebuildId = .init()
+        }
+        .task(id: HTMLRebuildId) {
+            // マークダウンファイルを HTML ファイルに変換
+            guard HTMLRebuildId != nil else { return }
+            try? await markdown.buildHTML(highlight: markdown.highlight)
+        }
     }
 
     /// ツールバー
@@ -76,6 +88,7 @@ struct ProposalDetailView: View {
                     ForEach(SyntaxHighlight.allCases) { item in
                         Button(item.displayName) {
                             markdown.highlight = item
+                            HTMLRebuildId = .init()
                         }
                     }
                 } label: {
