@@ -5,8 +5,8 @@ struct Proposal: Codable, Hashable, Identifiable {
     var status: Status
     var title: String
 
-    var state: ProposalState? {
-        ProposalState(rawValue: status.state)
+    var state: ProposalStatus? {
+        ProposalStatus(rawValue: status.state)
     }
 }
 

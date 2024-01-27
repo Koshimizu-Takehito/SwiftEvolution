@@ -1,7 +1,7 @@
 import SwiftUI
 
 // MARK: - State
-enum ProposalState: String, Codable, Hashable, CaseIterable, CustomStringConvertible {
+enum ProposalStatus: String, Codable, Hashable, CaseIterable {
     case accepted = ".accepted"
     case activeReview = ".activeReview"
     case implemented = ".implemented"
@@ -9,7 +9,13 @@ enum ProposalState: String, Codable, Hashable, CaseIterable, CustomStringConvert
     case rejected = ".rejected"
     case returnedForRevision = ".returnedForRevision"
     case withdrawn = ".withdrawn"
+}
 
+extension ProposalStatus: Identifiable {
+    var id: String { rawValue }
+}
+
+extension ProposalStatus: CustomStringConvertible {
     var description: String {
         switch self {
         case .accepted:
@@ -30,7 +36,7 @@ enum ProposalState: String, Codable, Hashable, CaseIterable, CustomStringConvert
     }
 }
 
-extension ProposalState {
+extension ProposalStatus {
     var color: Color {
         switch self {
         case .accepted:
@@ -70,7 +76,7 @@ extension ProposalState {
     }
 }
 
-extension ProposalState? {
+extension ProposalStatus? {
     var accentColor: (dark: String, light: String) {
         switch self {
         case .accepted:
@@ -93,8 +99,41 @@ extension ProposalState? {
     }
 }
 
-extension Set<ProposalState> {
+extension EnvironmentValues {
+    private struct SelectedStatusKey: EnvironmentKey {
+        static let defaultValue: Set<ProposalStatus> = .allCases
+    }
+
+    var selectedStatus: Set<ProposalStatus> {
+        get { self[SelectedStatusKey.self] }
+        set { self[SelectedStatusKey.self] = newValue }
+    }
+}
+
+extension Set<ProposalStatus> {
     static var allCases: Set {
         .init(Element.allCases)
+    }
+}
+
+extension Set<ProposalStatus>: RawRepresentable {
+    public init?(rawValue: String) {
+        guard
+            let data = rawValue.data(using: .utf8),
+            let result = try? JSONDecoder().decode(Self.self, from: data)
+        else {
+            return nil
+        }
+        self = result
+    }
+
+    public var rawValue: String {
+        guard
+            let data = try? JSONEncoder().encode(self),
+            let result = String(data: data, encoding: .utf8)
+        else {
+            return "[]"
+        }
+        return result
     }
 }

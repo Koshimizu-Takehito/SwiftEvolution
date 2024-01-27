@@ -20,7 +20,7 @@ struct ContentView: View {
     /// すべてのブックマーク
     @State private var allBookmark: [ProposalID] = []
     /// 選択中のステータス
-    @Environment(PickedStatus.self) private var status
+    @SceneStorage var status: Set<ProposalStatus> = .allCases
     /// リスト画面で選択された詳細画面のコンテンツ
     @State private var selection: Markdown?
 
@@ -30,7 +30,7 @@ struct ContentView: View {
             ProposalListView(
                 horizontal: horizontal,
                 selection: $selection,
-                status: status.current,
+                status: status,
                 isBookmarked: !allBookmark.isEmpty && isBookmarked
             )
             .overlay {

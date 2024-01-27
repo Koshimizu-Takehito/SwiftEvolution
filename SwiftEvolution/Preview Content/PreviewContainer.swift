@@ -23,7 +23,6 @@ struct PreviewContainer<Content: View>: View {
 
     var body: some View {
         content()
-            .environment(PickedStatus())
             .modelContainer(modelContainer)
     }
 }

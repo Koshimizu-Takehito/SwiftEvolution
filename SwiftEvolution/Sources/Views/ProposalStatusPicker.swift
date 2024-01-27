@@ -3,7 +3,7 @@ import Observation
 
 struct ProposalStatusPicker: View {
     @State private var showPopover = false
-    @Environment(PickedStatus.self) private var model
+    @SceneStorage var status: Set<ProposalStatus> = .allCases
 
     var body: some View {
         Button(
@@ -18,8 +18,8 @@ struct ProposalStatusPicker: View {
         .popover(isPresented: $showPopover) {
             VStack {
                 FlowLayout(alignment: .leading, spacing: 8) {
-                    ForEach(model.all, id: \.self) { option in
-                        Toggle(option.description, isOn: model.isOn(option))
+                    ForEach(ProposalStatus.allCases, id: \.self) { option in
+                        Toggle(option.description, isOn: $status.isOn(option))
                             .toggleStyle(.button)
                             .tint(option.color)
                     }
@@ -29,14 +29,14 @@ struct ProposalStatusPicker: View {
                 HStack {
                     Spacer()
                     Button("Select All") {
-                        model.selectAll()
+                        status = Set(ProposalStatus.allCases)
                     }
-                    .disabled(model.isAll())
+                    .disabled(status == Set(ProposalStatus.allCases))
                     Spacer()
                     Button("Deselect All") {
-                        model.deselectAll()
+                        status = []
                     }
-                    .disabled(model.isNone())
+                    .disabled(status.isEmpty)
                     Spacer()
                 }
             }
@@ -48,7 +48,7 @@ struct ProposalStatusPicker: View {
     }
 
     var iconName: String {
-        model.isAll()
+        status == Set(ProposalStatus.allCases)
             ? "line.3.horizontal.decrease.circle"
             : "line.3.horizontal.decrease.circle.fill"
     }
@@ -56,5 +56,4 @@ struct ProposalStatusPicker: View {
 
 #Preview {
     ProposalStatusPicker()
-        .environment(PickedStatus())
 }

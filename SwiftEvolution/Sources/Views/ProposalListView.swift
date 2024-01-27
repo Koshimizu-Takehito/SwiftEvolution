@@ -6,12 +6,12 @@ struct ProposalListView: View {
     let horizontal: UserInterfaceSizeClass?
     @Binding var selection: Markdown?
     @Query private var proposals: [ProposalObject]
-    let status: Set<ProposalState>
+    let status: Set<ProposalStatus>
 
     init(
         horizontal: UserInterfaceSizeClass?,
         selection: Binding<Markdown?>,
-        status: Set<ProposalState>,
+        status: Set<ProposalStatus>,
         isBookmarked: Bool
     ) {
         self.horizontal = horizontal
