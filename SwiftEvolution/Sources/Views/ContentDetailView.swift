@@ -37,13 +37,19 @@ struct ContentDetailView: View {
     func destination(markdown: Markdown) -> some View {
         ProposalDetailView(
             path: $detailPath,
-            tint: $tintColor,
             markdown: markdown
         )
+        .onChange(of: accentColor(markdown), initial: true) { _, color in
+            tintColor = color
+        }
     }
 
     /// コンテンツのステータスに対応した色
     var initialTint: Color {
+        markdown.proposal.state?.color ?? .darkText
+    }
+
+    func accentColor(_ markdown: Markdown) -> Color {
         markdown.proposal.state?.color ?? .darkText
     }
 }

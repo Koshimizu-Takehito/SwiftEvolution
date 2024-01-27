@@ -3,6 +3,11 @@ import SwiftData
 
 // MARK: - DetailView
 struct ProposalDetailView: View {
+    /// NavigationPath
+    @Binding var path: NavigationPath
+    /// 当該コンテンツ
+    @State var markdown: Markdown
+
     /// SizeClass
     @Environment(\.verticalSizeClass) private var vertical
     /// ModelContext
@@ -15,26 +20,10 @@ struct ProposalDetailView: View {
     @State private var isLoaded: Bool = false
     /// コンテンツ取得失敗
     @State private var error: Error?
-    /// NavigationPath
-    @Binding private var path: NavigationPath
-    /// TintColor
-    @Binding private var tint: Color?
     /// HTML を再生成するための識別子
     @State private var HTMLRebuildId = UUID()
     /// マークダウンから生成される HTML
     @State private var html: String?
-    /// 当該コンテンツ
-    @State private var markdown: Markdown
-
-    init(
-        path: Binding<NavigationPath>,
-        tint: Binding<Color?> = .constant(nil),
-        markdown: Markdown
-    ) {
-        self._path = path
-        self._tint = tint
-        self._markdown = .init(initialValue: markdown)
-    }
 
     var body: some View {
         // WebView（ コンテンツの HTML を読み込む ）
@@ -55,16 +44,13 @@ struct ProposalDetailView: View {
         .onChange(of: isBookmarked) { _, new in
             saveBookmark(isBookmarked: new)
         }
-        .onChange(of: statusColor, initial: true) {
-            tint = statusColor
-        }
         .opacity(isLoaded ? 1 : 0)
         .navigationTitle(markdown.proposal.title)
 #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
 #endif
         .ignoresSafeArea(edges: .bottom)
-        .tint(statusColor)
+        .tint(markdown.proposal.state?.color)
         .task(id: HTMLRebuildId) {
             // マークダウンファイルを HTML ファイルに変換
             html = try? await markdown.buildHTML(highlight: highlight)
@@ -97,11 +83,6 @@ struct ProposalDetailView: View {
 }
 
 private extension ProposalDetailView {
-    /// 当該プロポーザルのレビューステータスに関連した色
-    var statusColor: Color? {
-        markdown.proposal.state?.color
-    }
-
     /// 当該プロポーザルのブックマークの有無を保存
     func saveBookmark(isBookmarked: Bool) {
         let proposal = ProposalObject[markdown.proposal.id, in: context]
@@ -120,7 +101,7 @@ private extension ProposalDetailView {
 #Preview {
     PreviewContainer {
         NavigationStack {
-            ProposalDetailView(path: .fake, tint: .fake, markdown: .fake0418)
+            ProposalDetailView(path: .fake, markdown: .fake0418)
         }
     }
 }
