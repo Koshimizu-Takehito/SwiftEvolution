@@ -17,10 +17,10 @@ struct ContentView: View {
     @State private var refresh = UUID()
     /// すべてのプロポーザル
     @Query(animation: .default) private var allProposals: [ProposalObject]
-    /// すべてのブックマーク
-    @State private var allBookmark: [ProposalID] = []
     /// 選択中のステータス
     @SceneStorage var status: Set<ProposalStatus> = .allCases
+    /// すべてのブックマーク
+    @State private var allBookmark: [ProposalID] = []
     /// リスト画面で選択された詳細画面のコンテンツ
     @State private var selection: Markdown?
 

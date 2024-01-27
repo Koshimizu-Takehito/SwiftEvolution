@@ -56,23 +56,6 @@ extension ProposalObject {
         let descriptor = FetchDescriptor(predicate: predicate)
         return try? context.fetch(descriptor).first
     }
-
-    static func query(status: Set<ProposalStatus>, isBookmarked: Bool) -> Query<ProposalObject, [ProposalObject]> {
-        Query(
-            filter: predicate(states: status, isBookmarked: isBookmarked),
-            sort: \.id,
-            order: .reverse,
-            animation: .default
-        )
-    }
-
-    static func predicate(states: Set<ProposalStatus>, isBookmarked: Bool) -> Predicate<ProposalObject> {
-        let states = Set(states.map(\.rawValue))
-        return #Predicate<ProposalObject> { proposal in
-            states.contains(proposal.status.state)
-                && (!isBookmarked || proposal.isBookmarked == isBookmarked)
-        }
-    }
 }
 
 private extension ProposalObject {
@@ -93,9 +76,28 @@ private extension ProposalObject {
     }
 }
 
+extension Query<ProposalObject, [ProposalObject]> {
+    static func query(status: Set<ProposalStatus>, isBookmarked: Bool) -> Query {
+        Query(
+            filter: .predicate(states: status, isBookmarked: isBookmarked),
+            sort: \.id,
+            order: .reverse,
+            animation: .default
+        )
+    }
+}
+
 extension Predicate<ProposalObject> {
+    static func predicate(states: Set<ProposalStatus>, isBookmarked: Bool) -> Predicate<ProposalObject> {
+        let states = Set(states.map(\.rawValue))
+        return #Predicate { proposal in
+            states.contains(proposal.status.state)
+                && (!isBookmarked || proposal.isBookmarked == isBookmarked)
+        }
+    }
+
     static var bookmark: Predicate<ProposalObject> {
-        #Predicate<ProposalObject> { $0.isBookmarked }
+        #Predicate { $0.isBookmarked }
     }
 }
 

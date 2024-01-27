@@ -17,7 +17,7 @@ struct ProposalListView: View {
         self.horizontal = horizontal
         self.status = status
         _selection = selection
-        _proposals = ProposalObject.query(
+        _proposals = .query(
             status: status, isBookmarked: isBookmarked
         )
     }
