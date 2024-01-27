@@ -46,9 +46,7 @@ struct ProposalDetailView: View {
         }
         .opacity(isLoaded ? 1 : 0)
         .navigationTitle(markdown.proposal.title)
-#if os(iOS)
-        .navigationBarTitleDisplayMode(.inline)
-#endif
+        .iOSNavigationBarTitleDisplayMode(.inline)
         .ignoresSafeArea(edges: .bottom)
         .tint(markdown.proposal.state?.color)
         .task(id: HTMLRebuildId) {
