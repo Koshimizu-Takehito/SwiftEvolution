@@ -3,12 +3,15 @@ import SwiftData
 
 @main
 struct App: SwiftUI.App {
-    private let container = ModelContainer.appContainer()
+    private let sharedContainer = try! ModelContainer(
+        for: ProposalObject.self,
+        configurations: ModelConfiguration()
+    )
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .modelContainer(container)
+                .modelContainer(sharedContainer)
         }
 #if os(macOS)
         Settings {
@@ -17,24 +20,3 @@ struct App: SwiftUI.App {
 #endif
     }
 }
-
-private extension ModelContainer {
-    static func appContainer() -> ModelContainer {
-        do {
-            return try ModelContainer(
-                for: ProposalObject.self,
-                configurations: ModelConfiguration()
-            )
-        } catch {
-            fatalError(error.localizedDescription)
-        }
-    }
-}
-
-#if DEBUG
-#Preview {
-    PreviewContainer {
-        ContentView()
-    }
-}
-#endif
