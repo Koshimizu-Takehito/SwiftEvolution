@@ -3,8 +3,6 @@ import SwiftUI
 struct ProposalHTMLBuilder {
     typealias HTMLColor = (dark: String, light: String)
 
-    private(set) var htmlString: String?
-
     /// HTML 文字列を生成
     func build(markdown: Markdown, highlight: SyntaxHighlight) -> String? {
         guard let text = markdown.text else {
