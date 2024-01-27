@@ -1,11 +1,19 @@
 import SwiftUI
 import Observation
 
+/// マークダウン
 struct Markdown: Codable, Hashable, Identifiable {
-    let proposal: Proposal
-    let url: MarkdownURL
+    /// 一意識別子
+    ///
+    /// 同一のプロポーザルだとしても異なるブランチやリポジトリの可能性があるので、
+    /// `URL` を一意識別子とする。
     var id: URL { url.rawValue }
-    private var text: String?
+    /// 該当のプロポーザル
+    let proposal: Proposal
+    /// プロポーザルのURL
+    let url: MarkdownURL
+    /// マークダウン文字列
+    private(set) var text: String?
 
     init(proposal: Proposal, url: MarkdownURL? = nil) {
         self.proposal = proposal
@@ -14,19 +22,5 @@ struct Markdown: Codable, Hashable, Identifiable {
 
     mutating func fetch() async throws {
         text = try await MarkdownRipository(url: url).fetch()
-    }
-
-    mutating func buildHTML(highlight: SyntaxHighlight) async throws -> String {
-        if let text {
-            let builder = HTMLBuilder(
-                proposal: proposal,
-                markdown: text,
-                highlight: highlight
-            )
-            return await builder.buildHTML()
-        } else {
-            try await fetch()
-            return try await buildHTML(highlight: highlight)
-        }
     }
 }

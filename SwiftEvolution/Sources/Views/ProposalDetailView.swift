@@ -50,8 +50,15 @@ struct ProposalDetailView: View {
         .ignoresSafeArea(edges: .bottom)
         .tint(markdown.proposal.state?.color)
         .task(id: HTMLRebuildId) {
+            try? await markdown.fetch()
+            guard let text = markdown.text else { return }
             // マークダウンファイルを HTML ファイルに変換
-            html = try? await markdown.buildHTML(highlight: highlight)
+            let builder = HTMLBuilder(
+                proposal: markdown.proposal,
+                markdown: text,
+                highlight: highlight
+            )
+            html = await builder.buildHTML()
         }
     }
 
