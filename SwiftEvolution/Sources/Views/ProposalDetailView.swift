@@ -21,7 +21,7 @@ struct ProposalDetailView: View {
     /// コンテンツ取得失敗
     @State private var error: Error?
     /// HTML を再生成するための識別子
-    @State private var HTMLRebuildId = UUID()
+    @State private var htmlRebuildId: UUID?
     /// マークダウンから生成される HTML
     @State private var html: String?
 
@@ -49,16 +49,15 @@ struct ProposalDetailView: View {
         .iOSNavigationBarTitleDisplayMode(.inline)
         .ignoresSafeArea(edges: .bottom)
         .tint(markdown.proposal.state?.color)
-        .task(id: HTMLRebuildId) {
+        .task {
             try? await markdown.fetch()
-            guard let text = markdown.text else { return }
-            // マークダウンファイルを HTML ファイルに変換
-            let builder = HTMLBuilder(
-                proposal: markdown.proposal,
-                markdown: text,
-                highlight: highlight
-            )
-            html = await builder.buildHTML()
+            htmlRebuildId = .init()
+        }
+        .task(id: htmlRebuildId) {
+            guard htmlRebuildId != nil else { return }
+            // マークダウンテキストを HTML ファイルに変換
+            html = ProposalHTMLBuilder()
+                .build(markdown: markdown, highlight: highlight)
         }
     }
 
@@ -73,7 +72,7 @@ struct ProposalDetailView: View {
                     ForEach(SyntaxHighlight.allCases) { item in
                         Button(item.displayName) {
                             highlight = item
-                            HTMLRebuildId = .init()
+                            htmlRebuildId = .init()
                         }
                     }
                 } label: {

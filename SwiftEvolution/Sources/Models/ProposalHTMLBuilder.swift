@@ -1,28 +1,22 @@
 import SwiftUI
-import Observation
 
-actor HTMLBuilder {
+struct ProposalHTMLBuilder {
     typealias HTMLColor = (dark: String, light: String)
 
-    let markdown: String
-    let title: String
-    let accentColor: HTMLColor
-    let highlight: SyntaxHighlight
-
-    init(proposal: Proposal, markdown: String, highlight: SyntaxHighlight) {
-        self.title = proposal.title
-        self.accentColor = proposal.state.accentColor
-        self.markdown = markdown
-        self.highlight = highlight
-    }
+    private(set) var htmlString: String?
 
     /// HTML 文字列を生成
-    func buildHTML() -> String {
-        Assets.HTML.proposalTemplate.asset
+    func build(markdown: Markdown, highlight: SyntaxHighlight) -> String? {
+        guard let text = markdown.text else {
+            return nil
+        }
+        let title = markdown.proposal.title
+        let accent = markdown.proposal.state.accentColor
+        return Assets.HTML.proposalTemplate.asset
             // HTML のタイトルを設定
             .replacingOccurrences(of: "$title", with: title)
             // github-markdown の　CSS を設定
-            .replacingOccurrences(of: "$githubMarkdownCss", with: githubMarkdownCss)
+            .replacingOccurrences(of: "$githubMarkdownCss", with: markdownCss(accent: accent))
             // シンタックスハイライトの　CSS を設定
             .replacingOccurrences(of: "$highlightjsStyleCss", with: highlight.asset)
             // marked の javascript を設定。マークダウンから HTML に変換される
@@ -32,22 +26,22 @@ actor HTMLBuilder {
             // シンタックスハイライトの　javascript を設定（ Swift ）
             .replacingOccurrences(of: "$highlightJsSwift", with: Assets.Js.highlightSwift.asset)
             // マークダウンを HTML ファイルに注入
-            .replacingOccurrences(of: "$markdown", with: markdown)
+            .replacingOccurrences(of: "$markdown", with: text)
     }
 
     /// github-markdown の　CSS
-    var githubMarkdownCss: String {
+    func markdownCss(accent: HTMLColor) -> String {
         // プロポーザルに関連したレビューステータスの配色をアクセントカラーとして注入
-        return Assets.CSS.githubMarkdown.asset
+        Assets.CSS.githubMarkdown.asset
             .replacingOccurrences(of: "$body-font-size", with: bodyFontSize)
-            .replacingOccurrences(of: "$color-accent-fg-dark", with: accentColor.dark)
-            .replacingOccurrences(of: "$color-accent-fg-light", with: accentColor.light)
-            .replacingOccurrences(of: "$background-color-dark", with: backgroundColor.dark)
-            .replacingOccurrences(of: "$background-color-light", with: backgroundColor.light)
+            .replacingOccurrences(of: "$color-accent-fg-dark", with: accent.dark)
+            .replacingOccurrences(of: "$color-accent-fg-light", with: accent.light)
+            .replacingOccurrences(of: "$background-color-dark", with: background.dark)
+            .replacingOccurrences(of: "$background-color-light", with: background.light)
     }
 
     /// HTML の背景色
-    var backgroundColor: HTMLColor {
+    var background: HTMLColor {
 #if os(macOS)
         return ("#313131", "#ececec") // NSColor.windowBackgroundColor
 #else
@@ -55,6 +49,7 @@ actor HTMLBuilder {
 #endif
     }
 
+    /// 本文のフォントサイズ
     var bodyFontSize: String {
 #if os(macOS)
         return "20px"
