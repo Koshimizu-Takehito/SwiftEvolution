@@ -3,7 +3,7 @@ import Observation
 
 /// マークダウン
 struct Markdown: Codable, Hashable, Identifiable {
-    /// 一意識別子
+    /// マークダウンの一意識別子
     ///
     /// 同一のプロポーザルだとしても異なるブランチやリポジトリの可能性があるので、
     /// `URL` を一意識別子とする。

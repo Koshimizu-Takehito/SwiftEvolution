@@ -20,14 +20,10 @@ struct App: SwiftUI.App {
 
 private extension ModelContainer {
     static func appContainer() -> ModelContainer {
-        let proposal = ModelConfiguration(
-            schema: Schema([ProposalObject.self]),
-            cloudKitDatabase: .none
-        )
         do {
             return try ModelContainer(
                 for: ProposalObject.self,
-                configurations: proposal
+                configurations: ModelConfiguration()
             )
         } catch {
             fatalError(error.localizedDescription)
