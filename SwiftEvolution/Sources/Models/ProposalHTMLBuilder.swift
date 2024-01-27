@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ProposalHTMLBuilder {
+actor ProposalHTMLBuilder {
     typealias HTMLColor = (dark: String, light: String)
 
     /// HTML 文字列を生成

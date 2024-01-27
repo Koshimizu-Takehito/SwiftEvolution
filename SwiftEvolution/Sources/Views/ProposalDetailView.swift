@@ -56,7 +56,7 @@ struct ProposalDetailView: View {
         .task(id: htmlRebuildId) {
             guard htmlRebuildId != nil else { return }
             // マークダウンテキストを HTML ファイルに変換
-            html = ProposalHTMLBuilder()
+            html = await ProposalHTMLBuilder()
                 .build(markdown: markdown, highlight: highlight)
         }
     }
