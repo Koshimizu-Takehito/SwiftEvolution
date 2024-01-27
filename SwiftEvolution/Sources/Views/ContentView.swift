@@ -14,7 +14,7 @@ struct ContentView: View {
     /// リスト取得エラー
     @State private var fetcherror: Error?
     /// リスト再取得トリガー
-    @State private var refresh = UUID()
+    @State private var refresh: UUID?
     /// すべてのプロポーザル
     @Query(animation: .default) private var allProposals: [ProposalObject]
     /// 選択中のステータス
@@ -35,7 +35,9 @@ struct ContentView: View {
             )
             .overlay {
                 // エラー画面
-                ErrorView(error: fetcherror, retry: retry)
+                ErrorView(error: fetcherror) {
+                    refresh = .init()
+                }
             }
             .toolbar {
                 // ツールバー
@@ -53,7 +55,9 @@ struct ContentView: View {
             }
         }
         .tint(barTint)
-        .task(id: refresh) { await refresh() }
+        .task(id: refresh) {
+            await refresh()
+        }
         .onChange(of: try! allProposals.filter(.bookmark), initial: true) { _, new in
             withAnimation { allBookmark = new.map(\.id) }
         }
@@ -84,7 +88,9 @@ struct ContentView: View {
 private extension ContentView {
     @MainActor
     func refresh() async {
-        fetcherror = nil
+        if fetcherror != nil {
+            fetcherror = nil
+        }
         do {
             try await ProposalObject.fetch(context: context)
         } catch {
@@ -92,10 +98,6 @@ private extension ContentView {
                 fetcherror = error
             }
         }
-    }
-
-    func retry() {
-        refresh = .init()
     }
 
     var detailTint: Binding<Color?> {

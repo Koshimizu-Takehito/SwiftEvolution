@@ -3,13 +3,13 @@ import SwiftData
 
 @main
 struct App: SwiftUI.App {
-    let modelContainer: ModelContainer = .appContainer()
+    private let container = ModelContainer.appContainer()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .modelContainer(container)
         }
-        .modelContainer(modelContainer)
 #if os(macOS)
         Settings {
             SettingsView()
@@ -30,3 +30,11 @@ private extension ModelContainer {
         }
     }
 }
+
+#if DEBUG
+#Preview {
+    PreviewContainer {
+        ContentView()
+    }
+}
+#endif
