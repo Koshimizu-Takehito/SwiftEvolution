@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MarkdownURL: RawRepresentable, Codable, Hashable {
-    var rawValue: URL
+    let rawValue: URL
 
     init(rawValue url: URL) {
         // github.com から raw.githubusercontent.com URL に変換する

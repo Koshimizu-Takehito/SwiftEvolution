@@ -21,15 +21,15 @@ struct ContentView: View {
     @State private var allBookmark: [ProposalID] = []
     /// 選択中のステータス
     @Environment(PickedStatus.self) private var status
-    /// 詳細画面のコンテンツURL
-    @State private var detailURL: ProposalURL?
+    /// リスト画面で選択された詳細画面のコンテンツ
+    @State private var selection: Markdown?
 
     var body: some View {
         NavigationSplitView {
             // リスト画面
             ProposalListView(
                 horizontal: horizontal,
-                detailURL: $detailURL,
+                selection: $selection,
                 status: status.current,
                 isBookmarked: !allBookmark.isEmpty && isBookmarked
             )
@@ -43,13 +43,13 @@ struct ContentView: View {
             }
         } detail: {
             // 詳細画面
-            if let detailURL {
+            if let selection {
                 ContentDetailView(
-                    url: detailURL,
+                    markdown: selection,
                     horizontal: horizontal,
                     tintColor: detailTint
                 )
-                .id(detailURL)
+                .id(selection)
             }
         }
         .tint(barTint)

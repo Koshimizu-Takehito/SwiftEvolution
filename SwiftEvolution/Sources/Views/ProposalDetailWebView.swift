@@ -15,7 +15,7 @@ struct ProposalDetailWebView: UIViewRepresentable {
     /// HTMLのロード状態
     @Binding var isLoaded: Bool
     /// 別プロポーザルへのリンクをタップした際のコールバックハンドラ
-    var onTapLinkURL: (ProposalURL) -> Void
+    var onTapLinkURL: (Markdown) -> Void
 
     public func makeUIView(context: Context) -> WKWebView {
         perform {
@@ -60,9 +60,9 @@ extension ProposalDetailWebView {
     final class Coordinator: NSObject {
         private let container: ModelContainer
         private let isLoaded: Binding<Bool>
-        private let onTap: (ProposalURL) -> Void
+        private let onTap: (Markdown) -> Void
 
-        init(container: ModelContainer, isLoaded: Binding<Bool>, onTap: @escaping (ProposalURL) -> Void) {
+        init(container: ModelContainer, isLoaded: Binding<Bool>, onTap: @escaping (Markdown) -> Void) {
             self.container = container
             self.isLoaded = isLoaded
             self.onTap = onTap
@@ -124,7 +124,7 @@ extension ProposalDetailWebView.Coordinator: WKNavigationDelegate {
         guard let proposal = ProposalObject[id, in: context] else {
             return
         }
-        onTap(ProposalURL(proposal, url))
+        onTap(Markdown(proposal: .init(proposal), url: url))
     }
 
     /// SFSafariViewController で Web コンテンツを表示

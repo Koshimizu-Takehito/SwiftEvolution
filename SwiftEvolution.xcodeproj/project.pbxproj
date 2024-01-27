@@ -23,7 +23,6 @@
 		FB71CF9C2B4A48590018050B /* ProposalListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB71CF9B2B4A48590018050B /* ProposalListView.swift */; };
 		FB71CF9E2B4A4A3E0018050B /* ProposalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB71CF9D2B4A4A3E0018050B /* ProposalDetailView.swift */; };
 		FB88EA382B43DE0C00A6EBB3 /* SyntaxHighlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB88EA372B43DE0C00A6EBB3 /* SyntaxHighlight.swift */; };
-		FB88EA3C2B43F58300A6EBB3 /* ProposalURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB88EA3B2B43F58300A6EBB3 /* ProposalURL.swift */; };
 		FB88EA3E2B43FE0C00A6EBB3 /* MarkdownURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB88EA3D2B43FE0C00A6EBB3 /* MarkdownURL.swift */; };
 		FB88EA5B2B44EF1800A6EBB3 /* ProposalStatusPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB88EA5A2B44EF1800A6EBB3 /* ProposalStatusPicker.swift */; };
 		FB88EA5D2B44EF2900A6EBB3 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB88EA5C2B44EF2900A6EBB3 /* FlowLayout.swift */; };
@@ -62,7 +61,6 @@
 		FB71CF9B2B4A48590018050B /* ProposalListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalListView.swift; sourceTree = "<group>"; };
 		FB71CF9D2B4A4A3E0018050B /* ProposalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalDetailView.swift; sourceTree = "<group>"; };
 		FB88EA372B43DE0C00A6EBB3 /* SyntaxHighlight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyntaxHighlight.swift; sourceTree = "<group>"; };
-		FB88EA3B2B43F58300A6EBB3 /* ProposalURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalURL.swift; sourceTree = "<group>"; };
 		FB88EA3D2B43FE0C00A6EBB3 /* MarkdownURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownURL.swift; sourceTree = "<group>"; };
 		FB88EA5A2B44EF1800A6EBB3 /* ProposalStatusPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalStatusPicker.swift; sourceTree = "<group>"; };
 		FB88EA5C2B44EF2900A6EBB3 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
@@ -153,7 +151,6 @@
 				FB88EA3D2B43FE0C00A6EBB3 /* MarkdownURL.swift */,
 				FBFDD4182B5240A80004EDE1 /* Proposal.swift */,
 				FBB64DEC2B424FBB00D99C2F /* ProposalState.swift */,
-				FB88EA3B2B43F58300A6EBB3 /* ProposalURL.swift */,
 				FB88EA372B43DE0C00A6EBB3 /* SyntaxHighlight.swift */,
 			);
 			path = Entities;
@@ -323,7 +320,6 @@
 				FBB64DED2B424FBB00D99C2F /* ProposalState.swift in Sources */,
 				FBFDD4192B5240A80004EDE1 /* Proposal.swift in Sources */,
 				FB4654EB2B53F8DB00E494E6 /* UIColor+.swift in Sources */,
-				FB88EA3C2B43F58300A6EBB3 /* ProposalURL.swift in Sources */,
 				FB26CCAB2B5CF1A700D92D1F /* SettingsCommands.swift in Sources */,
 				FB1AC20D2B63A7CA0053072B /* MarkdownRipository.swift in Sources */,
 				FB71CF9A2B4A3B1E0018050B /* PreviewSampleData.swift in Sources */,

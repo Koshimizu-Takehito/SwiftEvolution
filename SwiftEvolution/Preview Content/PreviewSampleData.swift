@@ -22,16 +22,20 @@ actor PreviewSampleData {
     }
 }
 
-extension ProposalURL {
-    static var fake0418: ProposalURL {
-        ProposalURL(
-            Proposal(
-                id: "SE-0418",
-                link: "0418-inferring-sendable-for-methods.md",
-                status: Status(state: ".accepted"),
-                title: "Inferring Sendable for methods and key path literals"
-            )
+extension Proposal {
+    static var fake0418: Self {
+        Proposal(
+            id: "SE-0418",
+            link: "0418-inferring-sendable-for-methods.md",
+            status: Status(state: ".accepted"),
+            title: "Inferring Sendable for methods and key path literals"
         )
+    }
+}
+
+extension Markdown {
+    static var fake0418: Self {
+        Markdown(proposal: .fake0418, url: nil)
     }
 }
 

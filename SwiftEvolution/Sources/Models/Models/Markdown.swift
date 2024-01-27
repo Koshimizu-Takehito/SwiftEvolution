@@ -1,28 +1,28 @@
 import SwiftUI
 import Observation
 
-@Observable
-final class Markdown {
+struct Markdown: Codable, Hashable, Identifiable {
     let proposal: Proposal
     let url: MarkdownURL
-    private var markdown: String?
+    var id: URL { url.rawValue }
+    private var text: String?
 
     init(proposal: Proposal, url: MarkdownURL? = nil) {
         self.proposal = proposal
         self.url = url ?? MarkdownURL(link: proposal.link)
     }
 
-    convenience init(url: ProposalURL) {
-        self.init(proposal: url.proposal, url: url.url)
+    mutating func fetch() async throws {
+        text = try await MarkdownRipository(url: url).fetch()
     }
 
-    func fetch() async throws {
-        markdown = try await MarkdownRipository(url: url).fetch()
-    }
-
-    func buildHTML(highlight: SyntaxHighlight) async throws -> String {
-        if let markdown {
-            let builder = HTMLBuilder(proposal: proposal, markdown: markdown, highlight: highlight)
+    mutating func buildHTML(highlight: SyntaxHighlight) async throws -> String {
+        if let text {
+            let builder = HTMLBuilder(
+                proposal: proposal,
+                markdown: text,
+                highlight: highlight
+            )
             return await builder.buildHTML()
         } else {
             try await fetch()

@@ -4,28 +4,28 @@ import SwiftData
 // MARK: - ListView
 struct ProposalListView: View {
     let horizontal: UserInterfaceSizeClass?
-    @Binding var detailURL: ProposalURL?
+    @Binding var selection: Markdown?
     @Query private var proposals: [ProposalObject]
     let status: Set<ProposalState>
 
     init(
         horizontal: UserInterfaceSizeClass?,
-        detailURL: Binding<ProposalURL?>,
+        selection: Binding<Markdown?>,
         status: Set<ProposalState>,
         isBookmarked: Bool
     ) {
         self.horizontal = horizontal
         self.status = status
-        _detailURL = detailURL
+        _selection = selection
         _proposals = ProposalObject.query(
             status: status, isBookmarked: isBookmarked
         )
     }
 
     var body: some View {
-        List(selection: $detailURL) {
+        List(selection: $selection) {
             ForEach(proposals) { proposal in
-                NavigationLink(value: ProposalURL(proposal)) {
+                NavigationLink(value: Markdown(proposal: .init(proposal))) {
                     // Item View（セル）
                     ProposalItemView(proposal: proposal)
                 }
@@ -39,13 +39,13 @@ struct ProposalListView: View {
 
     func selectFirstItem() {
 #if os(macOS)
-        if detailURL == nil, let proposal = proposals.first {
-            detailURL = ProposalURL(proposal)
+        if selection == nil, let proposal = proposals.first {
+            selection = Markdown(proposal: .init(proposal))
         }
 #elseif os(iOS)
         /// SplitView　が画面分割表示の場合に、初期表示を与える
-        if horizontal == .regular, detailURL == nil, let proposal = proposals.first {
-            detailURL = ProposalURL(proposal)
+        if horizontal == .regular, selection == nil, let proposal = proposals.first {
+            selection = Markdown(proposal: .init(proposal))
         }
 #endif
     }

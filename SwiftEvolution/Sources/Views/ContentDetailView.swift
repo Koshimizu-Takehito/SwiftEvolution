@@ -7,8 +7,8 @@ import SwiftUI
 struct ContentDetailView: View {
     /// 詳細画面のNavigationPath
     @State private var detailPath = NavigationPath()
-    /// 詳細画面のコンテンツURL
-    let url: ProposalURL
+    /// 表示する値
+    let markdown: Markdown
     /// 水平サイズクラス
     let horizontal: UserInterfaceSizeClass?
     /// ナビゲーションバーの現在の色合い
@@ -17,40 +17,34 @@ struct ContentDetailView: View {
     var body: some View {
         NavigationStack(path: $detailPath, root: root)
             .navigationDestination(
-                for: ProposalURL.self,
-                destination: destination(url:)
+                for: Markdown.self,
+                destination: destination(markdown:)
             )
     }
 
     /// NavigationStack の Root 画面
     func root() -> some View {
-        Group {
-            switch (horizontal, tintColor) {
-            case (.compact, .none):
-                // compact の場合は tint の設定まで描画を遅延
-                EmptyView()
-            case (_, _):
-                // tint の設定後に、コンテンツURLに対応した詳細画面を表示
-                ProposalDetailView(path: $detailPath, url: url)
-            }
-        }
+        ProposalDetailView(
+            path: $detailPath,
+            markdown: markdown
+        )
         .onChange(of: initialTint, initial: true) { _, color in
             tintColor = color
         }
     }
 
     /// 詳細画面内のリンクURLタップ時に、該当のURLで別途詳細画面を表示する
-    func destination(url: ProposalURL) -> some View {
+    func destination(markdown: Markdown) -> some View {
         ProposalDetailView(
             path: $detailPath,
             tint: $tintColor,
-            url: url
+            markdown: markdown
         )
     }
 
     /// コンテンツのステータスに対応した色
     var initialTint: Color {
-        url.proposal.state?.color ?? .darkText
+        markdown.proposal.state?.color ?? .darkText
     }
 }
 
@@ -58,7 +52,7 @@ struct ContentDetailView: View {
 #Preview {
     PreviewContainer {
         ContentDetailView(
-            url: .fake0418,
+            markdown: .fake0418,
             horizontal: .compact,
             tintColor: .constant(.green)
         )

@@ -1,17 +1,6 @@
 import SwiftUI
 import SwiftData
 
-extension ProposalDetailView {
-    init(
-        path: Binding<NavigationPath>,
-        tint: Binding<Color?> = .constant(nil),
-        url: ProposalURL
-    ) {
-        let markdown = Markdown(url: url)
-        self.init(path: path, tint: tint, markdown: markdown)
-    }
-}
-
 // MARK: - DetailView
 struct ProposalDetailView: View {
     /// SizeClass
@@ -31,11 +20,21 @@ struct ProposalDetailView: View {
     /// TintColor
     @Binding private var tint: Color?
     /// HTML を再生成するための識別子
-    @State var HTMLRebuildId = UUID()
+    @State private var HTMLRebuildId = UUID()
     /// マークダウンから生成される HTML
-    @State var html: String?
-    /// 当該コンテンツ（Model）
-    private let markdown: Markdown
+    @State private var html: String?
+    /// 当該コンテンツ
+    @State private var markdown: Markdown
+
+    init(
+        path: Binding<NavigationPath>,
+        tint: Binding<Color?> = .constant(nil),
+        markdown: Markdown
+    ) {
+        self._path = path
+        self._tint = tint
+        self._markdown = .init(initialValue: markdown)
+    }
 
     var body: some View {
         // WebView（ コンテンツの HTML を読み込む ）
@@ -112,8 +111,8 @@ private extension ProposalDetailView {
     }
 
     /// 指定したプロポーザルを表示する
-    func showProposal(_ url: ProposalURL) {
-        path.append(url)
+    func showProposal(_ value: Markdown) {
+        path.append(value)
     }
 }
 
@@ -121,7 +120,7 @@ private extension ProposalDetailView {
 #Preview {
     PreviewContainer {
         NavigationStack {
-            ProposalDetailView(path: .fake, tint: .fake, url: .fake0418)
+            ProposalDetailView(path: .fake, tint: .fake, markdown: .fake0418)
         }
     }
 }
