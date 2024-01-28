@@ -88,9 +88,7 @@ struct ContentView: View {
 private extension ContentView {
     @MainActor
     func refresh() async {
-        if fetcherror != nil {
-            fetcherror = nil
-        }
+        fetcherror = nil
         do {
             try await ProposalObject.fetch(context: context)
         } catch {
