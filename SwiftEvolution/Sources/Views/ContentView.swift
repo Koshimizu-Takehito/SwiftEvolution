@@ -49,7 +49,7 @@ struct ContentView: View {
                 ContentDetailView(
                     markdown: selection,
                     horizontal: horizontal,
-                    tintColor: detailTint
+                    accentColor: detailTint
                 )
                 .id(selection)
             }

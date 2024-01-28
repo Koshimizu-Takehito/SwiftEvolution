@@ -11,42 +11,25 @@ struct ContentDetailView: View {
     let markdown: Markdown
     /// 水平サイズクラス
     let horizontal: UserInterfaceSizeClass?
-    /// ナビゲーションバーの現在の色合い
-    @Binding var tintColor: Color?
+    /// アクセントカラー（ ナビゲーションスタックにスタックされるごとに変更する ）
+    @Binding var accentColor: Color?
 
     var body: some View {
-        NavigationStack(path: $detailPath, root: root)
-            .navigationDestination(
-                for: Markdown.self,
-                destination: destination(markdown:)
-            )
-    }
-
-    /// NavigationStack の Root 画面
-    func root() -> some View {
-        ProposalDetailView(
-            path: $detailPath,
-            markdown: markdown
-        )
-        .onChange(of: initialTint, initial: true) { _, color in
-            tintColor = color
+        NavigationStack(path: $detailPath) {
+            // Root
+            detail(markdown: markdown)
+        }
+        .navigationDestination(for: Markdown.self) { markdown in
+            // Destination
+            detail(markdown: markdown)
         }
     }
 
-    /// 詳細画面内のリンクURLタップ時に、該当のURLで別途詳細画面を表示する
-    func destination(markdown: Markdown) -> some View {
-        ProposalDetailView(
-            path: $detailPath,
-            markdown: markdown
-        )
-        .onChange(of: accentColor(markdown), initial: true) { _, color in
-            tintColor = color
-        }
-    }
-
-    /// コンテンツのステータスに対応した色
-    var initialTint: Color {
-        markdown.proposal.state?.color ?? .darkText
+    func detail(markdown: Markdown) -> some View {
+        ProposalDetailView(path: $detailPath, markdown: markdown)
+            .onChange(of: accentColor(markdown), initial: true) { _, color in
+                accentColor = color
+            }
     }
 
     func accentColor(_ markdown: Markdown) -> Color {
@@ -60,7 +43,7 @@ struct ContentDetailView: View {
         ContentDetailView(
             markdown: .fake0418,
             horizontal: .compact,
-            tintColor: .constant(.green)
+            accentColor: .constant(.green)
         )
     }
 }
