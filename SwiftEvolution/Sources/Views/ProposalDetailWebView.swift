@@ -8,10 +8,10 @@ import SwiftData
 struct ProposalDetailWebView: UIViewRepresentable {
     /// ModelContext
     @Environment(\.modelContext) private var context
-    /// 表示コンテンツで利用するシンタックスハイライト
-    @AppStorage<SyntaxHighlight> private var highlight = .atomOneDark
     /// 該当プロポーザルのHTML
     let html: String?
+    /// 表示コンテンツで利用するシンタックスハイライト
+    let highlight: SyntaxHighlight
     /// HTMLのロード状態
     @Binding var isLoaded: Bool
     /// 別プロポーザルへのリンクをタップした際のコールバックハンドラ

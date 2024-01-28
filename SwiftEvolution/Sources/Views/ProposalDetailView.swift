@@ -24,11 +24,16 @@ struct ProposalDetailView: View {
     @State private var htmlRebuildId: UUID?
     /// マークダウンから生成される HTML
     @State private var html: String?
+    /// マークダウン取得エラー
+    @State private var fetcherror: Error?
+    /// マークダウン再取得トリガー
+    @State private var refresh: UUID?
 
     var body: some View {
         // WebView（ コンテンツの HTML を読み込む ）
         ProposalDetailWebView(
             html: html,
+            highlight: highlight,
             isLoaded: $isLoaded.animation(),
             onTapLinkURL: showProposal
         )
@@ -45,19 +50,34 @@ struct ProposalDetailView: View {
             saveBookmark(isBookmarked: new)
         }
         .opacity(isLoaded ? 1 : 0)
+        .overlay {
+            // エラー画面
+            ErrorView(error: fetcherror) {
+                refresh = .init()
+            }
+        }
         .navigationTitle(markdown.proposal.title)
         .iOSNavigationBarTitleDisplayMode(.inline)
         .ignoresSafeArea(edges: .bottom)
         .tint(markdown.proposal.state?.color)
-        .task {
-            try? await markdown.fetch()
-            htmlRebuildId = .init()
+        .task(id: refresh) {
+            // マークダウンテキストを取得
+            await fetchMarkdownText()
         }
-        .task(id: htmlRebuildId) {
-            guard htmlRebuildId != nil else { return }
+        .task(id: markdown.text) {
+            guard markdown.text != nil else { return }
             // マークダウンテキストを HTML ファイルに変換
             html = await ProposalHTMLBuilder()
                 .build(markdown: markdown, highlight: highlight)
+        }
+    }
+
+    func fetchMarkdownText() async {
+        fetcherror = nil
+        do {
+            try await markdown.fetch()
+        } catch {
+            fetcherror = error
         }
     }
 
@@ -72,7 +92,6 @@ struct ProposalDetailView: View {
                     ForEach(SyntaxHighlight.allCases) { item in
                         Button(item.displayName) {
                             highlight = item
-                            htmlRebuildId = .init()
                         }
                     }
                 } label: {
