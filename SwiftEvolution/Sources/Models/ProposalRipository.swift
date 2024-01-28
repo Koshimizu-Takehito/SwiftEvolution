@@ -1,6 +1,6 @@
 import Foundation
 
-final class ProposalRipository {
+actor ProposalRipository {
     let url = URL(
         string: "https://download.swift.org/swift-evolution/proposals.json"
     )!
