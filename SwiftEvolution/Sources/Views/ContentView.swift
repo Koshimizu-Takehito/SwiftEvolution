@@ -4,6 +4,8 @@ import SwiftData
 // MARK: - 
 /// ContentView
 struct ContentView: View {
+    @EnvironmentObject private var delegate: SceneDelegate
+
     @Environment(\.horizontalSizeClass) private var horizontal
     /// ModelContext
     @Environment(\.modelContext) private var context
@@ -60,6 +62,15 @@ struct ContentView: View {
         }
         .onChange(of: try! allProposals.filter(.bookmark), initial: true) { _, new in
             withAnimation { allBookmark = new.map(\.id) }
+        }
+        .onChange(of: delegate.proposalID) { _, publication in
+            guard 
+                let publication,
+                let object = ProposalObject[publication.value, in: context]
+            else {
+                return
+            }
+            selection = Markdown(proposal: .init(object))
         }
     }
 

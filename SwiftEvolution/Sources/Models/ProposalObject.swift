@@ -47,6 +47,13 @@ extension ProposalObject {
             let object = ProposalObject(value: value, isBookmarked: isBookmarked)
             context.insert(object)
         }
+        Task.detached(priority: .high) {
+            do {
+                try await SpotlightIndexUpdater.perform(values: values)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
 
     static subscript(id: ProposalID, in context: ModelContext) -> ProposalObject? {

@@ -3,6 +3,8 @@ import SwiftData
 
 @main
 struct App: SwiftUI.App {
+    @AppDelegateAdaptor<AppDelegate> private var delegate
+
     private let sharedContainer = try! ModelContainer(
         for: ProposalObject.self,
         configurations: ModelConfiguration()
