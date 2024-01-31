@@ -22,3 +22,26 @@ struct App: SwiftUI.App {
 #endif
     }
 }
+
+import AppIntents
+
+struct FooIntent: AppIntent {
+    static let title: LocalizedStringResource = "Swift"
+    static let description: LocalizedStringResource = "Swift Evolution"
+    static let openAppWhenRun: Bool = true
+
+    @MainActor func perform() async throws -> some IntentResult {
+        .result()
+    }
+}
+
+struct FooShortcutsProvider: AppShortcutsProvider {
+    static var appShortcuts: [AppShortcut] {
+        AppShortcut(
+            intent: FooIntent(),
+            phrases: ["\(.applicationName)"],
+            shortTitle: "Swift",
+            systemImageName: "star.fill"
+        )
+    }
+}
