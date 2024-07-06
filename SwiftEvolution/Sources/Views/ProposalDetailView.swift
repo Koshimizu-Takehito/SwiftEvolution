@@ -76,6 +76,10 @@ struct ProposalDetailView: View {
         fetcherror = nil
         do {
             markdown.text = try await markdown.fetch()
+        } catch let error as URLError  {
+            if error.code != URLError.cancelled {
+                fetcherror = error
+            }
         } catch {
             fetcherror = error
         }
