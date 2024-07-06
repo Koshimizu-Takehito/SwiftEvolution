@@ -116,7 +116,7 @@ extension Set<ProposalStatus> {
     }
 }
 
-extension Set<ProposalStatus>: RawRepresentable {
+extension Set<ProposalStatus>: @retroactive RawRepresentable {
     public init?(rawValue: String) {
         guard
             let data = rawValue.data(using: .utf8),

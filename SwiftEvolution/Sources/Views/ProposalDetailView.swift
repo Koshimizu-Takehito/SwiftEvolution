@@ -75,7 +75,7 @@ struct ProposalDetailView: View {
     func fetchMarkdownText() async {
         fetcherror = nil
         do {
-            try await markdown.fetch()
+            markdown.text = try await markdown.fetch()
         } catch {
             fetcherror = error
         }
