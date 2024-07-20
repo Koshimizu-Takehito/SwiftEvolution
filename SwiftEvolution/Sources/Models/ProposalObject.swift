@@ -7,6 +7,7 @@ typealias ProposalLink = String
 // MARK: - ProposalObject
 @Model
 final class ProposalObject {
+    #Unique<ProposalObject>([\.id])
     @Attribute(.unique) var id: ProposalID = ""
     var link: ProposalLink = ""
     var status: Status = Status()
