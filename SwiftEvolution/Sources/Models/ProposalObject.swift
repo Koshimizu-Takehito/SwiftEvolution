@@ -6,7 +6,8 @@ typealias ProposalLink = String
 
 // MARK: - ProposalObject
 @Model
-final class ProposalObject {
+final class ProposalObject: CustomStringConvertible {
+    #Unique<ProposalObject>([\.id])
     @Attribute(.unique) var id: ProposalID = ""
     var link: ProposalLink = ""
     var status: Status = Status()
@@ -26,6 +27,10 @@ final class ProposalObject {
         self.title = title
         self.isBookmarked = isBookmarked
     }
+
+    var description: String {
+        "#\(id) 🍩\(status.state) 📝\(title)"
+    }
 }
 
 extension ProposalObject {
@@ -37,15 +42,17 @@ extension ProposalObject {
     static func fetch(context: ModelContext) async throws {
         // APIからプロポーザルを取得
         let values = try await ProposalRipository().fetch()
-        // APIから取得した結果をマージ・保存
-        let objects = Dictionary(
-            try context.fetch(ProposalObject.self).lazy.map { ($0.id, $0) },
-            uniquingKeysWith: { _, rhs in rhs }
-        )
-        values.forEach { value in
-            let isBookmarked = objects[value.id]?.isBookmarked ?? false
-            let object = ProposalObject(value: value, isBookmarked: isBookmarked)
-            context.insert(object)
+        try context.transaction {
+            // APIから取得した結果をマージ・保存
+            let objects = Dictionary(
+                try context.fetch(ProposalObject.self).lazy.map { ($0.id, $0) },
+                uniquingKeysWith: { _, rhs in rhs }
+            )
+            values.forEach { value in
+                let isBookmarked = objects[value.id]?.isBookmarked ?? false
+                let object = ProposalObject(value: value, isBookmarked: isBookmarked)
+                context.insert(object)
+            }
         }
     }
 
