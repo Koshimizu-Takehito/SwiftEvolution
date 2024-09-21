@@ -6,7 +6,7 @@ typealias ProposalLink = String
 
 // MARK: - ProposalObject
 @Model
-final class ProposalObject {
+final class ProposalObject: CustomStringConvertible {
     #Unique<ProposalObject>([\.id])
     @Attribute(.unique) var id: ProposalID = ""
     var link: ProposalLink = ""
@@ -26,6 +26,10 @@ final class ProposalObject {
         self.status = status
         self.title = title
         self.isBookmarked = isBookmarked
+    }
+
+    var description: String {
+        "#\(id) 🍩\(status.state) 📝\(title)"
     }
 }
 

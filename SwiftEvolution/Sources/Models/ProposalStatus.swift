@@ -2,13 +2,13 @@ import SwiftUI
 
 // MARK: - State
 enum ProposalStatus: String, Codable, Hashable, CaseIterable {
-    case accepted = ".accepted"
-    case activeReview = ".activeReview"
-    case implemented = ".implemented"
-    case previewing = ".previewing"
-    case rejected = ".rejected"
-    case returnedForRevision = ".returnedForRevision"
-    case withdrawn = ".withdrawn"
+    case accepted
+    case activeReview
+    case implemented
+    case previewing
+    case rejected
+    case returnedForRevision
+    case withdrawn
 }
 
 extension ProposalStatus: Identifiable {

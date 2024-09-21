@@ -1,3 +1,11 @@
+// MARK: - V1
+struct V1: Codable, Hashable {
+    var commit: String
+    var creationDate: String
+    var implementationVersions: [String]
+    var proposals: [Proposal]
+}
+
 // MARK: - Proposal
 struct Proposal: Codable, Hashable, Identifiable {
     var id: ProposalID
