@@ -6,7 +6,7 @@ typealias ProposalLink = String
 
 // MARK: - ProposalObject
 @Model
-final class ProposalObject: CustomStringConvertible {
+final class ProposalObject: CustomStringConvertible, @unchecked Sendable {
     #Unique<ProposalObject>([\.id])
     @Attribute(.unique) var id: ProposalID = ""
     var link: ProposalLink = ""
@@ -112,4 +112,7 @@ extension ModelContext {
     func fetch<T>(_ type: T.Type = T.self) throws -> [T] where T : PersistentModel {
         try fetch(FetchDescriptor())
     }
+}
+
+extension KeyPath: @unchecked @retroactive Sendable where Root: Sendable, Value: Sendable {
 }
