@@ -66,20 +66,26 @@ struct ContentView: View {
     /// ツールバー
     @ToolbarContentBuilder
     var toolbar: some ToolbarContent {
-        if !allProposals.isEmpty {
-            ToolbarItemGroup(placement: .content) {
-                HStack {
-                    BookmarkButton(isBookmarked: $isBookmarked)
-                        .disabled(allBookmark.isEmpty)
-                        .opacity(allBookmark.isEmpty ? 0 : 1)
-                        .onChange(of: allBookmark.isEmpty) { _, isEmpty in
-                            if isEmpty {
-                                isBookmarked = false
-                            }
+        if !allBookmark.isEmpty {
+            ToolbarItem {
+                BookmarkButton(isBookmarked: $isBookmarked)
+                    .disabled(allBookmark.isEmpty)
+                    .opacity(allBookmark.isEmpty ? 0 : 1)
+                    .onChange(of: allBookmark.isEmpty) { _, isEmpty in
+                        if isEmpty {
+                            isBookmarked = false
                         }
-                    ProposalStatusPicker()
-                }
-                .tint(.darkText)
+                    }
+                    .tint(.darkText)
+            }
+        }
+        if #available(iOS 26.0, *) {
+            ToolbarSpacer()
+        }
+        if !allProposals.isEmpty {
+            ToolbarItem {
+                ProposalStatusPicker()
+                    .tint(.darkText)
             }
         }
     }
