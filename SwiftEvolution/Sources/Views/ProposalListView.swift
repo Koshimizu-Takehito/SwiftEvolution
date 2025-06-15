@@ -56,7 +56,7 @@ private struct ProposalItemView: View {
     let proposal: ProposalObject
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 8) {
             let label = label
             HStack {
                 // ラベル
@@ -64,7 +64,7 @@ private struct ProposalItemView: View {
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
                     .overlay {
-                        RoundedRectangle(cornerRadius: 4, style: .circular)
+                        ContainerRelativeShape()
                             .stroke()
                     }
                     .foregroundStyle(label.color)
@@ -75,12 +75,7 @@ private struct ProposalItemView: View {
                     .animation(.default, value: proposal.isBookmarked)
             }
             // 本文
-            let text = Text(proposal.id)
-                .foregroundStyle(.secondary)
-            + Text(" ")
-            + Text(proposal.title)
-                .foregroundStyle(.primary)
-            text
+            Text(title)
                 .lineLimit(nil) // macOS でこの指定が必須
         }
 #if os(macOS)
@@ -94,6 +89,12 @@ private struct ProposalItemView: View {
         let text = state.map(String.init(describing:)) ?? proposal.status.state
         let color = state?.color ?? .gray
         return (text, color)
+    }
+
+    var title: AttributedString {
+        let id = AttributedString(proposal.id, attributes: .init().foregroundColor(.secondary))
+        let title = AttributedString(proposal.title, attributes: .init().foregroundColor(.primary))
+        return id + " " + title
     }
 }
 
