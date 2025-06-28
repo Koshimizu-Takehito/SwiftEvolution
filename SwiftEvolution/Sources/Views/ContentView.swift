@@ -10,7 +10,7 @@ struct ContentView: View {
     /// ナビゲーションバーの現在の色合い
     @State private var tintColor: Color?
     /// ブックマークでのフィルタ有無
-    @State private var isBookmarked: Bool = false
+    @AppStorage("isBookmarked") private var isBookmarked: Bool = false
     /// リスト取得エラー
     @State private var fetcherror: Error?
     /// リスト再取得トリガー
@@ -18,7 +18,7 @@ struct ContentView: View {
     /// すべてのプロポーザル
     @Query(animation: .default) private var allProposals: [ProposalObject]
     /// 選択中のステータス
-    @SceneStorage var status: Set<ProposalStatus> = .allCases
+    @AppStorage var status: Set<ProposalStatus> = .allCases
     /// すべてのブックマーク
     @State private var allBookmark: [ProposalID] = []
     /// リスト画面で選択された詳細画面のコンテンツ

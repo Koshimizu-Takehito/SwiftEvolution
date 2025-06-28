@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @main
 struct App: SwiftUI.App {
@@ -12,6 +12,9 @@ struct App: SwiftUI.App {
         WindowGroup {
             ContentView()
                 .modelContainer(sharedContainer)
+        }
+        .commands {
+            FilterCommands()
         }
 #if os(macOS)
         Settings {

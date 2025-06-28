@@ -3,7 +3,7 @@ import Observation
 
 struct ProposalStatusPicker: View {
     @State private var showPopover = false
-    @SceneStorage var status: Set<ProposalStatus> = .allCases
+    @AppStorage var status: Set<ProposalStatus> = .allCases
 
     var body: some View {
         Button(
