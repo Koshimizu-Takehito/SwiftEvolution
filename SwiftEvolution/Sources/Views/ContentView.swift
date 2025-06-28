@@ -79,7 +79,7 @@ struct ContentView: View {
                     .tint(.darkText)
             }
         }
-        if #available(iOS 26.0, *) {
+        if #available(iOS 26.0, macOS 26.0, *) {
             ToolbarSpacer()
         }
         if !allProposals.isEmpty {

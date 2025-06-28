@@ -6,7 +6,7 @@ typealias ProposalLink = String
 
 // MARK: - ProposalObject
 @Model
-final class ProposalObject: CustomStringConvertible, @unchecked Sendable {
+final class ProposalObject: CustomStringConvertible {
     #Unique<ProposalObject>([\.id])
     @Attribute(.unique) var id: ProposalID = ""
     var link: ProposalLink = ""
