@@ -1,8 +1,8 @@
 import SwiftData
 import SwiftUI
 
-actor PreviewSampleData {
-    @MainActor
+@MainActor
+final class PreviewSampleData {
     static var container: ModelContainer = {
         return try! inMemoryContainer()
     }()
