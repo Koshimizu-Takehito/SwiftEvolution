@@ -10,6 +10,7 @@ enum SyntaxHighlight: String, Hashable, CaseIterable, Identifiable {
     case rainbow = "rainbow"
     case vs2015 = "vs2015"
     case xcode = "xcode"
+    case xcodeDark = "xcode-dark"
 
     var id: String {
         rawValue
