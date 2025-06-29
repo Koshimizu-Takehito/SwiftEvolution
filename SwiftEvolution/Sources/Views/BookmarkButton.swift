@@ -10,7 +10,6 @@ struct BookmarkButton: View {
             },
             label: {
                 Image(systemName: symbol)
-                    .imageScale(.large)
             }
         )
         .animation(.default, value: isBookmarked)

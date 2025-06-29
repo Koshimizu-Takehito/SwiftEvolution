@@ -9,20 +9,4 @@ extension ToolbarItemPlacement {
         .topBarTrailing
 #endif
     }
-
-    /// Sprit View のセカンダリ側
-    static func detail(for vertical: UserInterfaceSizeClass?) -> Self {
-#if os(macOS)
-        .automatic
-#elseif os(iOS)
-        switch vertical {
-        case .regular:
-            .bottomBar
-        case .compact:
-            .topBarTrailing
-        default:
-            .automatic
-        }
-#endif
-    }
 }

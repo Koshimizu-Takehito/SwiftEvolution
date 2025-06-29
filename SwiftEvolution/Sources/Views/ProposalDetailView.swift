@@ -13,7 +13,7 @@ struct ProposalDetailView: View {
     /// ModelContext
     @Environment(\.modelContext) private var context
     /// 表示コンテンツで利用するシンタックスハイライト
-    @AppStorage<SyntaxHighlight> private var highlight = .atomOneDark
+    @AppStorage<SyntaxHighlight> private var highlight = .xcodeDark
     /// 該当コンテンツのブックマーク有無
     @State private var isBookmarked: Bool = false
     /// コンテンツロード済み
@@ -88,23 +88,36 @@ struct ProposalDetailView: View {
     /// ツールバー
     @ToolbarContentBuilder
     var toolbar: some ToolbarContent {
-        ToolbarItemGroup(placement: .detail(for: vertical)) {
-            HStack {
-                Spacer()
-                BookmarkButton(isBookmarked: $isBookmarked)
-                Menu {
-                    ForEach(SyntaxHighlight.allCases) { item in
-                        Button(item.displayName) {
-                            highlight = item
-                        }
-                    }
-                } label: {
-                    Image(systemName: "gearshape")
-                        .imageScale(.large)
+        ToolbarItem {
+            BookmarkButton(isBookmarked: $isBookmarked)
+        }
+        if #available(iOS 26.0, macOS 26.0, *) {
+            ToolbarSpacer()
+        }
+        ToolbarItem {
+#if os(iOS) || os(iPadOS)
+        Menu {
+            Picker(selection: $highlight) {
+                ForEach(SyntaxHighlight.allCases) { item in
+                    Text(item.displayName)
+                        .tag(item)
                 }
-                .menuOrder(.fixed)
+            } label: {
+                Image(systemName: "gearshape")
             }
-            .opacity(isLoaded ? 1 : 0)
+        } label: {
+            Image(systemName: "gearshape")
+        }
+#else
+        Picker(selection: $highlight) {
+            ForEach(SyntaxHighlight.allCases) { item in
+                Text(item.displayName)
+                    .tag(item)
+            }
+        } label: {
+            Image(systemName: "gearshape")
+        }
+#endif
         }
     }
 }
