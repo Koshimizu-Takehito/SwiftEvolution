@@ -64,8 +64,13 @@ private struct ProposalItemView: View {
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
                     .overlay {
-                        ContainerRelativeShape()
-                            .stroke()
+                        if #available(iOS 26.0, *) {
+                            ConcentricRectangle(corners: .fixed(8))
+                                .stroke()
+                        } else {
+                            RoundedRectangle(cornerRadius: 4, style: .circular)
+                                .stroke()
+                        }
                     }
                     .foregroundStyle(label.color)
                 // ブックマーク
