@@ -33,11 +33,11 @@ struct ProposalDetailWebView: UIViewRepresentable {
 
     public func updateUIView(_ view: WKWebView, context: Context) {
         guard let html else { return }
-        DispatchQueue.main.async { [weak view] in
+        Task {
             if !isLoaded {
-                view?.loadHTMLString(html, baseURL: nil)
+                view.loadHTMLString(html, baseURL: nil)
             } else {
-                view?.evaluateJavaScript(highlight.javascript)
+                _ = try await view.evaluateJavaScript(highlight.javascript)
             }
         }
     }
