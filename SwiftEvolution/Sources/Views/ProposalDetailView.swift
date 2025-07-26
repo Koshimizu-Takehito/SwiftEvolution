@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 // MARK: - DetailView
 struct ProposalDetailView: View {
@@ -76,7 +76,7 @@ struct ProposalDetailView: View {
         fetcherror = nil
         do {
             markdown.text = try await markdown.fetch()
-        } catch let error as URLError  {
+        } catch let error as URLError {
             if error.code != URLError.cancelled {
                 fetcherror = error
             }
@@ -84,6 +84,8 @@ struct ProposalDetailView: View {
             fetcherror = error
         }
     }
+
+    @State var translating = false
 
     /// ツールバー
     @ToolbarContentBuilder
@@ -94,37 +96,58 @@ struct ProposalDetailView: View {
         if #available(iOS 26.0, macOS 26.0, *) {
             ToolbarSpacer()
         }
-        ToolbarItem {
-#if os(iOS) || os(iPadOS)
-        Menu {
-            Picker(selection: $highlight) {
-                ForEach(SyntaxHighlight.allCases) { item in
-                    Text(item.displayName)
-                        .tag(item)
+        ToolbarItemGroup {
+            #if os(iOS) || os(iPadOS)
+                if !translating {
+                    Button("翻訳", systemImage: "character.bubble") {
+                        Task {
+                            if #available(iOS 26.0, *), let text = markdown.text {
+                                translating = true; defer { translating = false }
+                                let translator = MarkdownTranslator()
+                                do {
+                                    let result = try await translator.translate(markdown: text)
+                                    markdown.text = result
+                                    html = await ProposalHTMLBuilder()
+                                        .build(markdown: markdown, highlight: highlight)
+                                }
+                                catch {
+                                    print(error)
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    ZStack {
+                        Button("翻訳", systemImage: "character.bubble") {}
+                            .hidden()
+                        ProgressView()
+                    }
                 }
-            } label: {
-                Image(systemName: "gearshape")
-            }
-        } label: {
-            Image(systemName: "gearshape")
-        }
-#else
-        Picker(selection: $highlight) {
-            ForEach(SyntaxHighlight.allCases) { item in
-                Text(item.displayName)
-                    .tag(item)
-            }
-        } label: {
-            Image(systemName: "gearshape")
-        }
-#endif
+                Menu("Settings", systemImage: "gearshape") {
+                    Picker("Settings", systemImage: "gearshape", selection: $highlight) {
+                        ForEach(SyntaxHighlight.allCases) { item in
+                            Text(item.displayName)
+                                .tag(item)
+                        }
+                    }
+                }
+            #else
+                Picker(selection: $highlight) {
+                    ForEach(SyntaxHighlight.allCases) { item in
+                        Text(item.displayName)
+                            .tag(item)
+                    }
+                } label: {
+                    Image(systemName: "gearshape")
+                }
+            #endif
         }
     }
 }
 
-private extension ProposalDetailView {
+extension ProposalDetailView {
     /// 当該プロポーザルのブックマークの有無を保存
-    func saveBookmark(isBookmarked: Bool) {
+    fileprivate func saveBookmark(isBookmarked: Bool) {
         let proposal = ProposalObject[markdown.proposal.id, in: context]
         guard let proposal else { return }
         proposal.isBookmarked = isBookmarked
@@ -132,17 +155,17 @@ private extension ProposalDetailView {
     }
 
     /// 指定したプロポーザルを表示する
-    func showProposal(_ value: Markdown) {
+    fileprivate func showProposal(_ value: Markdown) {
         path.append(value)
     }
 }
 
 #if DEBUG
-#Preview {
-    PreviewContainer {
-        NavigationStack {
-            ProposalDetailView(path: .fake, markdown: .fake0418)
+    #Preview {
+        PreviewContainer {
+            NavigationStack {
+                ProposalDetailView(path: .fake, markdown: .fake0418)
+            }
         }
     }
-}
 #endif

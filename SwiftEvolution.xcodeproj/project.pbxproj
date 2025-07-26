@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3A6D6EEE2E1003F80097926F /* FilterCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6D6EED2E1003F80097926F /* FilterCommands.swift */; };
+		3A7CFFD92E338E2C00DC0A47 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = 3A7CFFD82E338E2C00DC0A47 /* Markdown */; };
+		3A7CFFDB2E338E6D00DC0A47 /* MarkdownTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7CFFDA2E338E6D00DC0A47 /* MarkdownTranslator.swift */; };
 		FB1AC20D2B63A7CA0053072B /* MarkdownRipository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1AC20C2B63A7CA0053072B /* MarkdownRipository.swift */; };
 		FB1AC20F2B63A9390053072B /* ProposalHTMLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1AC20E2B63A9390053072B /* ProposalHTMLBuilder.swift */; };
 		FB1AC2122B63B9360053072B /* AppStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1AC2112B63B9360053072B /* AppStorage.swift */; };
@@ -48,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		3A6D6EED2E1003F80097926F /* FilterCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCommands.swift; sourceTree = "<group>"; };
+		3A7CFFDA2E338E6D00DC0A47 /* MarkdownTranslator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownTranslator.swift; sourceTree = "<group>"; };
 		FB1AC20C2B63A7CA0053072B /* MarkdownRipository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownRipository.swift; sourceTree = "<group>"; };
 		FB1AC20E2B63A9390053072B /* ProposalHTMLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalHTMLBuilder.swift; sourceTree = "<group>"; };
 		FB1AC2112B63B9360053072B /* AppStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorage.swift; sourceTree = "<group>"; };
@@ -95,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A7CFFD92E338E2C00DC0A47 /* Markdown in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,6 +131,7 @@
 		FBB64DEB2B424F6F00D99C2F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3A7CFFDA2E338E6D00DC0A47 /* MarkdownTranslator.swift */,
 				FB42FE7A2B43A5CA00348204 /* Assets.swift */,
 				FBB64DF12B42797800D99C2F /* Markdown.swift */,
 				FB1AC20C2B63A7CA0053072B /* MarkdownRipository.swift */,
@@ -264,6 +269,9 @@
 				ja,
 			);
 			mainGroup = FBCE36892B3EDF2D000763B5;
+			packageReferences = (
+				3A7CFFD72E338E2C00DC0A47 /* XCRemoteSwiftPackageReference "swift-markdown" */,
+			);
 			productRefGroup = FBCE36932B3EDF2D000763B5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -310,6 +318,7 @@
 				FB4654EB2B53F8DB00E494E6 /* UIColor.swift in Sources */,
 				FB26CCAB2B5CF1A700D92D1F /* SettingsView.swift in Sources */,
 				FB1AC20D2B63A7CA0053072B /* MarkdownRipository.swift in Sources */,
+				3A7CFFDB2E338E6D00DC0A47 /* MarkdownTranslator.swift in Sources */,
 				FB71CF9A2B4A3B1E0018050B /* PreviewSampleData.swift in Sources */,
 				FB88EA5D2B44EF2900A6EBB3 /* FlowLayout.swift in Sources */,
 				FBD164002B48E5D500C18625 /* ProposalObject.swift in Sources */,
@@ -567,6 +576,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3A7CFFD72E338E2C00DC0A47 /* XCRemoteSwiftPackageReference "swift-markdown" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/swiftlang/swift-markdown";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3A7CFFD82E338E2C00DC0A47 /* Markdown */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3A7CFFD72E338E2C00DC0A47 /* XCRemoteSwiftPackageReference "swift-markdown" */;
+			productName = Markdown;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FBCE368A2B3EDF2D000763B5 /* Project object */;
 }

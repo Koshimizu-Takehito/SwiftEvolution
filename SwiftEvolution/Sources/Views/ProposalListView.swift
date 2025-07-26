@@ -98,7 +98,8 @@ private struct ProposalItemView: View {
 
     var title: AttributedString {
         let id = AttributedString(proposal.id, attributes: .init().foregroundColor(.secondary))
-        let title = AttributedString(proposal.title, attributes: .init().foregroundColor(.primary))
+        let markdownTitle = try? AttributedString(markdown: proposal.title)
+        let title = markdownTitle ?? AttributedString(proposal.title, attributes: .init().foregroundColor(.primary))
         return id + " " + title
     }
 }
