@@ -4,14 +4,11 @@ struct BookmarkButton: View {
     @Binding var isBookmarked: Bool
 
     var body: some View {
-        Button(
-            action: {
-                withAnimation { isBookmarked.toggle() }
-            },
-            label: {
-                Image(systemName: symbol)
+        Button.init("Bookmark", systemImage: isBookmarked ? "bookmark.fill" : "bookmark") {
+            withAnimation {
+                isBookmarked.toggle()
             }
-        )
+        }
         .animation(.default, value: isBookmarked)
     }
 
