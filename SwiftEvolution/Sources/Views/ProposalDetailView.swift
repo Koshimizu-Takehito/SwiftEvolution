@@ -1,5 +1,9 @@
+import MarkdownUI
+import Splash
 import SwiftData
 import SwiftUI
+
+typealias MarkdownView = MarkdownUI.Markdown
 
 // MARK: - DetailView
 struct ProposalDetailView: View {
@@ -12,6 +16,8 @@ struct ProposalDetailView: View {
     @Environment(\.verticalSizeClass) private var vertical
     /// ModelContext
     @Environment(\.modelContext) private var context
+    /// ColorScheme
+    @Environment(\.colorScheme) private var colorScheme
     /// 表示コンテンツで利用するシンタックスハイライト
     @AppStorage<SyntaxHighlight> private var highlight = .xcodeDark
     /// 該当コンテンツのブックマーク有無
@@ -20,23 +26,108 @@ struct ProposalDetailView: View {
     @State private var isLoaded: Bool = false
     /// コンテンツ取得失敗
     @State private var error: Error?
-    /// HTML を再生成するための識別子
-    @State private var htmlRebuildId: UUID?
-    /// マークダウンから生成される HTML
-    @State private var html: String?
     /// マークダウン取得エラー
     @State private var fetcherror: Error?
     /// マークダウン再取得トリガー
     @State private var refresh: UUID?
 
+    @ViewBuilder
+    var markdownView: some View {
+        let markdown = markdown.text ?? ""
+        MarkdownView(markdown.replacingOccurrences(of: "\\n", with: "\n"))
+            .markdownTextStyle(\.code) {
+                FontFamilyVariant(.monospaced)
+                FontSize(.em(0.85))
+                ForegroundColor(Color(UIColor.label))
+                BackgroundColor(Color(UIColor.label).opacity(0.2))
+            }
+            .markdownBlockStyle(\.blockquote) { configuration in
+                configuration.label
+                    .padding()
+                    .markdownTextStyle {
+                        FontCapsVariant(.lowercaseSmallCaps)
+                        FontWeight(.semibold)
+                        BackgroundColor(nil)
+                    }
+                    .overlay(alignment: .leading) {
+                        Rectangle()
+                            .fill(Color(UIColor.tintColor))
+                            .frame(width: 4)
+                    }
+                    .background(Color(UIColor.tintColor).opacity(0.5))
+            }
+            .markdownBlockStyle(\.codeBlock) {
+                codeBlock($0)
+            }
+            .markdownCodeSyntaxHighlighter(.splash(theme: self.theme))
+            .opacity(markdown.isEmpty ? 0 : 1)
+            .animation(.default, value: markdown)
+            .padding()
+    }
+
+    @ViewBuilder
+    private func codeBlock(_ configuration: CodeBlockConfiguration) -> some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text(configuration.language ?? "plain text")
+                    .font(.system(.caption, design: .monospaced))
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color(theme.plainTextColor))
+                Spacer()
+
+                Image(systemName: "clipboard")
+                    .onTapGesture {
+                        copyToClipboard(configuration.content)
+                    }
+            }
+            .padding(.horizontal)
+            .padding(.vertical, 8)
+            .background {
+                Color(theme.backgroundColor)
+            }
+
+            Divider()
+
+            ScrollView(.horizontal) {
+                configuration.label
+                    .relativeLineSpacing(.em(0.25))
+                    .markdownTextStyle {
+                        FontFamilyVariant(.monospaced)
+                        FontSize(.em(0.85))
+                    }
+                    .padding()
+            }
+        }
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .markdownMargin(top: .zero, bottom: .em(0.8))
+    }
+
+    private var theme: Splash.Theme {
+        // NOTE: We are ignoring the Splash theme font
+        switch colorScheme {
+        case .dark:
+            return .wwdc18(withFont: .init(size: 16))
+        default:
+            return .sunset(withFont: .init(size: 16))
+        }
+    }
+
+    private func copyToClipboard(_ string: String) {
+        #if os(macOS)
+            if let pasteboard = NSPasteboard.general {
+                pasteboard.clearContents()
+                pasteboard.setString(string, forType: .string)
+            }
+        #elseif os(iOS)
+            UIPasteboard.general.string = string
+        #endif
+    }
+
     var body: some View {
-        // WebView（ コンテンツの HTML を読み込む ）
-        ProposalDetailWebView(
-            html: html,
-            highlight: highlight,
-            isLoaded: $isLoaded.animation(),
-            onTapLinkURL: showProposal
-        )
+        ScrollView {
+            markdownView
+        }
         .toolbar {
             // ツールバー
             toolbar
@@ -49,7 +140,6 @@ struct ProposalDetailView: View {
         .onChange(of: isBookmarked) { _, new in
             saveBookmark(isBookmarked: new)
         }
-        .opacity(isLoaded ? 1 : 0)
         .overlay {
             // エラー画面
             ErrorView(error: fetcherror) {
@@ -63,12 +153,6 @@ struct ProposalDetailView: View {
         .task(id: refresh) {
             // マークダウンテキストを取得
             await fetchMarkdownText()
-        }
-        .task(id: markdown.text) {
-            guard markdown.text != nil else { return }
-            // マークダウンテキストを HTML ファイルに変換
-            html = await ProposalHTMLBuilder()
-                .build(markdown: markdown, highlight: highlight)
         }
     }
 
@@ -102,15 +186,13 @@ struct ProposalDetailView: View {
                     Button("翻訳", systemImage: "character.bubble") {
                         Task {
                             if #available(iOS 26.0, *), let text = markdown.text {
-                                translating = true; defer { translating = false }
+                                translating = true
+                                defer { translating = false }
                                 let translator = MarkdownTranslator()
                                 do {
                                     let result = try await translator.translate(markdown: text)
                                     markdown.text = result
-                                    html = await ProposalHTMLBuilder()
-                                        .build(markdown: markdown, highlight: highlight)
-                                }
-                                catch {
+                                } catch {
                                     print(error)
                                 }
                             }
@@ -157,6 +239,70 @@ extension ProposalDetailView {
     /// 指定したプロポーザルを表示する
     fileprivate func showProposal(_ value: Markdown) {
         path.append(value)
+    }
+}
+
+struct TextOutputFormat: Splash.OutputFormat {
+    private let theme: Splash.Theme
+
+    init(theme: Splash.Theme) {
+        self.theme = theme
+    }
+
+    func makeBuilder() -> Builder {
+        Builder(theme: self.theme)
+    }
+}
+
+extension TextOutputFormat {
+    struct Builder: OutputBuilder {
+        private let theme: Splash.Theme
+        private var accumulatedText: [Text]
+
+        fileprivate init(theme: Splash.Theme) {
+            self.theme = theme
+            self.accumulatedText = []
+        }
+
+        mutating func addToken(_ token: String, ofType type: TokenType) {
+            let color = self.theme.tokenColors[type] ?? self.theme.plainTextColor
+            self.accumulatedText.append(Text(token).foregroundColor(.init(uiColor: color)))
+        }
+
+        mutating func addPlainText(_ text: String) {
+            self.accumulatedText.append(
+                Text(text).foregroundColor(.init(uiColor: self.theme.plainTextColor))
+            )
+        }
+
+        mutating func addWhitespace(_ whitespace: String) {
+            self.accumulatedText.append(Text(whitespace))
+        }
+
+        func build() -> Text {
+            self.accumulatedText.reduce(Text(""), +)
+        }
+    }
+}
+
+struct SplashCodeSyntaxHighlighter: CodeSyntaxHighlighter {
+    private let syntaxHighlighter: SyntaxHighlighter<TextOutputFormat>
+
+    init(theme: Splash.Theme) {
+        self.syntaxHighlighter = SyntaxHighlighter(format: TextOutputFormat(theme: theme))
+    }
+
+    func highlightCode(_ content: String, language: String?) -> Text {
+        guard language != nil else {
+            return Text(content)
+        }
+        return self.syntaxHighlighter.highlight(content)
+    }
+}
+
+extension CodeSyntaxHighlighter where Self == SplashCodeSyntaxHighlighter {
+    static func splash(theme: Splash.Theme) -> Self {
+        SplashCodeSyntaxHighlighter(theme: theme)
     }
 }
 
