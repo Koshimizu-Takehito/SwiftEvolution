@@ -4,12 +4,12 @@ import SafariServices
 import SwiftData
 
 /// プロポーザルのHTMLを表示するための WebView
-@MainActor
 struct ProposalDetailWebView: UIViewRepresentable {
     /// ModelContext
     @Environment(\.modelContext) private var context
     /// 該当プロポーザルのHTML
     let html: String?
+    @State private var loadedHtml: String?
     /// 表示コンテンツで利用するシンタックスハイライト
     let highlight: SyntaxHighlight
     /// HTMLのロード状態
@@ -23,8 +23,8 @@ struct ProposalDetailWebView: UIViewRepresentable {
             view.navigationDelegate = context.coordinator
             view.backgroundColor = UIColor.systemBackground
             if let html {
-                DispatchQueue.main.async { [weak view] in
-                    view?.loadHTMLString(html, baseURL: nil)
+                Task {
+                    view.loadHTMLString(html, baseURL: nil)
                 }
             }
             return view
@@ -34,8 +34,9 @@ struct ProposalDetailWebView: UIViewRepresentable {
     public func updateUIView(_ view: WKWebView, context: Context) {
         guard let html else { return }
         Task {
-            if !isLoaded {
+            if !isLoaded || loadedHtml != html {
                 view.loadHTMLString(html, baseURL: nil)
+                loadedHtml = html
             } else {
                 _ = try await view.evaluateJavaScript(highlight.javascript)
             }
