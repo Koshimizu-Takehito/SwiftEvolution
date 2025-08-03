@@ -34,7 +34,7 @@ struct ProposalDetailView: View {
     @ViewBuilder
     var markdownView: some View {
         let markdown = markdown.text ?? ""
-        MarkdownView(markdown.replacingOccurrences(of: "\\n", with: "\n"))
+        MarkdownView(markdown)
             .markdownTextStyle(\.code) {
                 FontFamilyVariant(.monospaced)
                 FontSize(.em(0.85))
@@ -61,8 +61,9 @@ struct ProposalDetailView: View {
             }
             .markdownCodeSyntaxHighlighter(.splash(theme: self.theme))
             .opacity(markdown.isEmpty ? 0 : 1)
-            .animation(.default, value: markdown)
+            .animation(!translating ? .default : nil, value: markdown)
             .padding()
+            .padding(.bottom)
     }
 
     @ViewBuilder
@@ -189,11 +190,12 @@ struct ProposalDetailView: View {
                                 translating = true
                                 defer { translating = false }
                                 let translator = MarkdownTranslator()
-                                do {
-                                    let result = try await translator.translate(markdown: text)
+                                for try await result in await translator.translate(markdown: text) {
+                                    guard markdown.text != result else {
+                                        continue
+                                    }
                                     markdown.text = result
-                                } catch {
-                                    print(error)
+                                    await Task.yield()
                                 }
                             }
                         }
