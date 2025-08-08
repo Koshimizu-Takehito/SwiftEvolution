@@ -252,37 +252,38 @@ struct TextOutputFormat: Splash.OutputFormat {
     }
 
     func makeBuilder() -> Builder {
-        Builder(theme: self.theme)
+        Builder(theme: theme)
     }
 }
 
 extension TextOutputFormat {
     struct Builder: OutputBuilder {
         private let theme: Splash.Theme
-        private var accumulatedText: [Text]
+        private var string: AttributedString
 
         fileprivate init(theme: Splash.Theme) {
             self.theme = theme
-            self.accumulatedText = []
+            self.string = .init()
         }
 
         mutating func addToken(_ token: String, ofType type: TokenType) {
-            let color = self.theme.tokenColors[type] ?? self.theme.plainTextColor
-            self.accumulatedText.append(Text(token).foregroundColor(.init(uiColor: color)))
+            var part = AttributedString(token)
+            part.foregroundColor = theme.tokenColors[type] ?? theme.plainTextColor
+            string += part
         }
 
         mutating func addPlainText(_ text: String) {
-            self.accumulatedText.append(
-                Text(text).foregroundColor(.init(uiColor: self.theme.plainTextColor))
-            )
+            var part = AttributedString(text)
+            part.foregroundColor = theme.plainTextColor
+            string += part
         }
 
         mutating func addWhitespace(_ whitespace: String) {
-            self.accumulatedText.append(Text(whitespace))
+            string += AttributedString(whitespace)
         }
 
         func build() -> Text {
-            self.accumulatedText.reduce(Text(""), +)
+            Text(string)
         }
     }
 }
