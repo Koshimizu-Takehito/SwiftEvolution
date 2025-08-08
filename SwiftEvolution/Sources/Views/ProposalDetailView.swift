@@ -186,9 +186,8 @@ struct ProposalDetailView: View {
                 if !translating {
                     Button("翻訳", systemImage: "character.bubble") {
                         Task {
-                            if #available(iOS 26.0, *), let text = markdown.text {
-                                translating = true
-                                defer { translating = false }
+                            if let text = markdown.text {
+                                translating = true; defer { translating = false }
                                 let translator = MarkdownTranslator()
                                 for try await result in await translator.translate(markdown: text) {
                                     guard markdown.text != result else {
