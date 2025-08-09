@@ -7,7 +7,24 @@ extension Locale.Language {
     static var japanese: Self { .init(identifier: "ja") }
 }
 
-@available(iOS 26.0, *)
+struct LinkReader: MarkupWalker {
+    mutating func visitLink(_ link: Link) {
+        guard let components = URLComponents(string: link.destination!) else {
+            return
+        }
+
+        switch (components.host, components.scheme, components.path) {
+        case (nil, nil, "") where components.fragment?.isEmpty == false:
+            if let text = link.children.lazy.compactMap({ $0 as? Text }).first.map(\.plainText) {
+                print("🐰 \(text) 🦁 \(link.destination ?? "")")
+            }
+        default:
+            break
+        }
+        defaultVisit(link)
+    }
+}
+
 actor MarkdownTranslator {
     private typealias Rewriter = TranslationMarkupRewriter
     private var source: Locale.Language
@@ -42,7 +59,6 @@ actor MarkdownTranslator {
     }
 }
 
-@available(iOS 26.0, *)
 struct TranslationMarkupRewriter: AsyncMarkupRewriter {
     private let translator: TranslationSession
 

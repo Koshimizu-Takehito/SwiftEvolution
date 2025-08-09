@@ -4,6 +4,9 @@ import Splash
 import SwiftData
 import SwiftUI
 
+import struct Markdown.Heading
+import struct Markdown.Link
+
 // MARK: - DetailView
 struct ProposalDetailView: View {
     /// NavigationPath
@@ -32,36 +35,31 @@ struct ProposalDetailView: View {
 
     @Environment(\.openURL) private var openURL
 
-    public static var myCircle: BlockStyle<ListMarkerConfiguration> {
-        BlockStyle { _ in
-            Circle()
-                .frame(width: 6, height: 6)
-                .relativeFrame(minWidth: .zero, alignment: .trailing)
-        }
-    }
-
-    public static var myDecimal: BlockStyle<ListMarkerConfiguration> {
-        BlockStyle { configuration in
-            Text("\(configuration.itemNumber).")
-                .monospacedDigit()
-                .relativeFrame(minWidth: .zero, alignment: .trailing)
-        }
-    }
-
     @ViewBuilder
     var markdownView: some View {
         let markdownString = markdown.text ?? ""
         let document = Document(parsing: markdownString)
-        let contents = document.children.map { $0.format() }
-        LazyVStack(alignment: .leading, spacing: 12) {
+        let contents = document.children
+        var idCount = [String: Int]()
+        VStack(alignment: .leading, spacing: 12) {
             ForEach(Array(contents.enumerated()), id: \.offset) { offset, content in
-                let hoge = Document(parsing: content).children.first { _ in true }
-                let _ = print("🩵", (hoge?.format()).debugDescription)
-                MarkdownUI.Markdown(content)
+                if let heading = content as? Heading {
+                    let heading = heading.format()
+                    let id = htmlID(fromMarkdownHeader: heading)
+                    let count = idCount[id]
+                    let _ = {
+                        idCount[id] = (count ?? 0) + 1
+                    }()
+
+                    MarkdownUI.Markdown(content.format())
+                        .id(count.map { "\(id)-\($0)" } ?? id)
+                } else {
+                    MarkdownUI.Markdown(content.format())
+                }
             }
         }
-        .markdownBulletedListMarker(Self.myCircle)
-        .markdownNumberedListMarker(Self.myDecimal)
+        .markdownBulletedListMarker(.customCircle)
+        .markdownNumberedListMarker(.customDecimal)
         .markdownTextStyle(\.code) {
             FontFamilyVariant(.monospaced)
             FontSize(.em(0.85))
@@ -86,7 +84,7 @@ struct ProposalDetailView: View {
         .markdownBlockStyle(\.codeBlock) {
             codeBlock($0)
         }
-        .markdownCodeSyntaxHighlighter(.splash(theme: self.theme))
+        .markdownCodeSyntaxHighlighter(.splash(theme: theme))
         .opacity(markdownString.isEmpty ? 0 : 1)
         .animation(!translating ? .default : nil, value: markdownString)
         .padding()
@@ -152,9 +150,43 @@ struct ProposalDetailView: View {
         #endif
     }
 
+    func openURL(_ url: URL, with proxy: ScrollViewProxy) -> OpenURLAction.Result {
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            return .systemAction
+        }
+        switch (components.scheme, components.host, components.path) {
+        case (_, "github.com", let path):
+            guard let match = path.firstMatch(of: /^.+\/swift-evolution\/.*\/(\d+)-.*\.md/) else {
+                break
+            }
+            // 別プロポーザルへのリンクを送信
+            showProposal(id: match.1, url: url)
+            return .discarded
+        case (nil, nil, "") where components.fragment?.isEmpty == false:
+            // ページ内のアンカー
+            withAnimation {
+                proxy.scrollTo(url.absoluteString, anchor: .top)
+            }
+            return .discarded
+        case (nil, nil, let path):
+            guard let match = path.firstMatch(of: /(\d+)-.*\.md$/) else {
+                break
+            }
+            // 別プロポーザルへのリンクを送信
+            showProposal(id: match.1)
+            return .discarded
+        default:
+            return .discarded
+        }
+        return .discarded
+    }
+
     var body: some View {
-        ScrollView {
-            markdownView
+        ScrollViewReader { proxy in
+            ScrollView {
+                markdownView
+                    .environment(\.openURL, OpenURLAction { openURL($0, with: proxy) })
+            }
         }
         .toolbar {
             // ツールバー
@@ -182,10 +214,6 @@ struct ProposalDetailView: View {
             // マークダウンテキストを取得
             await fetchMarkdownText()
         }
-        .environment(\.openURL, OpenURLAction { url in
-            print("✅✅✅", url.description)
-            return .discarded
-        })
     }
 
     func fetchMarkdownText() async {
@@ -225,6 +253,12 @@ struct ProposalDetailView: View {
                                     markdown.text = result
                                     await Task.yield()
                                 }
+                            }
+                        }
+                        Task {
+                            if let text = markdown.text {
+                                var reader = LinkReader()
+                                reader.visit(Document(parsing: text))
                             }
                         }
                     }
@@ -267,74 +301,58 @@ extension ProposalDetailView {
     }
 
     /// 指定したプロポーザルを表示する
-    fileprivate func showProposal(_ value: Markdown) {
-        path.append(value)
+    fileprivate func showProposal(id: some StringProtocol, url: URL? = nil) {
+        let id = "SE-\(String(id))"
+        let url = url.map(MarkdownURL.init(rawValue:))
+        let context = context.container.mainContext
+        guard let proposal = ProposalObject[id, in: context] else {
+            return
+        }
+        path.append(Markdown(proposal: .init(proposal), url: url))
     }
 }
 
-struct TextOutputFormat: Splash.OutputFormat {
-    private let theme: Splash.Theme
+/// Markdownのヘッダー行からHTMLのidスラッグを作る
+/// - Parameters:
+///   - line: 例: "### `~Copyable` as logical negation"
+///   - includeHash: 先頭に `#` を付ける（デフォルト true）
+/// - Returns: 例: "#copyable-as-logical-negation"
+func htmlID(fromMarkdownHeader line: String, includeHash: Bool = true) -> String {
+    // 1) 先頭の見出しマーカーを除去（0〜3個の空白 + #1〜6 + 空白）
+    let headerPattern = #"^\s{0,3}#{1,6}\s+"#
+    let textStart = line.replacingOccurrences(of: headerPattern,
+                                              with: "",
+                                              options: .regularExpression)
 
-    init(theme: Splash.Theme) {
-        self.theme = theme
+    // 2) バッククォートとかっこを除去（中身は残す）
+    var s = textStart.replacingOccurrences(of: "`", with: "")
+        .replacingOccurrences(of: "(", with: "")
+        .replacingOccurrences(of: ")", with: "")
+
+    // 3) Unicode正規化（ローマ字化→ダイアクリティカル除去）
+    //    例: "Café" -> "Cafe", 日本語は toLatin でローマ字化される場合あり
+    if let latin = s.applyingTransform(.toLatin, reverse: false) {
+        s = latin
     }
+    s = s.folding(options: [.diacriticInsensitive, .caseInsensitive],
+                  locale: .current)
 
-    func makeBuilder() -> Builder {
-        Builder(theme: theme)
-    }
-}
+    // 4) 小文字化
+    s = s.lowercased()
 
-extension TextOutputFormat {
-    struct Builder: OutputBuilder {
-        private let theme: Splash.Theme
-        private var string: AttributedString
+    // 5) 許可しない文字をハイフンに置換（英数以外はまとめて-）
+    //    連続する非英数字は1つのハイフンに圧縮
+    s = s.replacingOccurrences(of: #"[^a-z0-9]+"#,
+                               with: "-",
+                               options: .regularExpression)
 
-        fileprivate init(theme: Splash.Theme) {
-            self.theme = theme
-            self.string = .init()
-        }
+    // 6) 前後のハイフンをトリム
+    s = s.trimmingCharacters(in: CharacterSet(charactersIn: "-"))
 
-        mutating func addToken(_ token: String, ofType type: TokenType) {
-            var part = AttributedString(token)
-            part.foregroundColor = theme.tokenColors[type] ?? theme.plainTextColor
-            string += part
-        }
+    // 7) 空ならフォールバック
+    if s.isEmpty { s = "section" }
 
-        mutating func addPlainText(_ text: String) {
-            var part = AttributedString(text)
-            part.foregroundColor = theme.plainTextColor
-            string += part
-        }
-
-        mutating func addWhitespace(_ whitespace: String) {
-            string += AttributedString(whitespace)
-        }
-
-        func build() -> SwiftUI.Text {
-            SwiftUI.Text(string)
-        }
-    }
-}
-
-struct SplashCodeSyntaxHighlighter: CodeSyntaxHighlighter {
-    private let syntaxHighlighter: SyntaxHighlighter<TextOutputFormat>
-
-    init(theme: Splash.Theme) {
-        self.syntaxHighlighter = SyntaxHighlighter(format: TextOutputFormat(theme: theme))
-    }
-
-    func highlightCode(_ content: String, language: String?) -> SwiftUI.Text {
-        guard language != nil else {
-            return SwiftUI.Text(content)
-        }
-        return self.syntaxHighlighter.highlight(content)
-    }
-}
-
-extension CodeSyntaxHighlighter where Self == SplashCodeSyntaxHighlighter {
-    static func splash(theme: Splash.Theme) -> Self {
-        SplashCodeSyntaxHighlighter(theme: theme)
-    }
+    return includeHash ? "#\(s)" : s
 }
 
 #if DEBUG

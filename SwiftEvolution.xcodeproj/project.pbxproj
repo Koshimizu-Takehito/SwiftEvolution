@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3A6D6EEE2E1003F80097926F /* FilterCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6D6EED2E1003F80097926F /* FilterCommands.swift */; };
+		3A6DD34D2E4735E20008BDF5 /* SplashCodeSyntaxHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6DD34C2E4735E20008BDF5 /* SplashCodeSyntaxHighlighter.swift */; };
+		3A6DD34F2E473EDC0008BDF5 /* BlockStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6DD34E2E473EDC0008BDF5 /* BlockStyle.swift */; };
 		3A7CFFD92E338E2C00DC0A47 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = 3A7CFFD82E338E2C00DC0A47 /* Markdown */; };
 		3A7CFFDB2E338E6D00DC0A47 /* MarkdownTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7CFFDA2E338E6D00DC0A47 /* MarkdownTranslator.swift */; };
 		3AA277002E3F08CF0061789E /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3AA276FF2E3F08CF0061789E /* MarkdownUI */; };
@@ -52,6 +54,8 @@
 
 /* Begin PBXFileReference section */
 		3A6D6EED2E1003F80097926F /* FilterCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCommands.swift; sourceTree = "<group>"; };
+		3A6DD34C2E4735E20008BDF5 /* SplashCodeSyntaxHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashCodeSyntaxHighlighter.swift; sourceTree = "<group>"; };
+		3A6DD34E2E473EDC0008BDF5 /* BlockStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockStyle.swift; sourceTree = "<group>"; };
 		3A7CFFDA2E338E6D00DC0A47 /* MarkdownTranslator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownTranslator.swift; sourceTree = "<group>"; };
 		FB1AC20C2B63A7CA0053072B /* MarkdownRipository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownRipository.swift; sourceTree = "<group>"; };
 		FB1AC20E2B63A9390053072B /* ProposalHTMLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalHTMLBuilder.swift; sourceTree = "<group>"; };
@@ -112,6 +116,7 @@
 		FB1AC2102B63B9230053072B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				3A6DD34E2E473EDC0008BDF5 /* BlockStyle.swift */,
 				FB1AC2112B63B9360053072B /* AppStorage.swift */,
 				FBDDCED72B65009A005AC3D5 /* Binding.swift */,
 				FB4654C82B53C44500E494E6 /* Color.swift */,
@@ -160,6 +165,7 @@
 				3A6D6EED2E1003F80097926F /* FilterCommands.swift */,
 				FB88EA5C2B44EF2900A6EBB3 /* FlowLayout.swift */,
 				FB71CF9D2B4A4A3E0018050B /* ProposalDetailView.swift */,
+				3A6DD34C2E4735E20008BDF5 /* SplashCodeSyntaxHighlighter.swift */,
 				FBCE36AC2B3FD320000763B5 /* ProposalDetailWebView.swift */,
 				FB71CF9B2B4A48590018050B /* ProposalListView.swift */,
 				FB88EA5A2B44EF1800A6EBB3 /* ProposalStatusPicker.swift */,
@@ -309,12 +315,14 @@
 			files = (
 				FBDDCED82B65009A005AC3D5 /* Binding.swift in Sources */,
 				FB88EA5B2B44EF1800A6EBB3 /* ProposalStatusPicker.swift in Sources */,
+				3A6DD34D2E4735E20008BDF5 /* SplashCodeSyntaxHighlighter.swift in Sources */,
 				FB4654CB2B53C46200E494E6 /* ContentDetailView.swift in Sources */,
 				FB401BB52B64CA350099A535 /* View.swift in Sources */,
 				FB4654C92B53C44500E494E6 /* Color.swift in Sources */,
 				FB88EA382B43DE0C00A6EBB3 /* SyntaxHighlight.swift in Sources */,
 				FBB264DD2B5BA3A20030CC2F /* ProposalRipository.swift in Sources */,
 				3A6D6EEE2E1003F80097926F /* FilterCommands.swift in Sources */,
+				3A6DD34F2E473EDC0008BDF5 /* BlockStyle.swift in Sources */,
 				FBB264BD2B55497E0030CC2F /* ToolbarItemPlacement.swift in Sources */,
 				FB71CF9C2B4A48590018050B /* ProposalListView.swift in Sources */,
 				FBDDCED62B650084005AC3D5 /* SceneStorage.swift in Sources */,
