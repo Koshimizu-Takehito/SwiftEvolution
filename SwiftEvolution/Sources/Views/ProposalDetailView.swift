@@ -1,9 +1,8 @@
+import Markdown
 import MarkdownUI
 import Splash
 import SwiftData
 import SwiftUI
-
-typealias MarkdownView = MarkdownUI.Markdown
 
 // MARK: - DetailView
 struct ProposalDetailView: View {
@@ -31,39 +30,67 @@ struct ProposalDetailView: View {
     /// マークダウン再取得トリガー
     @State private var refresh: UUID?
 
+    @Environment(\.openURL) private var openURL
+
+    public static var myCircle: BlockStyle<ListMarkerConfiguration> {
+        BlockStyle { _ in
+            Circle()
+                .frame(width: 6, height: 6)
+                .relativeFrame(minWidth: .zero, alignment: .trailing)
+        }
+    }
+
+    public static var myDecimal: BlockStyle<ListMarkerConfiguration> {
+        BlockStyle { configuration in
+            Text("\(configuration.itemNumber).")
+                .monospacedDigit()
+                .relativeFrame(minWidth: .zero, alignment: .trailing)
+        }
+    }
+
     @ViewBuilder
     var markdownView: some View {
-        let markdown = markdown.text ?? ""
-        MarkdownView(markdown)
-            .markdownTextStyle(\.code) {
-                FontFamilyVariant(.monospaced)
-                FontSize(.em(0.85))
-                ForegroundColor(Color(UIColor.label))
-                BackgroundColor(Color(UIColor.label).opacity(0.2))
+        let markdownString = markdown.text ?? ""
+        let document = Document(parsing: markdownString)
+        let contents = document.children.map { $0.format() }
+        LazyVStack(alignment: .leading, spacing: 12) {
+            ForEach(Array(contents.enumerated()), id: \.offset) { offset, content in
+                let hoge = Document(parsing: content).children.first { _ in true }
+                let _ = print("🩵", (hoge?.format()).debugDescription)
+                MarkdownUI.Markdown(content)
             }
-            .markdownBlockStyle(\.blockquote) { configuration in
-                configuration.label
-                    .padding()
-                    .markdownTextStyle {
-                        FontCapsVariant(.lowercaseSmallCaps)
-                        FontWeight(.semibold)
-                        BackgroundColor(nil)
-                    }
-                    .overlay(alignment: .leading) {
-                        Rectangle()
-                            .fill(Color(UIColor.tintColor))
-                            .frame(width: 4)
-                    }
-                    .background(Color(UIColor.tintColor).opacity(0.5))
-            }
-            .markdownBlockStyle(\.codeBlock) {
-                codeBlock($0)
-            }
-            .markdownCodeSyntaxHighlighter(.splash(theme: self.theme))
-            .opacity(markdown.isEmpty ? 0 : 1)
-            .animation(!translating ? .default : nil, value: markdown)
-            .padding()
-            .padding(.bottom)
+        }
+        .markdownBulletedListMarker(Self.myCircle)
+        .markdownNumberedListMarker(Self.myDecimal)
+        .markdownTextStyle(\.code) {
+            FontFamilyVariant(.monospaced)
+            FontSize(.em(0.85))
+            ForegroundColor(Color(UIColor.label))
+            BackgroundColor(Color(UIColor.label).opacity(0.2))
+        }
+        .markdownBlockStyle(\.blockquote) { configuration in
+            configuration.label
+                .padding()
+                .markdownTextStyle {
+                    FontCapsVariant(.lowercaseSmallCaps)
+                    FontWeight(.semibold)
+                    BackgroundColor(nil)
+                }
+                .overlay(alignment: .leading) {
+                    Rectangle()
+                        .fill(Color(UIColor.tintColor))
+                        .frame(width: 4)
+                }
+                .background(Color(UIColor.tintColor).opacity(0.5))
+        }
+        .markdownBlockStyle(\.codeBlock) {
+            codeBlock($0)
+        }
+        .markdownCodeSyntaxHighlighter(.splash(theme: self.theme))
+        .opacity(markdownString.isEmpty ? 0 : 1)
+        .animation(!translating ? .default : nil, value: markdownString)
+        .padding()
+        .padding(.bottom)
     }
 
     @ViewBuilder
@@ -155,6 +182,10 @@ struct ProposalDetailView: View {
             // マークダウンテキストを取得
             await fetchMarkdownText()
         }
+        .environment(\.openURL, OpenURLAction { url in
+            print("✅✅✅", url.description)
+            return .discarded
+        })
     }
 
     func fetchMarkdownText() async {
@@ -178,9 +209,7 @@ struct ProposalDetailView: View {
         ToolbarItem {
             BookmarkButton(isBookmarked: $isBookmarked)
         }
-        if #available(iOS 26.0, macOS 26.0, *) {
-            ToolbarSpacer()
-        }
+        ToolbarSpacer()
         ToolbarItemGroup {
             #if os(iOS) || os(iPadOS)
                 if !translating {
@@ -281,8 +310,8 @@ extension TextOutputFormat {
             string += AttributedString(whitespace)
         }
 
-        func build() -> Text {
-            Text(string)
+        func build() -> SwiftUI.Text {
+            SwiftUI.Text(string)
         }
     }
 }
@@ -294,9 +323,9 @@ struct SplashCodeSyntaxHighlighter: CodeSyntaxHighlighter {
         self.syntaxHighlighter = SyntaxHighlighter(format: TextOutputFormat(theme: theme))
     }
 
-    func highlightCode(_ content: String, language: String?) -> Text {
+    func highlightCode(_ content: String, language: String?) -> SwiftUI.Text {
         guard language != nil else {
-            return Text(content)
+            return SwiftUI.Text(content)
         }
         return self.syntaxHighlighter.highlight(content)
     }
