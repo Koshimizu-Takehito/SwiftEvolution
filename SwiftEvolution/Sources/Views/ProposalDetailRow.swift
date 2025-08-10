@@ -21,7 +21,6 @@ extension [ProposalDetailRow] {
                 }()
                 return ProposalDetailRow(id: count.map { "\(id)-\($0)" } ?? id, markup: heading)
             } else {
-
                 return ProposalDetailRow(id: "\(offset)", markup: content.format())
             }
         }

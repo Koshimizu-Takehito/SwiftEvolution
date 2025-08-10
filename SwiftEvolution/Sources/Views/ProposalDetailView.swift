@@ -1,9 +1,10 @@
 import Markdown
 import MarkdownUI
+import Observation
+import SafariServices
 import Splash
 import SwiftData
 import SwiftUI
-import Observation
 
 // MARK: - DetailView
 struct ProposalDetailView: View {
@@ -66,20 +67,39 @@ private extension ProposalDetailView {
             case .showMarkdown(let markdown):
                 path.append(markdown)
             case .open:
-                return .systemAction
+                showSafariView(url: url)
             }
             return .discarded
         }
     }
+
+    /// SFSafariViewController で Web コンテンツを表示
+    @MainActor
+    func showSafariView(url: URL) {
+        guard url.scheme?.contains(/^https?$/) == true else { return }
+    #if os(macOS)
+        NSWorkspace.shared.open(url)
+    #elseif os(iOS)
+        let safari = SFSafariViewController(url: url)
+        UIApplication.shared
+            .connectedScenes
+            .lazy
+            .compactMap { $0 as? UIWindowScene }
+            .first?
+            .keyWindow?
+            .rootViewController?
+            .show(safari, sender: self)
+    #endif
+    }
 }
 
 #if DEBUG
-#Preview {
-    PreviewContainer { context in
-        NavigationStack {
-            ProposalDetailView(path: .fake, markdown: .fake0418, context: context)
+    #Preview {
+        PreviewContainer { context in
+            NavigationStack {
+                ProposalDetailView(path: .fake, markdown: .fake0418, context: context)
+            }
         }
+        .colorScheme(.dark)
     }
-    .colorScheme(.dark)
-}
 #endif
