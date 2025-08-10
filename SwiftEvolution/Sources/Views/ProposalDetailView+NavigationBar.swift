@@ -1,12 +1,18 @@
 import SwiftUI
 
-struct ProposalDetailToolbar: ToolbarContent {
-    /// ViewModel
-    @Bindable var viewModel: ProposalDetailViewModel
-    /// 表示コンテンツで利用するシンタックスハイライト
-    @AppStorage<SyntaxHighlight> private var highlight = .xcodeDark
+// MARK: - ProposalDetailView.NavigationBar
 
-    @ToolbarContentBuilder
+extension ProposalDetailView {
+    @MainActor
+    struct NavigationBar {
+        /// ViewModel
+        @Bindable var viewModel: ProposalDetailViewModel
+        /// 表示コンテンツで利用するシンタックスハイライト
+        @AppStorage<SyntaxHighlight> private var highlight = .xcodeDark
+    }
+}
+
+extension ProposalDetailView.NavigationBar: ToolbarContent {
     var body: some ToolbarContent {
         ToolbarItem {
             BookmarkButton(isBookmarked: $viewModel.isBookmarked)
@@ -28,7 +34,9 @@ struct ProposalDetailToolbar: ToolbarContent {
 #endif
         }
     }
+}
 
+private extension ProposalDetailView.NavigationBar {
     @ViewBuilder
     func translateButton() -> some View {
         if !viewModel.translating {

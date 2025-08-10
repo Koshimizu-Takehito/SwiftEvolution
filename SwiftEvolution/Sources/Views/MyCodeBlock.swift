@@ -2,6 +2,7 @@ import MarkdownUI
 import Splash
 import SwiftUI
 
+/// コードブロック
 struct MyCodeBlock: View {
     /// ColorScheme
     @Environment(\.colorScheme) private var colorScheme
@@ -50,10 +51,12 @@ struct MyCodeBlock: View {
                 .foregroundStyle(Color(theme.plainTextColor))
             Spacer()
 
-            Image(systemName: "clipboard")
-                .onTapGesture {
-                    copyToClipboard(configuration.content)
-                }
+            Button {
+                copyToClipboard(configuration.content)
+            } label: {
+                Image(systemName: "clipboard")
+            }
+            .buttonStyle(.borderless)
         }
         .padding(.horizontal)
         .padding(.vertical, 8)

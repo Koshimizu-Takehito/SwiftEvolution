@@ -2,6 +2,7 @@ import MarkdownUI
 import Splash
 import SwiftUI
 
+/// マークダウンの設定
 struct MarkdownStyleModifier: ViewModifier {
     /// ColorScheme
     @Environment(\.colorScheme) private var colorScheme

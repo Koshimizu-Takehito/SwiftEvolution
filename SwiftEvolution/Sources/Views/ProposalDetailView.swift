@@ -6,7 +6,8 @@ import Splash
 import SwiftData
 import SwiftUI
 
-// MARK: - DetailView
+// MARK: - ProposalDetailView
+
 struct ProposalDetailView: View {
     /// NavigationPath
     @Binding var path: NavigationPath
@@ -21,8 +22,8 @@ struct ProposalDetailView: View {
         ScrollViewReader { proxy in
             List {
                 let items = viewModel.items
-                ForEach(items) { row in
-                    MarkdownUI.Markdown(row.markup)
+                ForEach(items) { item in
+                    MarkdownUI.Markdown(item.markup)
                 }
                 .modifier(MarkdownStyleModifier())
                 .opacity(items.isEmpty ? 0 : 1)
@@ -35,7 +36,7 @@ struct ProposalDetailView: View {
             .environment(\.defaultMinListRowHeight, 1)
         }
         .toolbar {
-            ProposalDetailToolbar(viewModel: viewModel)
+            NavigationBar(viewModel: viewModel)
         }
         .overlay {
             ErrorView(error: viewModel.fetcherror) {
@@ -53,7 +54,7 @@ struct ProposalDetailView: View {
 }
 
 extension ProposalDetailView {
-    init(path: Binding<NavigationPath>, markdown: Markdown, context: ModelContext) {
+    init(path: Binding<NavigationPath>, markdown: SwiftEvolution.Markdown, context: ModelContext) {
         self.init(path: path, viewModel: .init(markdown: markdown, context: context))
     }
 }
