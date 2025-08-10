@@ -13,7 +13,8 @@
 		3A6DD3682E48172C0008BDF5 /* MyCodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6DD3672E48172C0008BDF5 /* MyCodeBlock.swift */; };
 		3A6DD36E2E4843B50008BDF5 /* MarkdownStyleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6DD36D2E4843B50008BDF5 /* MarkdownStyleModifier.swift */; };
 		3A6DD3702E484B1A0008BDF5 /* ProposalDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6DD36F2E484B1A0008BDF5 /* ProposalDetailViewModel.swift */; };
-		3A6DD3722E48585D0008BDF5 /* ProposalDetailToolbarContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6DD3712E48585D0008BDF5 /* ProposalDetailToolbarContent.swift */; };
+		3A6DD3722E48585D0008BDF5 /* ProposalDetailToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6DD3712E48585D0008BDF5 /* ProposalDetailToolbar.swift */; };
+		3A6DD3742E486D7D0008BDF5 /* ProposalDetailRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6DD3732E486D7D0008BDF5 /* ProposalDetailRow.swift */; };
 		3A7CFFD92E338E2C00DC0A47 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = 3A7CFFD82E338E2C00DC0A47 /* Markdown */; };
 		3A7CFFDB2E338E6D00DC0A47 /* MarkdownTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7CFFDA2E338E6D00DC0A47 /* MarkdownTranslator.swift */; };
 		3AA277002E3F08CF0061789E /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3AA276FF2E3F08CF0061789E /* MarkdownUI */; };
@@ -63,7 +64,8 @@
 		3A6DD3672E48172C0008BDF5 /* MyCodeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCodeBlock.swift; sourceTree = "<group>"; };
 		3A6DD36D2E4843B50008BDF5 /* MarkdownStyleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownStyleModifier.swift; sourceTree = "<group>"; };
 		3A6DD36F2E484B1A0008BDF5 /* ProposalDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalDetailViewModel.swift; sourceTree = "<group>"; };
-		3A6DD3712E48585D0008BDF5 /* ProposalDetailToolbarContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalDetailToolbarContent.swift; sourceTree = "<group>"; };
+		3A6DD3712E48585D0008BDF5 /* ProposalDetailToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalDetailToolbar.swift; sourceTree = "<group>"; };
+		3A6DD3732E486D7D0008BDF5 /* ProposalDetailRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalDetailRow.swift; sourceTree = "<group>"; };
 		3A7CFFDA2E338E6D00DC0A47 /* MarkdownTranslator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownTranslator.swift; sourceTree = "<group>"; };
 		FB1AC20C2B63A7CA0053072B /* MarkdownRipository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownRipository.swift; sourceTree = "<group>"; };
 		FB1AC20E2B63A9390053072B /* ProposalHTMLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProposalHTMLBuilder.swift; sourceTree = "<group>"; };
@@ -175,8 +177,9 @@
 				3A6D6EED2E1003F80097926F /* FilterCommands.swift */,
 				FB88EA5C2B44EF2900A6EBB3 /* FlowLayout.swift */,
 				FB71CF9D2B4A4A3E0018050B /* ProposalDetailView.swift */,
-				3A6DD3712E48585D0008BDF5 /* ProposalDetailToolbarContent.swift */,
+				3A6DD3712E48585D0008BDF5 /* ProposalDetailToolbar.swift */,
 				3A6DD36F2E484B1A0008BDF5 /* ProposalDetailViewModel.swift */,
+				3A6DD3732E486D7D0008BDF5 /* ProposalDetailRow.swift */,
 				3A6DD34C2E4735E20008BDF5 /* SplashCodeSyntaxHighlighter.swift */,
 				FBCE36AC2B3FD320000763B5 /* ProposalDetailWebView.swift */,
 				FB71CF9B2B4A48590018050B /* ProposalListView.swift */,
@@ -330,6 +333,7 @@
 				3A6DD34D2E4735E20008BDF5 /* SplashCodeSyntaxHighlighter.swift in Sources */,
 				FB4654CB2B53C46200E494E6 /* ContentDetailView.swift in Sources */,
 				FB401BB52B64CA350099A535 /* View.swift in Sources */,
+				3A6DD3742E486D7D0008BDF5 /* ProposalDetailRow.swift in Sources */,
 				FB4654C92B53C44500E494E6 /* Color.swift in Sources */,
 				FB88EA382B43DE0C00A6EBB3 /* SyntaxHighlight.swift in Sources */,
 				FBB264DD2B5BA3A20030CC2F /* ProposalRipository.swift in Sources */,
@@ -351,7 +355,7 @@
 				FBD164002B48E5D500C18625 /* ProposalObject.swift in Sources */,
 				FB71CF9E2B4A4A3E0018050B /* ProposalDetailView.swift in Sources */,
 				FB1AC2122B63B9360053072B /* AppStorage.swift in Sources */,
-				3A6DD3722E48585D0008BDF5 /* ProposalDetailToolbarContent.swift in Sources */,
+				3A6DD3722E48585D0008BDF5 /* ProposalDetailToolbar.swift in Sources */,
 				3A6DD36E2E4843B50008BDF5 /* MarkdownStyleModifier.swift in Sources */,
 				3A6DD3682E48172C0008BDF5 /* MyCodeBlock.swift in Sources */,
 				FBCE36A92B3F684F000763B5 /* ContentView.swift in Sources */,

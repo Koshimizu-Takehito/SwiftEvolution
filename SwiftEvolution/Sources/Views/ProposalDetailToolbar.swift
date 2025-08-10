@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ProposalDetailToolbarContent: ToolbarContent {
+struct ProposalDetailToolbar: ToolbarContent {
     /// ViewModel
     var viewModel: ProposalDetailViewModel
     /// 該当コンテンツのブックマーク有無

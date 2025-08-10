@@ -41,7 +41,7 @@ final class ProposalDetailViewModel: Observable {
     }
 
     /// 当該プロポーザルのブックマークの有無を保存
-    func saveBookmark(isBookmarked: Bool) {
+    func save(isBookmarked: Bool) {
         let proposal = ProposalObject[markdown.proposal.id, in: context]
         guard let proposal else { return }
         proposal.isBookmarked = isBookmarked
@@ -79,7 +79,7 @@ final class ProposalDetailViewModel: Observable {
     ///   - line: 例: "### `~Copyable` as logical negation"
     ///   - includeHash: 先頭に `#` を付ける（デフォルト true）
     /// - Returns: 例: "#copyable-as-logical-negation"
-    static func htmlID(fromMarkdownHeader line: String, includeHash: Bool = true) -> String {
+    nonisolated static func htmlID(fromMarkdownHeader line: String, includeHash: Bool = true) -> String {
         // 1) 先頭の見出しマーカーを除去（0〜3個の空白 + #1〜6 + 空白）
         let headerPattern = #"^\s{0,3}#{1,6}\s+"#
         let textStart = line.replacingOccurrences(of: headerPattern,
