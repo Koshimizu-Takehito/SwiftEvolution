@@ -79,9 +79,7 @@ struct ContentView: View {
                     .tint(.darkText)
             }
         }
-        if #available(iOS 26.0, macOS 26.0, *) {
-            ToolbarSpacer()
-        }
+        ToolbarSpacer()
         if !allProposals.isEmpty {
             ToolbarItem {
                 ProposalStatusPicker()
@@ -125,7 +123,7 @@ private extension ContentView {
 
 #if DEBUG
 #Preview {
-    PreviewContainer {
+    PreviewContainer { context in
         ContentView()
     }
 }
