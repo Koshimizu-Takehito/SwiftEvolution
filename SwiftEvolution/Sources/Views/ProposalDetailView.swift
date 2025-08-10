@@ -11,22 +11,15 @@ struct ProposalDetailView: View {
     @Binding var path: NavigationPath
     /// ViewModel
     @State private var viewModel: ProposalDetailViewModel
-    /// 該当コンテンツのブックマーク有無
-    @State private var isBookmarked: Bool = false
     /// マークダウン再取得トリガー
     @State private var refresh: UUID?
-
+    /// An action that opens a URL.
     @Environment(\.openURL) private var openURL
-
-    init(path: Binding<NavigationPath>, markdown: Markdown, context: ModelContext) {
-        _path = path
-        _viewModel = .init(initialValue: .init(markdown: markdown, context: context))
-    }
 
     var body: some View {
         ScrollViewReader { proxy in
             List {
-                let items = [ProposalDetailRow](markdown: viewModel.markdown)
+                let items = viewModel.items
                 ForEach(items) { row in
                     MarkdownUI.Markdown(row.markup)
                 }
@@ -41,13 +34,7 @@ struct ProposalDetailView: View {
             .environment(\.defaultMinListRowHeight, 1)
         }
         .toolbar {
-            ProposalDetailToolbar(viewModel: viewModel, isBookmarked: $isBookmarked)
-        }
-        .onAppear {
-            isBookmarked = viewModel.isBookmarked
-        }
-        .onChange(of: isBookmarked) { _, isBookmarked in
-            viewModel.save(isBookmarked: isBookmarked)
+            ProposalDetailToolbar(viewModel: viewModel)
         }
         .overlay {
             ErrorView(error: viewModel.fetcherror) {
@@ -62,7 +49,15 @@ struct ProposalDetailView: View {
         .iOSNavigationBarTitleDisplayMode(.inline)
         .tint(viewModel.tint)
     }
+}
 
+extension ProposalDetailView {
+    init(path: Binding<NavigationPath>, markdown: Markdown, context: ModelContext) {
+        self.init(path: path, viewModel: .init(markdown: markdown, context: context))
+    }
+}
+
+private extension ProposalDetailView {
     func openURLAction(with proxy: ScrollViewProxy) -> OpenURLAction {
         OpenURLAction { url in
             switch viewModel.makeURLAction(url: url) {

@@ -9,7 +9,13 @@ import struct SwiftUI.Color
 @MainActor
 final class ProposalDetailViewModel: Observable {
     /// 当該コンテンツ
-    var markdown: Markdown
+    private(set) var markdown: Markdown {
+        didSet {
+            items = .init(markdown: markdown)
+        }
+    }
+    /// 表示用のコンテンツ
+    private(set) var items: [ProposalDetailRow] = []
     /// マークダウン取得エラー
     private(set) var fetcherror: Error?
     /// 翻訳中
@@ -24,9 +30,14 @@ final class ProposalDetailViewModel: Observable {
         markdown.proposal.state?.color
     }
 
+    /// ブックマークの状態
     var isBookmarked: Bool {
-        // ブックマークの状態を復元
-        ProposalObject[markdown.proposal.id, in: context]?.isBookmarked == true
+        get {
+            ProposalObject[markdown.proposal.id, in: context]?.isBookmarked == true
+        }
+        set {
+            save(isBookmarked: newValue)
+        }
     }
 
     /// ModelContext

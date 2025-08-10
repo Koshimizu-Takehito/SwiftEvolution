@@ -2,16 +2,14 @@ import SwiftUI
 
 struct ProposalDetailToolbar: ToolbarContent {
     /// ViewModel
-    var viewModel: ProposalDetailViewModel
-    /// 該当コンテンツのブックマーク有無
-    @Binding var isBookmarked: Bool
+    @Bindable var viewModel: ProposalDetailViewModel
     /// 表示コンテンツで利用するシンタックスハイライト
     @AppStorage<SyntaxHighlight> private var highlight = .xcodeDark
 
     @ToolbarContentBuilder
     var body: some ToolbarContent {
         ToolbarItem {
-            BookmarkButton(isBookmarked: $isBookmarked)
+            BookmarkButton(isBookmarked: $viewModel.isBookmarked)
         }
         ToolbarSpacer()
         ToolbarItemGroup {
