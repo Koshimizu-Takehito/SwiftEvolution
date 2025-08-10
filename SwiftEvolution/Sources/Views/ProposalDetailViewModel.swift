@@ -1,7 +1,7 @@
+import Foundation
 import Markdown
 import Observation
 import SwiftData
-import Foundation
 
 import struct SwiftUI.Color
 
@@ -52,7 +52,7 @@ final class ProposalDetailViewModel: Observable {
     }
 
     /// 当該プロポーザルのブックマークの有無を保存
-    func save(isBookmarked: Bool) {
+    private func save(isBookmarked: Bool) {
         let proposal = ProposalObject[markdown.proposal.id, in: context]
         guard let proposal else { return }
         proposal.isBookmarked = isBookmarked
@@ -73,7 +73,8 @@ final class ProposalDetailViewModel: Observable {
 
     func translate() async throws {
         if let text = markdown.text {
-            translating = true; defer { translating = false }
+            translating = true
+            defer { translating = false }
             let translator = MarkdownTranslator()
             for try await result in await translator.translate(markdown: text) {
                 guard markdown.text != result else {
@@ -93,9 +94,11 @@ final class ProposalDetailViewModel: Observable {
     nonisolated static func htmlID(fromMarkdownHeader line: String, includeHash: Bool = true) -> String {
         // 1) 先頭の見出しマーカーを除去（0〜3個の空白 + #1〜6 + 空白）
         let headerPattern = #"^\s{0,3}#{1,6}\s+"#
-        let textStart = line.replacingOccurrences(of: headerPattern,
-                                                  with: "",
-                                                  options: .regularExpression)
+        let textStart = line.replacingOccurrences(
+            of: headerPattern,
+            with: "",
+            options: .regularExpression
+        )
 
         // 2) バッククォートとかっこを除去（中身は残す）
         var s = textStart.replacingOccurrences(of: "`", with: "")
@@ -107,17 +110,21 @@ final class ProposalDetailViewModel: Observable {
         if let latin = s.applyingTransform(.toLatin, reverse: false) {
             s = latin
         }
-        s = s.folding(options: [.diacriticInsensitive, .caseInsensitive],
-                      locale: .current)
+        s = s.folding(
+            options: [.diacriticInsensitive, .caseInsensitive],
+            locale: .current
+        )
 
         // 4) 小文字化
         s = s.lowercased()
 
         // 5) 許可しない文字をハイフンに置換（英数以外はまとめて-）
         //    連続する非英数字は1つのハイフンに圧縮
-        s = s.replacingOccurrences(of: #"[^a-z0-9]+"#,
-                                   with: "-",
-                                   options: .regularExpression)
+        s = s.replacingOccurrences(
+            of: #"[^a-z0-9]+"#,
+            with: "-",
+            options: .regularExpression
+        )
 
         // 6) 前後のハイフンをトリム
         s = s.trimmingCharacters(in: CharacterSet(charactersIn: "-"))
