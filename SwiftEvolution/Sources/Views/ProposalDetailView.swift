@@ -39,24 +39,22 @@ struct ProposalDetailView: View {
     var markdownView: some View {
         let markdownString = markdown.text ?? ""
         let document = Document(parsing: markdownString)
-        let contents = document.children
         var idCount = [String: Int]()
-        VStack(alignment: .leading, spacing: 12) {
-            ForEach(Array(contents.enumerated()), id: \.offset) { offset, content in
-                if let heading = content as? Heading {
-                    let heading = heading.format()
-                    let id = htmlID(fromMarkdownHeader: heading)
-                    let count = idCount[id]
-                    let _ = {
-                        idCount[id] = (count ?? 0) + 1
-                    }()
-
-                    MarkdownUI.Markdown(content.format())
-                        .id(count.map { "\(id)-\($0)" } ?? id)
-                } else {
-                    MarkdownUI.Markdown(content.format())
-                }
+        let contents = Array(document.children.enumerated()).map { offset, content -> (markup: any Markup, id: String) in
+            if let heading = content as? Heading {
+                let heading = heading.format()
+                let id = htmlID(fromMarkdownHeader: heading)
+                let count = idCount[id]
+                let _ = {
+                    idCount[id] = (count ?? 0) + 1
+                }()
+                return (content, count.map { "\(id)-\($0)" } ?? id)
+            } else {
+                return (content, "\(offset)")
             }
+        }
+        ForEach(contents, id: \.id) { markup, id in
+            MarkdownUI.Markdown(markup.format())
         }
         .markdownBulletedListMarker(.customCircle)
         .markdownNumberedListMarker(.customDecimal)
@@ -82,51 +80,11 @@ struct ProposalDetailView: View {
                 .background(Color(UIColor.tintColor).opacity(0.5))
         }
         .markdownBlockStyle(\.codeBlock) {
-            codeBlock($0)
+            MyCodeBlock(configuration: $0)
         }
         .markdownCodeSyntaxHighlighter(.splash(theme: theme))
         .opacity(markdownString.isEmpty ? 0 : 1)
         .animation(!translating ? .default : nil, value: markdownString)
-        .padding()
-        .padding(.bottom)
-    }
-
-    @ViewBuilder
-    private func codeBlock(_ configuration: CodeBlockConfiguration) -> some View {
-        VStack(spacing: 0) {
-            HStack {
-                Text(configuration.language ?? "plain text")
-                    .font(.system(.caption, design: .monospaced))
-                    .fontWeight(.semibold)
-                    .foregroundColor(Color(theme.plainTextColor))
-                Spacer()
-
-                Image(systemName: "clipboard")
-                    .onTapGesture {
-                        copyToClipboard(configuration.content)
-                    }
-            }
-            .padding(.horizontal)
-            .padding(.vertical, 8)
-            .background {
-                Color(theme.backgroundColor)
-            }
-
-            Divider()
-
-            ScrollView(.horizontal) {
-                configuration.label
-                    .relativeLineSpacing(.em(0.25))
-                    .markdownTextStyle {
-                        FontFamilyVariant(.monospaced)
-                        FontSize(.em(0.85))
-                    }
-                    .padding()
-            }
-        }
-        .background(Color(.secondarySystemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-        .markdownMargin(top: .zero, bottom: .em(0.8))
     }
 
     private var theme: Splash.Theme {
@@ -137,17 +95,6 @@ struct ProposalDetailView: View {
         default:
             return .sunset(withFont: .init(size: 16))
         }
-    }
-
-    private func copyToClipboard(_ string: String) {
-        #if os(macOS)
-            if let pasteboard = NSPasteboard.general {
-                pasteboard.clearContents()
-                pasteboard.setString(string, forType: .string)
-            }
-        #elseif os(iOS)
-            UIPasteboard.general.string = string
-        #endif
     }
 
     func openURL(_ url: URL, with proxy: ScrollViewProxy) -> OpenURLAction.Result {
@@ -183,10 +130,15 @@ struct ProposalDetailView: View {
 
     var body: some View {
         ScrollViewReader { proxy in
-            ScrollView {
-                markdownView
-                    .environment(\.openURL, OpenURLAction { openURL($0, with: proxy) })
+            List {
+                markdownView.environment(\.openURL, OpenURLAction {
+                    openURL($0, with: proxy)
+                })
+                .listRowInsets(EdgeInsets(top: 6, leading: 12, bottom: 12, trailing: 6))
+                .listRowSeparator(.hidden)
             }
+            .listStyle(.plain)
+            .environment(\.defaultMinListRowHeight, 1)
         }
         .toolbar {
             // ツールバー
@@ -208,7 +160,6 @@ struct ProposalDetailView: View {
         }
         .navigationTitle(markdown.proposal.title)
         .iOSNavigationBarTitleDisplayMode(.inline)
-        .ignoresSafeArea(edges: .bottom)
         .tint(markdown.proposal.state?.color)
         .task(id: refresh) {
             // マークダウンテキストを取得
