@@ -6,6 +6,7 @@ import SwiftUI
 struct MyCodeBlock: View {
     /// ColorScheme
     @Environment(\.colorScheme) private var colorScheme
+    @State private var copied: CopiedCode?
 
     var configuration: CodeBlockConfiguration
 
@@ -40,6 +41,7 @@ struct MyCodeBlock: View {
         }
         .clipShape(.rect(cornerRadius: 8))
         .markdownMargin(top: .zero, bottom: .em(0.8))
+        .preference(key: CopiedCode.self, value: copied)
     }
 
     @ViewBuilder
@@ -74,5 +76,29 @@ struct MyCodeBlock: View {
         #elseif os(iOS)
             UIPasteboard.general.string = string
         #endif
+        copied = CopiedCode(code: string)
+    }
+}
+
+struct CopiedCode: PreferenceKey, Hashable, Identifiable {
+    var id = UUID()
+    var code: String
+
+    static var defaultValue: CopiedCode? { nil }
+
+    static func reduce(value: inout CopiedCode?, nextValue: () -> CopiedCode?) {
+        value = nextValue()
+    }
+}
+
+extension View {
+    func onCopyToClipboard(perform: @escaping (_ code: CopiedCode) async -> Void) -> some View {
+        onPreferenceChange(CopiedCode.self) { code in
+            if let code {
+                Task {
+                    await perform(code)
+                }
+            }
+        }
     }
 }

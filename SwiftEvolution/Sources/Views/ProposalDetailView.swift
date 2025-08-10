@@ -15,6 +15,8 @@ struct ProposalDetailView: View {
     @State private var viewModel: ProposalDetailViewModel
     /// マークダウン再取得トリガー
     @State private var refresh: UUID?
+    /// コピーしたコードブロック
+    @State private var copied: CopiedCode?
     /// An action that opens a URL.
     @Environment(\.openURL) private var openURL
 
@@ -31,6 +33,11 @@ struct ProposalDetailView: View {
                 .environment(\.openURL, openURLAction(with: proxy))
                 .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 16, trailing: 8))
                 .listRowSeparator(.hidden)
+                .onCopyToClipboard { code in
+                    withAnimation { copied = code }
+                    try? await Task.sleep(for: .seconds(1))
+                    withAnimation { copied = nil }
+                }
             }
             .listStyle(.plain)
             .environment(\.defaultMinListRowHeight, 1)
@@ -42,6 +49,9 @@ struct ProposalDetailView: View {
             ErrorView(error: viewModel.fetcherror) {
                 refresh = .init()
             }
+        }
+        .overlay {
+            CopiedHUD(copied: copied)
         }
         .task(id: refresh) {
             guard refresh != nil else { return }
