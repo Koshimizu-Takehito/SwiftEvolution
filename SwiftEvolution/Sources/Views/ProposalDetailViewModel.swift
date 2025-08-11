@@ -72,16 +72,15 @@ final class ProposalDetailViewModel: Observable {
     }
 
     func translate() async throws {
-        if let text = markdown.text {
-            translating = true
-            defer { translating = false }
-            let translator = MarkdownTranslator()
-            for try await result in await translator.translate(markdown: text) {
-                guard markdown.text != result else {
-                    continue
-                }
-                markdown.text = result
-                await Task.yield()
+        if items.isEmpty || translating {
+            return
+        }
+        translating = true; defer { translating = false }
+
+        let translator = MarkdownTranslator()
+        for (offset, item) in items.enumerated() {
+            for try await result in await translator.translate(markdown: item.markup) {
+                items[offset].markup = result
             }
         }
     }

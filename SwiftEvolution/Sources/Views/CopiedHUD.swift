@@ -2,24 +2,35 @@ import SwiftUI
 
 struct CopiedHUD: View {
     var copied: CopiedCode?
+    @State var size = CGSize(width: Double.infinity, height: .infinity)
+    @State var backgroundSize = CGSize(width: Double.infinity, height: .infinity)
 
     var body: some View {
-        if copied != nil {
-            VStack {
-                Image(systemName: "checkmark.circle")
-                    .resizable()
-                    .scaledToFit()
-                    .font(.title3)
-                    .frame(maxWidth: 120, maxHeight: 120)
-                Text("Copied!")
-                    .font(.title.bold())
-                    .minimumScaleFactor(0.1)
-            }
-            .frame(width: 180, height: 180)
-            .padding()
-            .background(.ultraThinMaterial, in: .rect)
-            .clipShape(.rect(cornerRadius: 12))
-            .transition(.opacity)
+        VStack(spacing: 0) {
+            let imageEdge: CGFloat = min(backgroundSize.width / 3, backgroundSize.height / 3)
+            Image(systemName: "checkmark.circle")
+                .resizable()
+                .scaledToFit()
+                .font(.title3)
+                .frame(maxWidth: imageEdge, maxHeight: imageEdge)
+                .padding()
+            Text(copied != nil ? "Copied!" : "")
+                .font(.title)
+                .fontWeight(.bold)
+                .contentTransition(.opacity)
+                .animation(.default, value: copied)
+        }
+        .onGeometryChange(for: CGSize.self, of: \.size) { size = $1 }
+        .frame(maxWidth: size.width, maxHeight: size.height)
+        .padding()
+        .glassEffect(in: .rect(cornerRadius: 18))
+        .opacity(copied != nil ? 1 : 0)
+        .symbolRenderingMode(.hierarchical)
+        .foregroundStyle(.tint)
+        .symbolEffect(.bounce, value: copied)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onGeometryChange(for: CGSize.self, of: \.size) {
+            backgroundSize = $1
         }
     }
 }

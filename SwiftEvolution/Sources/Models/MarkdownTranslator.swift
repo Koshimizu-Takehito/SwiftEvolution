@@ -26,7 +26,7 @@ struct LinkReader: MarkupWalker {
 }
 
 actor MarkdownTranslator {
-    private typealias Rewriter = TranslationMarkupRewriter
+    private typealias Rewriter = TranslatingMarkupRewriter
     private var source: Locale.Language
     private var target: Locale.Language
 
@@ -37,7 +37,7 @@ actor MarkdownTranslator {
 
     func translate(markdown: String) async throws -> String {
         let document = Document(parsing: markdown)
-        var rewriter = Rewriter(root: document, source: source, target: target)
+        var rewriter = MarkupTranslator(source: source, target: target)
         return try await rewriter.visit(document)?.format() ?? ""
     }
 
@@ -45,7 +45,7 @@ actor MarkdownTranslator {
         AsyncThrowingStream { continuation in
             Task.detached(priority: .medium) { [self] in
                 let document = Document(parsing: markdown)
-                var rewriter = await Rewriter(root: document, source: source, target: target) { markdown in
+                var rewriter = await TranslatingMarkupRewriter(root: document, source: source, target: target) { markdown in
                     continuation.yield(markdown)
                 }
                 do {
@@ -59,7 +59,19 @@ actor MarkdownTranslator {
     }
 }
 
-struct TranslationMarkupRewriter: AsyncMarkupRewriter {
+struct MarkupTranslator: AsyncMarkupRewriter {
+    private let translator: TranslationSession
+
+    init(source: Locale.Language, target: Locale.Language) {
+        self.translator = TranslationSession(installedSource: source, target: target)
+    }
+
+    mutating func visitText(_ text: Text) async throws -> (any Markup)? {
+        try await Text(translator.translate(text.string).targetText)
+    }
+}
+
+struct TranslatingMarkupRewriter: AsyncMarkupRewriter {
     private let translator: TranslationSession
 
     private var root: Markup {
