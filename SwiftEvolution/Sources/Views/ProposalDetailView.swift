@@ -31,7 +31,7 @@ struct ProposalDetailView: View {
                 .opacity(items.isEmpty ? 0 : 1)
                 .animation(viewModel.translating ? nil : .default, value: items)
                 .environment(\.openURL, openURLAction(with: proxy))
-                .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 16, trailing: 8))
+                .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
                 .listRowSeparator(.hidden)
                 .onCopyToClipboard { code in
                     withAnimation { copied = code }
