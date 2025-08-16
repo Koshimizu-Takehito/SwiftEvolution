@@ -31,11 +31,24 @@ extension Proposal {
             title: "Inferring Sendable for methods and key path literals"
         )
     }
+
+    static var fake0465: Self {
+        Proposal(
+            id: "SE-0465",
+            link: "0465-nonescapable-stdlib-primitives.md",
+            status: Status(state: ".implemented"),
+            title: "Standard Library Primitives for Nonescapable Types"
+        )
+    }
 }
 
 extension Markdown {
     static var fake0418: Self {
         Markdown(proposal: .fake0418, url: nil)
+    }
+
+    static var fake0465: Self {
+        Markdown(proposal: .fake0465, url: nil)
     }
 }
 

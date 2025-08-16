@@ -108,7 +108,7 @@ private extension ProposalDetailView {
     #Preview {
         PreviewContainer { context in
             NavigationStack {
-                ProposalDetailView(path: .fake, markdown: .fake0418, context: context)
+                ProposalDetailView(path: .fake, markdown: .fake0465, context: context)
             }
         }
         .colorScheme(.dark)
