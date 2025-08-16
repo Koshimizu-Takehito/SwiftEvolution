@@ -7,18 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A37B2E52E51875600F1812A /* EvolutionUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3A37B2E42E51875600F1812A /* EvolutionUI */; };
 		3A7CFFD92E338E2C00DC0A47 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = 3A7CFFD82E338E2C00DC0A47 /* Markdown */; };
+		3A874FAB2E5196E700DEBD9B /* EvolutionModule in Frameworks */ = {isa = PBXBuildFile; productRef = 3A874FAA2E5196E700DEBD9B /* EvolutionModule */; };
 		3AA277002E3F08CF0061789E /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3AA276FF2E3F08CF0061789E /* MarkdownUI */; };
 		3AA277032E3F18F60061789E /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = 3AA277022E3F18F60061789E /* Splash */; };
+		3ADA64592E5056A900F03012 /* EvolutionCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADA64582E5056A900F03012 /* EvolutionCore */; };
+		3ADA645B2E505A4900F03012 /* EvolutionModel in Resources */ = {isa = PBXBuildFile; fileRef = 3ADA645A2E505A4900F03012 /* EvolutionModel */; };
+		3ADA645E2E505A7900F03012 /* EvolutionModel in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADA645D2E505A7900F03012 /* EvolutionModel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A2444182E5186CF0035346F /* EvolutionUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = EvolutionUI; sourceTree = "<group>"; };
+		3A874FA82E5195ED00DEBD9B /* EvolutionModule */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = EvolutionModule; sourceTree = "<group>"; };
+		3AB297F12E5055CC0083D08D /* EvolutionCore */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = EvolutionCore; sourceTree = "<group>"; };
+		3ADA645A2E505A4900F03012 /* EvolutionModel */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = EvolutionModel; sourceTree = "<group>"; };
 		FB4654F02B53FEFB00E494E6 /* SwiftData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.2.sdk/System/Library/Frameworks/SwiftData.framework; sourceTree = DEVELOPER_DIR; };
 		FBCE36922B3EDF2D000763B5 /* SwiftEvolution.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftEvolution.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		3A1FDC832E5046840076F14D /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		3A1FDDA72E5048D80076F14D /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resources/Info.plist,
@@ -28,7 +37,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		3A1FDC582E5046840076F14D /* SwiftEvolution */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3A1FDC832E5046840076F14D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = SwiftEvolution; sourceTree = "<group>"; };
+		3A1FDD7C2E5048D80076F14D /* App */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3A1FDDA72E5048D80076F14D /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = App; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,8 +46,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A7CFFD92E338E2C00DC0A47 /* Markdown in Frameworks */,
+				3A874FAB2E5196E700DEBD9B /* EvolutionModule in Frameworks */,
 				3AA277002E3F08CF0061789E /* MarkdownUI in Frameworks */,
+				3A37B2E52E51875600F1812A /* EvolutionUI in Frameworks */,
 				3AA277032E3F18F60061789E /* Splash in Frameworks */,
+				3ADA645E2E505A7900F03012 /* EvolutionModel in Frameworks */,
+				3ADA64592E5056A900F03012 /* EvolutionCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,9 +69,13 @@
 		FBCE36892B3EDF2D000763B5 = {
 			isa = PBXGroup;
 			children = (
+				3AB297F12E5055CC0083D08D /* EvolutionCore */,
+				3ADA645A2E505A4900F03012 /* EvolutionModel */,
+				3A874FA82E5195ED00DEBD9B /* EvolutionModule */,
+				3A2444182E5186CF0035346F /* EvolutionUI */,
+				3A1FDD7C2E5048D80076F14D /* App */,
 				FB4654EF2B53FEFB00E494E6 /* Frameworks */,
 				FBCE36932B3EDF2D000763B5 /* Products */,
-				3A1FDC582E5046840076F14D /* SwiftEvolution */,
 			);
 			sourceTree = "<group>";
 		};
@@ -86,7 +103,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				3A1FDC582E5046840076F14D /* SwiftEvolution */,
+				3A1FDD7C2E5048D80076F14D /* App */,
 			);
 			name = SwiftEvolution;
 			productName = SwiftEvolutionApp;
@@ -121,6 +138,10 @@
 				3A7CFFD72E338E2C00DC0A47 /* XCRemoteSwiftPackageReference "swift-markdown" */,
 				3AA276FE2E3F08CF0061789E /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				3AA277012E3F18F60061789E /* XCRemoteSwiftPackageReference "Splash" */,
+				3ADA64572E5056A900F03012 /* XCLocalSwiftPackageReference "EvolutionCore" */,
+				3ADA645C2E505A7900F03012 /* XCLocalSwiftPackageReference "EvolutionModel" */,
+				3A37B2E32E51875600F1812A /* XCLocalSwiftPackageReference "EvolutionUI" */,
+				3A874FA92E5196E700DEBD9B /* XCLocalSwiftPackageReference "EvolutionModule" */,
 			);
 			productRefGroup = FBCE36932B3EDF2D000763B5 /* Products */;
 			projectDirPath = "";
@@ -136,6 +157,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3ADA645B2E505A4900F03012 /* EvolutionModel in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,11 +301,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = SwiftEvolution/Resources/SwiftEvolution.entitlements;
+				CODE_SIGN_ENTITLEMENTS = App/Resources/SwiftEvolution.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"SwiftEvolution/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
 				DEVELOPMENT_TEAM = L2S68XMK99;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -291,7 +313,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SwiftEvolution/Resources/Info.plist;
+				INFOPLIST_FILE = App/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Evolution;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -325,11 +347,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = SwiftEvolution/Resources/SwiftEvolution.entitlements;
+				CODE_SIGN_ENTITLEMENTS = App/Resources/SwiftEvolution.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"SwiftEvolution/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
 				DEVELOPMENT_TEAM = L2S68XMK99;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -337,7 +359,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SwiftEvolution/Resources/Info.plist;
+				INFOPLIST_FILE = App/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Evolution;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -389,6 +411,25 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		3A37B2E32E51875600F1812A /* XCLocalSwiftPackageReference "EvolutionUI" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = EvolutionUI;
+		};
+		3A874FA92E5196E700DEBD9B /* XCLocalSwiftPackageReference "EvolutionModule" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = EvolutionModule;
+		};
+		3ADA64572E5056A900F03012 /* XCLocalSwiftPackageReference "EvolutionCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = EvolutionCore;
+		};
+		3ADA645C2E505A7900F03012 /* XCLocalSwiftPackageReference "EvolutionModel" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = EvolutionModel;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		3A7CFFD72E338E2C00DC0A47 /* XCRemoteSwiftPackageReference "swift-markdown" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -417,10 +458,18 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3A37B2E42E51875600F1812A /* EvolutionUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = EvolutionUI;
+		};
 		3A7CFFD82E338E2C00DC0A47 /* Markdown */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3A7CFFD72E338E2C00DC0A47 /* XCRemoteSwiftPackageReference "swift-markdown" */;
 			productName = Markdown;
+		};
+		3A874FAA2E5196E700DEBD9B /* EvolutionModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = EvolutionModule;
 		};
 		3AA276FF2E3F08CF0061789E /* MarkdownUI */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -431,6 +480,14 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3AA277012E3F18F60061789E /* XCRemoteSwiftPackageReference "Splash" */;
 			productName = Splash;
+		};
+		3ADA64582E5056A900F03012 /* EvolutionCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = EvolutionCore;
+		};
+		3ADA645D2E505A7900F03012 /* EvolutionModel */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = EvolutionModel;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
