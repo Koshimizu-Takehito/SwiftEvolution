@@ -1,6 +1,8 @@
 import EvolutionModule
 import SwiftUI
 
+// MARK: - App
+
 @main
 struct App: SwiftUI.App {
     var body: some Scene {
@@ -9,6 +11,8 @@ struct App: SwiftUI.App {
         }
     }
 }
+
+// MARK: - Preview
 
 #Preview(traits: .proposal) {
     ContentView()

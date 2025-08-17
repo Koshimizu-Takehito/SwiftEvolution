@@ -33,3 +33,10 @@ extension AppScene: Scene {
         #endif
     }
 }
+
+// MARK: - Preview
+
+#Preview(traits: .proposal) {
+    ContentView()
+        .environment(\.colorScheme, .dark)
+}
