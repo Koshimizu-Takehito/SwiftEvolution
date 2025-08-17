@@ -3,6 +3,7 @@
 
 import PackageDescription
 
+/// Package manifest for persistence models built on top of ``EvolutionCore``.
 let package = Package(
     name: "EvolutionModel",
     platforms: [

@@ -3,6 +3,7 @@
 
 import PackageDescription
 
+/// High-level feature modules composed from core models and UI components.
 let package = Package(
     name: "EvolutionModule",
     platforms: [

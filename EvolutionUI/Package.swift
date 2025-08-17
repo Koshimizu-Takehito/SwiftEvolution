@@ -3,6 +3,7 @@
 
 import PackageDescription
 
+/// UI components and presentation logic for the Swift Evolution client.
 let package = Package(
     name: "EvolutionUI",
     platforms: [
