@@ -6,12 +6,12 @@ import SwiftData
 /// Use this view type only for previews, and only when you need
 /// to create a container before showing the view content.
 struct PreviewContainer<Content: View>: View {
-    var content: () -> Content
+    var content: (_ context: ModelContext) -> Content
     let modelContainer: ModelContainer
 
     init(
         _ modelContainer: @escaping () throws -> ModelContainer = PreviewSampleData.inMemoryContainer,
-        @ViewBuilder content: @escaping () -> Content
+        @ViewBuilder content: @escaping (_ context: ModelContext) -> Content
     ) {
         self.content = content
         do {
@@ -22,7 +22,7 @@ struct PreviewContainer<Content: View>: View {
     }
 
     var body: some View {
-        content()
+        content(modelContainer.mainContext)
             .modelContainer(modelContainer)
     }
 }

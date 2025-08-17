@@ -14,6 +14,9 @@ struct ContentDetailView: View {
     /// アクセントカラー（ ナビゲーションスタックにスタックされるごとに変更する ）
     @Binding var accentColor: Color?
 
+    /// ModelContext
+    @Environment(\.modelContext) private var context
+
     var body: some View {
         NavigationStack(path: $detailPath) {
             // Root
@@ -26,7 +29,7 @@ struct ContentDetailView: View {
     }
 
     func detail(markdown: Markdown) -> some View {
-        ProposalDetailView(path: $detailPath, markdown: markdown)
+        ProposalDetailView(path: $detailPath, markdown: markdown, context: context)
             .onChange(of: accentColor(markdown), initial: true) { _, color in
                 accentColor = color
             }
@@ -39,7 +42,7 @@ struct ContentDetailView: View {
 
 #if DEBUG
 #Preview {
-    PreviewContainer {
+    PreviewContainer { context in
         ContentDetailView(
             markdown: .fake0418,
             horizontal: .compact,

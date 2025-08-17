@@ -7,8 +7,26 @@ extension Locale.Language {
     static var japanese: Self { .init(identifier: "ja") }
 }
 
-@available(iOS 26.0, *)
+struct LinkReader: MarkupWalker {
+    mutating func visitLink(_ link: Link) {
+        guard let components = URLComponents(string: link.destination!) else {
+            return
+        }
+
+        switch (components.host, components.scheme, components.path) {
+        case (nil, nil, "") where components.fragment?.isEmpty == false:
+            if let text = link.children.lazy.compactMap({ $0 as? Text }).first.map(\.plainText) {
+                print("🐰 \(text) 🦁 \(link.destination ?? "")")
+            }
+        default:
+            break
+        }
+        defaultVisit(link)
+    }
+}
+
 actor MarkdownTranslator {
+    private typealias Rewriter = TranslatingMarkupRewriter
     private var source: Locale.Language
     private var target: Locale.Language
 
@@ -18,14 +36,30 @@ actor MarkdownTranslator {
     }
 
     func translate(markdown: String) async throws -> String {
-        let document = Document(parsing: markdown.replacingOccurrences(of: "\\n", with: "\n"))
-        var rewriter = TranslationMarkupRewriter(source: source, target: target)
-        return try await rewriter.visit(document)?.format().replacingOccurrences(of: "\n", with: "\\n") ?? ""
+        let document = Document(parsing: markdown)
+        var rewriter = MarkupTranslator(source: source, target: target)
+        return try await rewriter.visit(document)?.format() ?? ""
+    }
+
+    func translate(markdown: String) -> AsyncThrowingStream<String, any Error> {
+        AsyncThrowingStream { continuation in
+            Task.detached(priority: .medium) { [self] in
+                let document = Document(parsing: markdown)
+                var rewriter = await TranslatingMarkupRewriter(root: document, source: source, target: target) { markdown in
+                    continuation.yield(markdown)
+                }
+                do {
+                    try await rewriter.visit(document)
+                    continuation.finish()
+                } catch {
+                    continuation.finish(throwing: error)
+                }
+            }
+        }
     }
 }
 
-@available(iOS 26.0, *)
-struct TranslationMarkupRewriter: AsyncMarkupRewriter {
+struct MarkupTranslator: AsyncMarkupRewriter {
     private let translator: TranslationSession
 
     init(source: Locale.Language, target: Locale.Language) {
@@ -33,10 +67,45 @@ struct TranslationMarkupRewriter: AsyncMarkupRewriter {
     }
 
     mutating func visitText(_ text: Text) async throws -> (any Markup)? {
-        var text = text
-        let result = try await translator.translate(text.string).targetText
-        text.string = result
-        return text
+        try await Text(translator.translate(text.string).targetText)
+    }
+}
+
+struct TranslatingMarkupRewriter: AsyncMarkupRewriter {
+    private let translator: TranslationSession
+
+    private var root: Markup {
+        didSet {
+            onReplace?(root.format())
+        }
+    }
+
+    private let onReplace: ((String) -> Void)?
+
+    init(root: Markup, source: Locale.Language, target: Locale.Language, onReplace: ((String) -> Void)? = nil) {
+        self.translator = TranslationSession(installedSource: source, target: target)
+        self.root = root
+        self.onReplace = onReplace
+    }
+
+    mutating func visitText(_ text: Text) async throws -> (any Markup)? {
+        let translated = try await Text(translator.translate(text.string).targetText)
+        root = replace(in: root, original: text, translated: translated)
+        return translated
+    }
+
+    private mutating func replace(in markup: Markup, original: Markup, translated: Markup) -> Markup {
+        switch (markup, original) {
+        case let (lhs as Text, rhs as Text) where lhs.string == rhs.string:
+            translated
+        default:
+            // 子ノードを走査し、再帰的に置き換えを試みる
+            markup.withUncheckedChildren(
+                markup.children.map {
+                    replace(in: $0, original: original, translated: translated)
+                }
+            )
+        }
     }
 }
 
@@ -82,7 +151,7 @@ protocol AsyncMarkupVisitor: MarkupVisitor {
 }
 
 extension AsyncMarkupVisitor {
-    mutating func visit(_ markup: AsyncMarkup) async throws -> Result {
+    @discardableResult mutating func visit(_ markup: AsyncMarkup) async throws -> Result {
         try await markup.accept(&self)
     }
     mutating func visitBlockQuote(_ blockQuote: BlockQuote) async throws -> Result {

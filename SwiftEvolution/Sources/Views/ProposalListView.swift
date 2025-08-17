@@ -26,8 +26,8 @@ struct ProposalListView: View {
         List(selection: $selection) {
             ForEach(proposals) { proposal in
                 NavigationLink(value: Markdown(proposal: .init(proposal))) {
-                    // Item View（セル）
-                    ProposalItemView(proposal: proposal)
+                    // セル
+                    ProposalListCell(proposal: proposal)
                 }
             }
         }
@@ -51,8 +51,8 @@ struct ProposalListView: View {
     }
 }
 
-// MARK: - ItemView
-private struct ProposalItemView: View {
+// MARK: - Cell
+private struct ProposalListCell: View {
     let proposal: ProposalObject
 
     var body: some View {
@@ -64,13 +64,8 @@ private struct ProposalItemView: View {
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
                     .overlay {
-                        if #available(iOS 26.0, *) {
-                            ConcentricRectangle(corners: .fixed(8))
-                                .stroke()
-                        } else {
-                            RoundedRectangle(cornerRadius: 4, style: .circular)
-                                .stroke()
-                        }
+                        ConcentricRectangle(corners: .fixed(8))
+                            .stroke()
                     }
                     .foregroundStyle(label.color)
                 // ブックマーク
@@ -106,7 +101,7 @@ private struct ProposalItemView: View {
 
 #if DEBUG
 #Preview {
-    PreviewContainer {
+    PreviewContainer { context in
         ContentView()
     }
 }

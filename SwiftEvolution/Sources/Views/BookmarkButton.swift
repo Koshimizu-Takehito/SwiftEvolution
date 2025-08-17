@@ -4,7 +4,7 @@ struct BookmarkButton: View {
     @Binding var isBookmarked: Bool
 
     var body: some View {
-        Button.init("Bookmark", systemImage: isBookmarked ? "bookmark.fill" : "bookmark") {
+        Button("Bookmark", systemImage: isBookmarked ? "bookmark.fill" : "bookmark") {
             withAnimation {
                 isBookmarked.toggle()
             }

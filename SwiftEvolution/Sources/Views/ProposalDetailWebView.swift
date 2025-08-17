@@ -136,7 +136,6 @@ extension ProposalDetailWebView.Coordinator: WKNavigationDelegate {
         NSWorkspace.shared.open(url)
 #elseif os(iOS)
         let controller = SFSafariViewController(url: url)
-        controller.preferredControlTintColor = webView.tintColor
         webView.window?.rootViewController?.show(controller, sender: self)
 #endif
     }

@@ -22,5 +22,6 @@ struct Markdown: Codable, Hashable, Identifiable {
 
     func fetch() async throws -> String {
         try await MarkdownRipository(url: url).fetch()
+            .replacingOccurrences(of: "\\n", with: "\n")
     }
 }
