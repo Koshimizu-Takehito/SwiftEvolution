@@ -3,6 +3,9 @@
 
 import PackageDescription
 
+/// The package manifest for the core models and utilities that power the
+/// Swift Evolution client.
+
 let package = Package(
     name: "EvolutionCore",
     platforms: [

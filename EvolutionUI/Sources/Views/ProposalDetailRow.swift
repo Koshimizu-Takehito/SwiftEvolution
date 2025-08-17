@@ -2,8 +2,11 @@ import Markdown
 import Foundation
 import EvolutionCore
 
+/// A single row of formatted markdown in the proposal detail screen.
 public struct ProposalDetailRow: Hashable, Identifiable {
+    /// Identifier used for navigation and hashing.
     public var id: String
+    /// HTML markup representing the row's contents.
     public var markup: String
 
     public init(id: String, markup: String) {
@@ -13,6 +16,7 @@ public struct ProposalDetailRow: Hashable, Identifiable {
 }
 
 extension [ProposalDetailRow] {
+    /// Creates an array of rows by parsing the proposal's markdown document.
     public init(markdown: Markdown) {
         let markdownString = markdown.text ?? ""
         let document = Document(parsing: markdownString)

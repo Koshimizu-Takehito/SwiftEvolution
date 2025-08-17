@@ -1,10 +1,15 @@
 import SwiftUI
 
+/// Displays a transient heads-up display after code is copied to the clipboard.
 public struct CopiedHUD: View {
+    /// The most recently copied code snippet, if any.
     var copied: CopiedCode?
+    /// Tracks the size of the foreground content.
     @State var size = CGSize(width: Double.infinity, height: .infinity)
+    /// Tracks the size of the background container.
     @State var backgroundSize = CGSize(width: Double.infinity, height: .infinity)
 
+    /// Creates a HUD for the given copied code snippet.
     public init(copied: CopiedCode? = nil) {
         self.copied = copied
     }

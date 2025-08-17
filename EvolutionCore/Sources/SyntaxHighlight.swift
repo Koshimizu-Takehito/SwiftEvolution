@@ -1,3 +1,4 @@
+/// Built-in syntax highlighting themes supported by the UI.
 public enum SyntaxHighlight: String, Hashable, CaseIterable, Identifiable, Sendable {
     case androidStudio = "androidstudio"
     case atomOneDark = "atom-one-dark"
@@ -10,10 +11,12 @@ public enum SyntaxHighlight: String, Hashable, CaseIterable, Identifiable, Senda
     case xcode = "xcode"
     case xcodeDark = "xcode-dark"
 
+    /// Conformance to `Identifiable`.
     public var id: String {
         rawValue
     }
 
+    /// Display name shown in the UI.
     public var displayName: String {
         rawValue
     }

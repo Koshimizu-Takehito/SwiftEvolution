@@ -1,7 +1,10 @@
 import SwiftUI
 
+/// A reusable view that displays an error message with an optional retry button.
 public struct ErrorView: View {
+    /// The error to present to the user.
     public var error: Error?
+    /// Action executed when the user chooses to retry.
     public var retry: (() -> Void)?
 
     public init(error: Error? = nil, retry: (() -> Void)? = nil) {
@@ -33,6 +36,7 @@ public struct ErrorView: View {
 }
 
 extension ErrorView {
+    /// Convenience initializer that triggers a `UUID`-based refresh when retrying.
     public init(error: (any Error)? = nil, _ retry: Binding<UUID?>) {
         self.init(error: error) {
             retry.wrappedValue = UUID()
