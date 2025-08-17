@@ -5,9 +5,9 @@ import SwiftUI
     public protocol UIViewRepresentable: NSViewRepresentable where NSViewType == ViewType {
         associatedtype ViewType: NSView
         @MainActor
-        public func makeUIView(context: Context) -> ViewType
+        func makeUIView(context: Context) -> ViewType
         @MainActor
-        public func updateUIView(_ uiView: ViewType, context: Context)
+        func updateUIView(_ uiView: ViewType, context: Context)
     }
 
     extension UIViewRepresentable {
