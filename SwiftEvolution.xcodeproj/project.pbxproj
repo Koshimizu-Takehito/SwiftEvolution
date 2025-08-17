@@ -7,14 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3A37B2E52E51875600F1812A /* EvolutionUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3A37B2E42E51875600F1812A /* EvolutionUI */; };
-		3A7CFFD92E338E2C00DC0A47 /* Markdown in Frameworks */ = {isa = PBXBuildFile; productRef = 3A7CFFD82E338E2C00DC0A47 /* Markdown */; };
 		3A874FAB2E5196E700DEBD9B /* EvolutionModule in Frameworks */ = {isa = PBXBuildFile; productRef = 3A874FAA2E5196E700DEBD9B /* EvolutionModule */; };
-		3AA277002E3F08CF0061789E /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3AA276FF2E3F08CF0061789E /* MarkdownUI */; };
-		3AA277032E3F18F60061789E /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = 3AA277022E3F18F60061789E /* Splash */; };
-		3ADA64592E5056A900F03012 /* EvolutionCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADA64582E5056A900F03012 /* EvolutionCore */; };
 		3ADA645B2E505A4900F03012 /* EvolutionModel in Resources */ = {isa = PBXBuildFile; fileRef = 3ADA645A2E505A4900F03012 /* EvolutionModel */; };
-		3ADA645E2E505A7900F03012 /* EvolutionModel in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADA645D2E505A7900F03012 /* EvolutionModel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,13 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A7CFFD92E338E2C00DC0A47 /* Markdown in Frameworks */,
 				3A874FAB2E5196E700DEBD9B /* EvolutionModule in Frameworks */,
-				3AA277002E3F08CF0061789E /* MarkdownUI in Frameworks */,
-				3A37B2E52E51875600F1812A /* EvolutionUI in Frameworks */,
-				3AA277032E3F18F60061789E /* Splash in Frameworks */,
-				3ADA645E2E505A7900F03012 /* EvolutionModel in Frameworks */,
-				3ADA64592E5056A900F03012 /* EvolutionCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,9 +123,6 @@
 			);
 			mainGroup = FBCE36892B3EDF2D000763B5;
 			packageReferences = (
-				3A7CFFD72E338E2C00DC0A47 /* XCRemoteSwiftPackageReference "swift-markdown" */,
-				3AA276FE2E3F08CF0061789E /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
-				3AA277012E3F18F60061789E /* XCRemoteSwiftPackageReference "Splash" */,
 				3ADA64572E5056A900F03012 /* XCLocalSwiftPackageReference "EvolutionCore" */,
 				3ADA645C2E505A7900F03012 /* XCLocalSwiftPackageReference "EvolutionModel" */,
 				3A37B2E32E51875600F1812A /* XCLocalSwiftPackageReference "EvolutionUI" */,
@@ -430,64 +415,10 @@
 		};
 /* End XCLocalSwiftPackageReference section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		3A7CFFD72E338E2C00DC0A47 /* XCRemoteSwiftPackageReference "swift-markdown" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/swiftlang/swift-markdown";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.6.0;
-			};
-		};
-		3AA276FE2E3F08CF0061789E /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:gonzalezreal/swift-markdown-ui.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.4.1;
-			};
-		};
-		3AA277012E3F18F60061789E /* XCRemoteSwiftPackageReference "Splash" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:JohnSundell/Splash.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.16.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		3A37B2E42E51875600F1812A /* EvolutionUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = EvolutionUI;
-		};
-		3A7CFFD82E338E2C00DC0A47 /* Markdown */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3A7CFFD72E338E2C00DC0A47 /* XCRemoteSwiftPackageReference "swift-markdown" */;
-			productName = Markdown;
-		};
 		3A874FAA2E5196E700DEBD9B /* EvolutionModule */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = EvolutionModule;
-		};
-		3AA276FF2E3F08CF0061789E /* MarkdownUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3AA276FE2E3F08CF0061789E /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
-			productName = MarkdownUI;
-		};
-		3AA277022E3F18F60061789E /* Splash */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3AA277012E3F18F60061789E /* XCRemoteSwiftPackageReference "Splash" */;
-			productName = Splash;
-		};
-		3ADA64582E5056A900F03012 /* EvolutionCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = EvolutionCore;
-		};
-		3ADA645D2E505A7900F03012 /* EvolutionModel */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = EvolutionModel;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

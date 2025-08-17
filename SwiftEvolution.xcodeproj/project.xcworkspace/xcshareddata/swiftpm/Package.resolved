@@ -1,5 +1,5 @@
 {
-  "originHash" : "3ca92c9176d2d8cd663a164d869010a10d27e6e8874a006fd52234eae54f8b6f",
+  "originHash" : "c42551310cce7e9375bed75a1b5daf32a11602ccd63bd41ce7c402e41182cf0c",
   "pins" : [
     {
       "identity" : "networkimage",
@@ -13,7 +13,7 @@
     {
       "identity" : "splash",
       "kind" : "remoteSourceControl",
-      "location" : "git@github.com:JohnSundell/Splash.git",
+      "location" : "https://github.com/JohnSundell/Splash.git",
       "state" : {
         "revision" : "7f4df436eb78fe64fe2c32c58006e9949fa28ad8",
         "version" : "0.16.0"
@@ -40,7 +40,7 @@
     {
       "identity" : "swift-markdown-ui",
       "kind" : "remoteSourceControl",
-      "location" : "git@github.com:gonzalezreal/swift-markdown-ui.git",
+      "location" : "https://github.com/gonzalezreal/swift-markdown-ui",
       "state" : {
         "revision" : "5f613358148239d0292c0cef674a3c2314737f9e",
         "version" : "2.4.1"
