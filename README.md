@@ -6,9 +6,9 @@
 
 ## Environment
 
-- iOS 17.0+
-- Xcode Version 16.0+
-- Swift 6.0+
+- iOS 26.0+
+- Xcode Version 26.0+
+- Swift 6.2+
 
 ## Setup
 
