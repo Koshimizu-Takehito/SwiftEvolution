@@ -73,10 +73,9 @@ public struct MyCodeBlock: View {
 
     private func copyToClipboard(_ string: String) {
         #if os(macOS)
-            if let pasteboard = NSPasteboard.general {
-                pasteboard.clearContents()
-                pasteboard.setString(string, forType: .string)
-            }
+            let pasteboard = NSPasteboard.general
+            pasteboard.clearContents()
+            pasteboard.setString(string, forType: .string)
         #elseif os(iOS)
             UIPasteboard.general.string = string
         #endif
@@ -101,7 +100,9 @@ public struct CopiedCode: PreferenceKey, Hashable, Identifiable {
 }
 
 extension View {
-    public func onCopyToClipboard(perform: @escaping (_ code: CopiedCode) async -> Void) -> some View {
+    public func onCopyToClipboard(perform: @escaping (_ code: CopiedCode) async -> Void)
+        -> some View
+    {
         onPreferenceChange(CopiedCode.self) { code in
             if let code {
                 Task {

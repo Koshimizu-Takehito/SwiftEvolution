@@ -2,7 +2,7 @@ import SwiftUI
 
 #if os(macOS) || os(tvOS)
     public struct NavigationBarItem {
-        enum TitleDisplayMode {
+        public enum TitleDisplayMode {
             case automatic
             case inline
             case large
