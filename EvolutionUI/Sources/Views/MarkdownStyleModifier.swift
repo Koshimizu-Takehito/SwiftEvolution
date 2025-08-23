@@ -7,8 +7,6 @@ import EvolutionCore
 public struct MarkdownStyleModifier: ViewModifier {
     /// ColorScheme
     @Environment(\.colorScheme) private var colorScheme
-    /// 表示コンテンツで利用するシンタックスハイライト
-    @AppStorage<SyntaxHighlight> private var highlight = .xcodeDark
 
     public init() {}
 
