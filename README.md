@@ -1,6 +1,6 @@
 # SwiftEvolution-Viewer 
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Koshimizu-Takehito/SwiftEvolution)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Koshimizu-Takehito/SwiftEvolution-Viewer)
 
 A native iOS and macOS application for browsing Swift Evolution proposals. This app provides an elegant and intuitive interface to explore, search, and bookmark Swift Evolution proposals with full markdown rendering support.
 
