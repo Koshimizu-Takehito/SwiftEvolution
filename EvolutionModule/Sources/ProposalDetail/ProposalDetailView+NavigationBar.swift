@@ -9,8 +9,6 @@ extension ProposalDetailView {
     struct NavigationBar {
         /// ViewModel
         @Bindable var viewModel: ProposalDetailViewModel
-        /// 表示コンテンツで利用するシンタックスハイライト
-        @AppStorage<SyntaxHighlight> private var highlight = .xcodeDark
     }
 }
 
@@ -20,20 +18,8 @@ extension ProposalDetailView.NavigationBar: ToolbarContent {
             BookmarkButton(isBookmarked: $viewModel.isBookmarked)
         }
         ToolbarSpacer()
-        ToolbarItemGroup {
-            #if os(iOS) || os(iPadOS)
-                translateButton()
-                settingsMenu()
-            #else
-                Picker(selection: $highlight) {
-                    ForEach(SyntaxHighlight.allCases) { item in
-                        Text(item.displayName)
-                            .tag(item)
-                    }
-                } label: {
-                    Image(systemName: "gearshape")
-                }
-            #endif
+        ToolbarItem {
+            translateButton()
         }
     }
 }
@@ -50,18 +36,6 @@ extension ProposalDetailView.NavigationBar {
                 Button("翻訳", systemImage: "character.bubble") {}
                     .hidden()
                 ProgressView()
-            }
-        }
-    }
-
-    @ViewBuilder
-    fileprivate func settingsMenu() -> some View {
-        Menu("Settings", systemImage: "gearshape") {
-            Picker("Settings", systemImage: "gearshape", selection: $highlight) {
-                ForEach(SyntaxHighlight.allCases) { item in
-                    Text(item.displayName)
-                        .tag(item)
-                }
             }
         }
     }
