@@ -55,8 +55,8 @@ This project follows a modular architecture with clear separation of concerns:
 
 1. Clone the repository:
 ```bash
-git clone git@github.com:Koshimizu-Takehito/SwiftEvolution.git
-cd SwiftEvolution
+git clone git@github.com:Koshimizu-Takehito/SwiftEvolution-Viewer.git
+cd SwiftEvolution-Viewer
 ```
 
 2. Open the project in Xcode:
