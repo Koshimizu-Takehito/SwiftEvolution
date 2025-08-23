@@ -128,17 +128,6 @@ xcodebuild -project SwiftEvolution.xcodeproj -scheme App -configuration Debug
 xcodebuild test -project SwiftEvolution.xcodeproj -scheme App
 ```
 
-## Contributing
-
-We welcome contributions! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-### Development Guidelines
-
-1. Follow Swift style guidelines
-2. Add tests for new functionality
-3. Update documentation as needed
-4. Ensure compatibility with both iOS and macOS
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
@@ -148,11 +137,3 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 - [Swift Evolution](https://github.com/apple/swift-evolution) - The official Swift Evolution repository
 - [SwiftUI](https://developer.apple.com/xcode/swiftui/) - Modern declarative UI framework
 - [SwiftData](https://developer.apple.com/documentation/swiftdata) - Persistent data framework
-
-## Support
-
-If you encounter any issues or have questions:
-
-1. Check the [Issues](https://github.com/Koshimizu-Takehito/SwiftEvolution/issues) page
-2. Create a new issue with detailed information
-3. Include your device model, iOS/macOS version, and steps to reproduce
